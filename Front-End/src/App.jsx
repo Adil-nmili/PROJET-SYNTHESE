@@ -1,10 +1,13 @@
 import './App.css'
+import DashboardLayout from './layout/DashboardLayout'
 
 function App() {
 
   return (
     <>
-     <div>App</div>
+      <div>
+      <DashboardLayout />
+      </div>
     </>
   )
 }
