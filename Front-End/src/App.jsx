@@ -1,14 +1,15 @@
+import { BrowserRouter } from 'react-router-dom'
 import './App.css'
 import DashboardLayout from './layout/DashboardLayout'
 
 function App() {
 
   return (
-    <>
-      <div>
+    <BrowserRouter>
       <DashboardLayout />
-      </div>
-    </>
+        
+
+    </BrowserRouter>
   )
 }
 
