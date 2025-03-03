@@ -28,6 +28,7 @@ import Logo2 from "../../public/asset/logo2.jpeg";
 
 export function AppSidebar() {
   const location = useLocation();
+  console.log(location)
 
   return (
     <div className="bg-slate-900 text-white h-screen">
@@ -63,15 +64,30 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <Link
-                      to={"/admin"}
+                      to={"/dashboard/admins"}
                       className={` ${
-                        location.pathname === "/admin"
+                        location.pathname === "/dashboard/admins"
                           ? "bg-slate-800 text-gray-100"
                           : ""
                       }`}
                     >
                       <User />
                       <span>Admins</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link
+                      to={"/dashboard/admins/new"}
+                      className={` ${
+                        location.pathname === "/dashboard/admins/new"
+                          ? "bg-slate-800 text-gray-100"
+                          : ""
+                      }`}
+                    >
+                      <SquarePlus />
+                      <span>New Admin</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -86,9 +102,9 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <Link
-                      to={"/products"}
+                      to={"/dashboard/products"}
                       className={` ${
-                        location.pathname === "/products"
+                        location.pathname === "/dashboard/products"
                           ? "bg-slate-800 text-gray-100"
                           : ""
                       }`}
@@ -101,9 +117,9 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <Link
-                      to={"/products/new"}
+                      to={"/dashboard/products/new"}
                       className={` ${
-                        location.pathname === "/products/new"
+                        location.pathname === "/dashboard/products/new"
                           ? "bg-slate-800 text-gray-100"
                           : ""
                       }`}
@@ -123,9 +139,9 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <Link
-                      to={"/users"}
+                      to={"/dashboard/users"}
                       className={` ${
-                        location.pathname === "/users"
+                        location.pathname === "/dashboard/users"
                           ? "bg-slate-800 text-gray-100"
                           : ""
                       }`}
@@ -145,9 +161,9 @@ export function AppSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <Link
-                      to={"/orders"}
+                      to={"/dashboard/orders"}
                       className={` ${
-                        location.pathname === "/orders"
+                        location.pathname === "/dashboard/orders"
                           ? "bg-slate-800 text-gray-100"
                           : ""
                       }`}

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 function Nav() {
   const location = useLocation();
-  const path = location.pathname.slice(1);
+  const path = location.pathname.slice(10).replaceAll('/',' > ');
   const letterSpacing = {
     letterSpacing: "2px",
   };
@@ -15,8 +15,8 @@ function Nav() {
       </div>
       <ul className="flex gap-10" style={letterSpacing}>
         <h2 className="capitalize font-semibold">
-          Dashboard
-          {path === "dashboard" ? "" : ` > ${path}`}
+          Dashboard {path}
+          {/* {path === "dashboard" ? "" : ` > ${path}`} */}
         </h2>
       </ul>
     </nav>
