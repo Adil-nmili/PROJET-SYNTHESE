@@ -5,6 +5,7 @@ import About from "../pages/About";
 import News from "../pages/News";
 import StoreLayout from "../layout/StoreLayout";
 import Store from "../pages/store/Store";
+import LoginPage from "../pages/Dashboard/Login";
 
 // PATHS
 
@@ -12,6 +13,8 @@ export const HOME = '/';
 export const ABOUT = '/about';
 export const NEWS = '/news';
 export const STORE = '/store';
+export const LOGIN = '/login';
+
 
 
 
@@ -31,7 +34,10 @@ export const router = createBrowserRouter([
             {
                 path : NEWS ,
                 element : <News />
-            }
+            },
+            { path: LOGIN, 
+                element: <LoginPage />
+            } // Ajout de la route login
         ]
     },
     {
