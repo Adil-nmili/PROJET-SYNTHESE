@@ -2,12 +2,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import DashboardLayout from './layout/DashboardLayout'
 import Admin from './pages/Dashboard/Admin';
+import Login from './pages/Dashboard/Login';
 
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/login' element={<Login/>}/>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="/dashboard/admins" element={<Admin />} />
           <Route path="/dashboard/admins/new" element={<Admin />} />
