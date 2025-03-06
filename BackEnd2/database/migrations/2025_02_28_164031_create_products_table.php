@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('commande__migration', function (Blueprint $table) {
-            $table->id();
+        Schema::create('products', function (Blueprint $table) {
+           $table->id();
+           $table->integer('codeProduct')->unique();
+            $table->string('nom');
+            $table->text('description')->nullable();
+            $table->decimal('prix', 10, 2);
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('commande__migration');
+        Schema::dropIfExists('_products_migration');
     }
 };

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
+=======
+use App\Models\Admin;
+>>>>>>> Nouhaila_ELANSARI
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -13,6 +17,7 @@ class AdminController extends Controller
     {
         //
     }
+<<<<<<< HEAD
     public function login(Request $request){
         $request->validate([
             'identifier' => 'required',
@@ -33,13 +38,21 @@ class AdminController extends Controller
     
         return response()->json(['message' => 'Connexion réussie', 'token' => $token, 'admin' => $admin]);
     }
+=======
+>>>>>>> Nouhaila_ELANSARI
 
     /**
      * Show the form for creating a new resource.
      */
+<<<<<<< HEAD
     public function create()
     {
         //
+=======
+    public function create(Request $request)
+    {
+         return response()->json('hello world', 200);
+>>>>>>> Nouhaila_ELANSARI
     }
 
     /**
@@ -53,7 +66,11 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      */
+<<<<<<< HEAD
     public function show(string $id)
+=======
+    public function show(Admin $admin)
+>>>>>>> Nouhaila_ELANSARI
     {
         //
     }
@@ -61,7 +78,11 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+<<<<<<< HEAD
     public function edit(string $id)
+=======
+    public function edit(Admin $admin)
+>>>>>>> Nouhaila_ELANSARI
     {
         //
     }
@@ -69,7 +90,11 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
+<<<<<<< HEAD
     public function update(Request $request, string $id)
+=======
+    public function update(Request $request, Admin $admin)
+>>>>>>> Nouhaila_ELANSARI
     {
         //
     }
@@ -77,7 +102,11 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+<<<<<<< HEAD
     public function destroy(string $id)
+=======
+    public function destroy(Admin $admin)
+>>>>>>> Nouhaila_ELANSARI
     {
         //
     }

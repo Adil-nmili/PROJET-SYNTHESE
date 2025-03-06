@@ -1,4 +1,9 @@
+
+import axios from "axios";
+
 import { useState, useEffect } from "react";
+import { axiosClient } from '../../../api/axios';
+import LoginApi from "../../../service/LoginApi";
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({
     identifier: "", // Peut être un nom ou un email
@@ -24,32 +29,37 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(credentials)
+
+    await LoginApi.login(credentials).then(response => console.log(response.data))
+   
   
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": " /json",
-        },
-        body: JSON.stringify(credentials),
-      });
+
+    // try {
+    //   const response = await fetch("http://127.0.0.1:8000/api/login", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": " /json",
+    //     },
+    //     body: JSON.stringify(credentials),
+    //   });
   
-      const data = await response.json();
+    //   const data = await response.json();
   
-      if (!response.ok) {
-        throw new Error(data.error || "Erreur lors de la connexion");
-      }
+    //   if (!response.ok) {
+    //     throw new Error(data.error || "Erreur lors de la connexion");
+    //   }
   
-      // Stocker le token dans le localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("admin", JSON.stringify(data.admin));
+    //   // Stocker le token dans le localStorage
+    //   localStorage.setItem("token", data.token);
+    //   localStorage.setItem("admin", JSON.stringify(data.admin));
   
-      alert("Connexion réussie !");
-      window.location.href = "/dashboard"; // Redirection vers la page admin
+    //   alert("Connexion réussie !");
+    //   window.location.href = "/dashboard"; // Redirection vers la page admin
   
-    } catch (error) {
-      alert(error.message); // Affichage de l'erreur en cas d'échec
-    }
+    // } catch (error) {
+    //   alert(error.message); // Affichage de l'erreur en cas d'échec
+    // }
   };
   
 
