@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_utilisateurs_migration', function (Blueprint $table) {
+        Schema::create('commandes', function (Blueprint $table) {
             $table->id();
+            $table->integer("codeCommande")->unique();
+            $table->foreignId('utilisateur_id')->constrained('utilisateurs')->onDelete('cascade');
+            $table->decimal('total', 10, 2)->default(0.00);
+            $table->string('statut')->default('en attente');
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_utilisateurs_migration');
+        Schema::dropIfExists('commmandes');
     }
 };
