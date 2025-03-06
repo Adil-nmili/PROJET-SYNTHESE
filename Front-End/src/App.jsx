@@ -2,7 +2,7 @@ import './App.css'
 import DashboardLayout from './layout/DashboardLayout'
 import Admin from './pages/Dashboard/Admin';
 import Login from './pages/Dashboard/Login';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import DetailUtilisateur from './pages/Dashboard/DetailUtilisateur';
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
           <Route path="/dashboard/admins/new" element={<Admin />} />
           <Route path="/dashboard/products" element={<Admin />} />
           <Route path="/dashboard/products/new" element={<Admin />} />
-          <Route path="/dashboard/users" element={<Admin />} />
+          <Route path="/dashboard/users" element={<DetailUtilisateur />} />
           <Route path="/dashboard/orders" element={<Admin />} />
         </Route>
       </Routes>

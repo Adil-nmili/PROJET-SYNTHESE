@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -13,33 +14,13 @@ class AdminController extends Controller
     {
         //
     }
-    public function login(Request $request){
-        $request->validate([
-            'identifier' => 'required',
-            'password' => 'required'
-        ]);
-    
-        // Recherche l'admin par email ou matricule
-        $admin = Admin::where('email', $request->identifier)
-                      ->orWhere('name', $request->identifier)
-                      ->first();
-    
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
-            return response()->json(['error' => 'Identifiants incorrects'], 401);
-        }
-    
-        // Générer un token
-        $token = $admin->createToken('authToken')->plainTextToken;
-    
-        return response()->json(['message' => 'Connexion réussie', 'token' => $token, 'admin' => $admin]);
-    }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+         return response()->json('hello world', 200);
     }
 
     /**
@@ -53,7 +34,7 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Admin $admin)
     {
         //
     }
@@ -61,7 +42,7 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Admin $admin)
     {
         //
     }
@@ -69,7 +50,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Admin $admin)
     {
         //
     }
@@ -77,7 +58,7 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Admin $admin)
     {
         //
     }
