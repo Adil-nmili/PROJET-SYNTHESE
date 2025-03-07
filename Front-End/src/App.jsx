@@ -3,7 +3,7 @@ import DashboardLayout from './layout/DashboardLayout'
 import Admin from './pages/Dashboard/Admin';
 import Login from './pages/Dashboard/Login';
 import DetailUtilisateur from './pages/Dashboard/DetailUtilisateur';
-
+import { BrowserRouter,Routes,Route } from 'react-router-dom';
 function App() {
 
   return (
