@@ -1,14 +1,19 @@
-
-import axios from "axios";
-
+// import axios from "axios";
 import { useState, useEffect } from "react";
+// import API from '../../../service/LoginApi';
 import { axiosClient } from '../../../api/axios';
-import LoginApi from "../../../service/LoginApi";
 export default function LoginPage() {
+  // const [users, setUsers] = useState([]);
   const [credentials, setCredentials] = useState({
     identifier: "", // Peut être un nom ou un email
     password: ""
   });
+  
+    // useEffect(() => {
+    //     API.get('/users').then(response => {
+    //         setUsers(response.data);
+    //     });
+    // }, []);
   const [animate, setAnimate] = useState(false);
   const [welcomeText, setWelcomeText] = useState("");
   const fullText = "Welcome Admin";
