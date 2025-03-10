@@ -1,19 +1,16 @@
-// import axios from "axios";
 import { useState, useEffect } from "react";
-// import API from '../../../service/LoginApi';
-import { axiosClient } from '../../../api/axios';
+import { useAdminContext } from "../../../api/context/AdminContext";
+import { useNavigate } from "react-router-dom";
+
 export default function LoginPage() {
-  // const [users, setUsers] = useState([]);
-  const [credentials, setCredentials] = useState({
-    identifier: "", // Peut être un nom ou un email
-    password: ""
+  const [user, setUser] = useState({
+    email: "adil@email.com",
+    password: "password123"
   });
-  
-    // useEffect(() => {
-    //     API.get('/users').then(response => {
-    //         setUsers(response.data);
-    //     });
-    // }, []);
+
+  const navigate = useNavigate();
+  const { login, setAuthenticated,setAdmin, authenticated } = useAdminContext();
+
   const [animate, setAnimate] = useState(false);
   const [welcomeText, setWelcomeText] = useState("");
   const fullText = "Welcome Admin";
@@ -26,57 +23,35 @@ export default function LoginPage() {
       i++;
       if (i === fullText.length) clearInterval(interval);
     }, 200);
-  }, []);
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [fullText]);
 
-  const handleChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
-  };
 
+  if (authenticated === true) {
+    navigate('/dashboard');
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(credentials)
-
-    await LoginApi.login(credentials).then(response => console.log(response.data))
+    try {
+      const response = await login(user).then((response) => response);
+      if (response.status >= 200 && response.status < 300) {
+        setAuthenticated(true);
+        setAdmin(response.data);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
    
-  
 
-    // try {
-    //   const response = await fetch("http://127.0.0.1:8000/api/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": " /json",
-    //     },
-    //     body: JSON.stringify(credentials),
-    //   });
-  
-    //   const data = await response.json();
-  
-    //   if (!response.ok) {
-    //     throw new Error(data.error || "Erreur lors de la connexion");
-    //   }
-  
-    //   // Stocker le token dans le localStorage
-    //   localStorage.setItem("token", data.token);
-    //   localStorage.setItem("admin", JSON.stringify(data.admin));
-  
-    //   alert("Connexion réussie !");
-    //   window.location.href = "/dashboard"; // Redirection vers la page admin
-  
-    // } catch (error) {
-    //   alert(error.message); // Affichage de l'erreur en cas d'échec
-    // }
+
   };
-  
 
   return (
     <div className="flex min-h-screen bg-[#552582] items-center justify-center">
       <div className="flex bg-white shadow-2xl rounded-2xl w-3/4 backdrop-blur-md border border-gray-300 relative overflow-hidden">
-        {/* Image Lakers à gauche */}
-        {/* <div className=" h-full bg-cover bg-center " style={{ backgroundImage:"url('/lakersTeams.jpg')",backgroundSize: 'cover'}}></div> */}
-        
-        
         {/* Formulaire */}
-        <div className="w-1/2 p-3  text-center relative bg-white bg-opacity-90">
+        <div className="w-1/2 p-3 text-center relative bg-white bg-opacity-90">
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <img src="/logo.jpeg" alt="Logo" width={80} height={80} className="animate-bounce" />
@@ -94,9 +69,9 @@ export default function LoginPage() {
                 <span className="text-gray-500 pl-2">✉️</span>
                 <input
                   type="text"
-                  name="identifier"
-                  value={credentials.identifier}
-                  onChange={handleChange}
+                  name="email"
+                  value={user.email}
+                  onChange={e => setUser({ ...user, email: e.target.value })}
                   className="w-full outline-none pl-2 bg-transparent"
                   placeholder="Entrez votre nom ou email"
                   required
@@ -110,8 +85,8 @@ export default function LoginPage() {
                 <input
                   type="password"
                   name="password"
-                  value={credentials.password}
-                  onChange={handleChange}
+                  value={user.password}
+                  onChange={e => setUser({ ...user, password: e.target.value })}
                   className="w-full outline-none pl-2 bg-transparent"
                   placeholder="Entrez votre mot de passe"
                   required
@@ -131,16 +106,17 @@ export default function LoginPage() {
           </p>
         </div>
         <div
-          className="w-1/2 h-full bg-cover bg-center  flex justify-center items-center">
+          className="w-1/2 h-full bg-cover bg-center flex justify-center items-center">
           <img
             src="/lakersTeams.jpg"
             alt="Lakers Image"
             style={{
-                
-                maxHeight:'500px',
-                 maxWidth:'500px', margin: 'auto' }}
-                className="w-full h-full max-w-full max-h-full object-contain"/>
-          
+              maxHeight: '500px',
+              maxWidth: '500px',
+              margin: 'auto'
+            }}
+            className="w-full h-full max-w-full max-h-full object-contain"
+          />
         </div>
       </div>
     </div>

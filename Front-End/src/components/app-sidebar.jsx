@@ -25,10 +25,15 @@ import {
   import { Button } from "./ui/button";
   
   import Logo2 from "../../public/asset/logo2.jpeg";
+import { useAdminContext } from "../../api/context/AdminContext";
   
   export function AppSidebar() {
     const location = useLocation();
-    console.log(location)
+
+   const { logout } = useAdminContext();
+    const handleLogout = () =>{
+      logout();
+    }
   
     return (
       <div className="bg-slate-900 text-white h-screen">
@@ -178,7 +183,7 @@ import {
             </SidebarGroup>
           </SidebarContent>
           <SidebarFooter className="pb-4">
-            <Button>
+            <Button onClick={handleLogout}>
               <LogOut />
               <span>Logout</span>
             </Button>
