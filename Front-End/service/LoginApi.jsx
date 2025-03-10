@@ -8,8 +8,12 @@ const LoginApi = {
 
     login : async (payload) => {
         return axiosClient.post('/api/login',payload)
+    },
+    getAdmin : async () => {
+        return axiosClient.get('/api/user')
     }
 }
 
 
 export default LoginApi
+
