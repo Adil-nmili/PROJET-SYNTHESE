@@ -12,21 +12,15 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $admins = User::all();
+        return response()->json($admins);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+ 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function verifie(Request $request)
     {
 
         $request->validate([
@@ -41,28 +35,38 @@ class UsersController extends Controller
         return response()->json(['user' => $user, 'token' => $user->createToken('token')->plainTextToken]);
     }
 
+    
+    public function store(Request $request)
+    {
+
+
+        $admin = User::create($request->all());
+        return response()->json($admin);
+    }
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $admin = User::findorFail($id);
+        return response()->json($admin);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+        $admin = User::findorFail($id);
+        $admin->update($request->all());
+        return response()->json($admin);
     }
 
     /**
@@ -70,6 +74,8 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $admin = User::findorFail($id);
+        $admin->delete();
+        return response()->json(['message' => 'Admin deleted successfully']);
     }
 }

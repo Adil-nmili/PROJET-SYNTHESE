@@ -16,7 +16,12 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
-Route::post('/login', [UsersController::class,'store']);
+Route::post('/login', [UsersController::class,'verifie']);
+Route::get('/admins', [UsersController::class,'index']);
+Route::get('/admins/{id}', [UsersController::class,'show']);
+Route::delete('/admins/{id}', [UsersController::class,'destroy']);
+Route::put('/admins/{id}', [UsersController::class,'update']);
+Route::post('/admins', [UsersController::class,'store']);
 // Route::apiressources([
 //     AdminController::class,
 // ]);

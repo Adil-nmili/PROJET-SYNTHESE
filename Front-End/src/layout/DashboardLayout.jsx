@@ -3,7 +3,7 @@ import { AppSidebar } from "../components/app-sidebar";
 import Nav from "../components/Partials/Nav";
 import { Outlet, useNavigate } from "react-router-dom";
 
-
+import { Toaster } from "@/components/ui/sonner";
 import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import { useAdminContext } from "../../api/context/AdminContext";
@@ -41,6 +41,7 @@ if (isLoading) {
         <Nav />
         <Outlet />
       </main>
+      <Toaster />
     </SidebarProvider>
  
   );
