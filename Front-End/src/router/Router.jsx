@@ -5,6 +5,9 @@ import About from "../pages/About";
 import News from "../pages/News";
 import StoreLayout from "../layout/StoreLayout";
 import Store from "../pages/store/Store";
+import Orders from "../pages/Dashboard/Orders";
+
+
 
 // PATHS
 
