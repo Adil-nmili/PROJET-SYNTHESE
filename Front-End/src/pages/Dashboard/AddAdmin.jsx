@@ -7,6 +7,8 @@ import { useState } from 'react';
 
 
 
+
+
 function AddAdmin() {
   const [admin, setAdmin] = useState({
     first_name: '',
@@ -20,6 +22,7 @@ function AddAdmin() {
     country: '',
     postal_code: '',
     role: 'admin',
+    name : ''
   });
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -28,6 +31,7 @@ function AddAdmin() {
     e.preventDefault();
     if (admin.password === confirmPassword) {
      try {
+      setAdmin({...admin,name:admin.first_name+' '+admin.first_name})
       const response = AdminApi.addAdmin(admin);
       if (response.status === 201) {
         toast("Successfully added admin", {
