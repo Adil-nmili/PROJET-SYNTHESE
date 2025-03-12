@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('name');
             $table->string('email',191)->unique();
             $table->string('matricule',191)->unique()->nullable();
             $table->string('phone',191)->unique();
@@ -23,7 +24,7 @@ return new class extends Migration
             $table->string('country',191);
             $table->string('postal_code',191);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->Hash::make('password');
+            $table->string('password');
             $table->enum('role', ['client', 'admin'])->default('client'); 
             $table->rememberToken();
             $table->timestamps();
