@@ -4,6 +4,7 @@ import AdminApi from "../../../service/Admins";
 import { EditAdmin } from "../../components/Partials/EditAdmin";
 import { Button } from "../../components/ui/button";
 import { useSonner } from "sonner";
+import AdminDetails from "../../components/Partials/AdminDetails";
 
 
 
@@ -25,7 +26,7 @@ export default function ListAdmins() {
 console.log(users)
   return (
     <div className="p-6  min-h-screen">
-      <h2 className="text-3xl font-bold mb-6 text-center text-black animate-pulse">
+      <h2 className="text-3xl font-bold mb-6 text-center  animate-pulse">
         List of Admins
       </h2>
       <div className="overflow-x-auto">
@@ -33,7 +34,7 @@ console.log(users)
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="min-w-full bg-white shadow-lg rounded-lg overflow-hidden"
+          className="min-w-full bg-white dark:bg-slate-950 shadow-lg rounded-lg overflow-hidden"
         >
           <thead className="bg-slate-800 text-white">
             <tr>
@@ -53,7 +54,8 @@ console.log(users)
               <td className="py-4 px-6 border-b">{user.last_name}</td>
               <td className="py-4 px-6 border-b">{user.email}</td>
               <td className="py-4 px-6 border-b flex justify-center gap-1">
-                <Button variant={'outline'}>Details</Button>
+                {/* <Button variant={'outline'}>Details</Button> */}
+                <AdminDetails admin={user} />
                 <EditAdmin id={user.id} />
                 <Button variant={'destructive'} onClick={() => handleDelete(user.id)}>Delete</Button>
               </td>
