@@ -7,6 +7,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import { useAdminContext } from "../../api/context/AdminContext";
+import { ThemeProvider  } from '../components/theme-provider'
+
 
 function DashboardLayout() {
   const {
@@ -34,16 +36,16 @@ if (isLoading) {
 
   return (
    
-
+    <ThemeProvider defaultTheme="dark" storageKey="dashboard-theme">
     <SidebarProvider>
       <AppSidebar />
-      <main className="bg-gray-50 h-screen w-full">
+      <main className="bg-gray-50 dark:bg-slate-900 h-screen w-full">
         <Nav />
         <Outlet />
       </main>
       <Toaster />
     </SidebarProvider>
- 
+    </ThemeProvider>
   );
 }
 

@@ -47,7 +47,6 @@
 //         ]
 //     }
 // ])
-
 import { createBrowserRouter } from "react-router-dom";
 import SiteLayout from "../layout/SiteLayout";
 import Home from "../pages/Home";
