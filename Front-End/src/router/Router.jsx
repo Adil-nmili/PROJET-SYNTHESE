@@ -59,6 +59,7 @@ import ListAdmins from "../pages/Dashboard/ListAdmins"; // Page admin
 import AddAdmin from "../pages/Dashboard/AddAdmin"; // Page ajout admin
 import DetailUtilisateur from "../pages/Dashboard/DetailUtilisateur"; // Détails utilisateurs
 import LoginPage from "../pages/Dashboard/Login";
+import OrdersTable from "../pages/Dashboard/OrdersTable";
 
 // Définition des chemins
 export const LOGIN='/login';
@@ -96,6 +97,7 @@ export const router = createBrowserRouter([
             { path: `${ADMIN}/new`, element: <AddAdmin /> }, // Ajouter un nouvel admin
             { path: `${ADMIN}`, element: <ListAdmins /> }, // Liste des admins
             { path: "/dashboard/users", element: <DetailUtilisateur /> }, // Détails des utilisateurs
+            { path: "/dashboard/orders", element: <OrdersTable /> }, 
         ],
     },
  
