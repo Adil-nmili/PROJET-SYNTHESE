@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminContext from "../api/context/AdminContext";
 import ListAdmins from "./pages/Dashboard/ListAdmins";
 import AddAdmin from "./pages/Dashboard/AddAdmin";
+import OrdersTable from "./pages/Dashboard/OrdersTable"; 
+
 function App() {
   return (
     <AdminContext>
@@ -20,6 +22,7 @@ function App() {
             {/* <Route path="/dashboard/products/new" element={<Admin />} /> */}
             <Route path="/dashboard/users" element={<DetailUtilisateur />} />
             {/* <Route path="/dashboard/orders" element={<Admin />} /> */}
+               <Route path="/dashboard/orders" element={<OrdersTable />} /> {/* Ajout de la route */}
           </Route>
         </Routes>
       </BrowserRouter>

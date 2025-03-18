@@ -5,7 +5,17 @@ import About from "../pages/About";
 import News from "../pages/News";
 import StoreLayout from "../layout/StoreLayout";
 import Store from "../pages/store/Store";
-import Orders from "../pages/Dashboard/Orders";
+import OrdersTable from "./pages/OrdersTable";
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/orders" element={<OrdersTable />} />
+    </Routes>
+  );
+}
+
+export default App;
 
 
 
