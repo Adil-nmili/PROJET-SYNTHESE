@@ -54,7 +54,7 @@ export default function LoginPage() {
         <div className="w-1/2 p-3 text-center relative bg-white bg-opacity-90">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <img src="/logo.jpeg" alt="Logo" width={80} height={80} className="animate-bounce" />
+            <img src="/logo.png" alt="Logo" width={80} height={80} className="animate-bounce" />
           </div>
           
           {/* Titre animé */}

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('commandes', function (Blueprint $table) {
             $table->id();
             $table->integer("codeCommande")->unique();
-            $table->foreignId('utilisateur_id')->constrained('utilisateurs')->onDelete('cascade');
+            // $table->foreignId('utilisateur_id')->constrained('utilisateurs')->onDelete('cascade');
             $table->decimal('total', 10, 2)->default(0.00);
             $table->string('statut')->default('en attente');
             $table->timestamps();
