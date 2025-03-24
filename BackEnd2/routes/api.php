@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PlayersController;
 
 
 // routes/api.php
@@ -25,3 +26,4 @@ Route::post('/admins', [UsersController::class,'store']);
 // Route::apiressources([
 //     AdminController::class,
 // ]);
+Route::get('/players', [PlayersController::class, 'index']);

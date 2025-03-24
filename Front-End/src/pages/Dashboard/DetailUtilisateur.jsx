@@ -44,7 +44,7 @@ export default function UsersTable() {
           transition={{ duration: 0.8 }}
           className="min-w-full bg-white shadow-lg rounded-lg overflow-hidden"
         >
-          <thead className="bg-[#552582] text-white">
+          <thead className="bg-slate-800 text-white">
             <tr>
               <th className="py-3 px-4 text-left">Nom</th>
               <th className="py-3 px-4 text-left">Email</th>
