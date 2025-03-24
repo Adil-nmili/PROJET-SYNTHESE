@@ -28,7 +28,7 @@ export default function AdminContext({ children }) {
 
     const logout = () => {
         setAdmin({});
-        setAuthenticated(false)
+        _setAuthenticated(false)
     }
 
     const setAuthenticated = (isAuthenticated) => {
