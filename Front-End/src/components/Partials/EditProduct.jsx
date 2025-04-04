@@ -57,7 +57,7 @@ export function Editproduct({ id, onEdit }) {
     setNewImagePreviews([...newImagePreviews, ...previews]);
   };
   const handleRemoveExistingImage = (index) => {
-    setExistingImages(existingImages.filter((img) => img !== imageUrl)); // Remove preview
+    setExistingImages(existingImages.filter((_, i) => i !== index)); // Remove the image at the specified index
   };
   const handleRemoveNewImage = (index) => {
     setNewImages(newImages.filter((_, i) => i !== index));
@@ -87,8 +87,28 @@ export function Editproduct({ id, onEdit }) {
   ////////////////////////////////////////
   const fetchData = async () => {
     const res = await Product.getById(id);
-    setProduct(res.data);
-    setExistingImages(JSON.parse(res.data.images));
+    const productData = res.data;
+    
+    // Parse sizes and colors if they exist
+    if (productData.sizes) {
+      productData.sizes = JSON.parse(productData.sizes);
+    } else {
+      productData.sizes = [];
+    }
+    
+    if (productData.colors) {
+      productData.colors = JSON.parse(productData.colors);
+    } else {
+      productData.colors = [];
+    }
+    
+    setProduct(productData);
+    
+    // Parse the images and add the base URL to each image path
+    const parsedImages = JSON.parse(productData.images || '[]');
+    const imagesWithBaseUrl = parsedImages.map(img => `http://localhost:8000/${img}`);
+    setExistingImages(imagesWithBaseUrl);
+    
     Categorie.getAll().then((res) => setCategories(res.data));
   };
   useEffect(() => {
@@ -97,12 +117,56 @@ export function Editproduct({ id, onEdit }) {
 
   const handleEdit = (e) => {
     e.preventDefault();
+    
+    // Create a FormData object to handle file uploads
+    const formData = new FormData();
+    
+    // Add all product data to FormData, ensuring required fields are included
+    formData.append('name', product.name || '');
+    formData.append('product_code', product.product_code || '');
+    formData.append('price', product.price || 0);
+    formData.append('category_id', product.category_id || '');
+    formData.append('quantity', product.quantity || 0);
+    formData.append('description', product.description || '');
+    
+    // Add sizes and colors as JSON strings
+    if (product.sizes) {
+      formData.append('sizes', JSON.stringify(product.sizes));
+    } else {
+      formData.append('sizes', JSON.stringify([]));
+    }
+    
+    if (product.colors) {
+      formData.append('colors', JSON.stringify(product.colors));
+    } else {
+      formData.append('colors', JSON.stringify([]));
+    }
+    
+    // Add existing images that weren't removed
+    if (existingImages.length > 0) {
+      formData.append('existing_images', JSON.stringify(existingImages.map(img => img.replace('http://localhost:8000/', ''))));
+    } else {
+      formData.append('existing_images', JSON.stringify([]));
+    }
+    
+    // Add new images
+    if (newImages.length > 0) {
+      newImages.forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
+      });
+    }
+    
+    // Log the FormData for debugging
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+    
     toast
-      .promise(Product.update(id, product), {
+      .promise(Product.update(id, formData), {
         loading: "Updating product...",
-        success: (data) => {
+        success: () => {
           setIsDialogOpen(false); // Close the dialog on success
-          return `Product ${data.data.name} updated successfully!`;
+          return `Product ${product.name} updated successfully!`;
         },
         error: (err) => `Could not update product: ${err.message}`,
       })
@@ -199,7 +263,7 @@ console.log(existingImages)
                 <Label key={size} className="flex items-center space-x-2">
                   <Checkbox
                     type="checkbox"
-                    // checked={product.sizes.includes(size)}
+                    checked={product.sizes && product.sizes.includes(size)}
                     onCheckedChange={(e) => handleSizeChange(size, e)}
                     className="w-4 h-4"
                   />
@@ -217,7 +281,7 @@ console.log(existingImages)
                 <Label key={color} className="flex items-center space-x-2">
                   <Checkbox
                     type="checkbox"
-                    // checked={product.colors.includes(color)}
+                    checked={product.colors && product.colors.includes(color)}
                     onCheckedChange={(e) => handleColorChange(color, e)}
                     className="w-4 h-4"
                   />
@@ -265,13 +329,32 @@ console.log(existingImages)
           </div>
           {/* Image Preview Section with Delete Buttons */}
           <div className="grid grid-cols-4  gap-2">
+            {/* Display existing images */}
             {existingImages &&
               existingImages.map((image, index) => (
-                <div key={index} className="relative group">
+                <div key={`existing-${index}`} className="relative group">
                   <img
                     src={image}
-                    // src={`http://127.0.0.1:8000/${image}`}
                     alt="Preview"
+                    className="w-20 h-20 object-cover rounded-lg shadow"
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => handleRemoveExistingImage(index)}
+                    className="absolute top-0 right-5 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                  >
+                    <X size={12} />
+                  </Button>
+                </div>
+              ))}
+              
+            {/* Display new image previews */}
+            {newImagePreviews &&
+              newImagePreviews.map((preview, index) => (
+                <div key={`new-${index}`} className="relative group">
+                  <img
+                    src={preview}
+                    alt="New Preview"
                     className="w-20 h-20 object-cover rounded-lg shadow"
                   />
                   <Button
@@ -283,25 +366,6 @@ console.log(existingImages)
                   </Button>
                 </div>
               ))}
-
-
-{/* http://localhost:8000/storage/product_images/7M07K52fSXHFKDA8ShDs9URITVkZRdwo7NNgg26m.jpg
-http://localhost:8000/storage/product_images/7M07K52fSXHFKDA8ShDs9URITVkZRdwo7NNgg26m.jpg */}
-
-            {/* {imagePreviews.map((src, index) => (
-            <div key={index} className="relative group">
-              <img src={src} alt="Preview" className="w-20 h-20 object-cover rounded-lg shadow" />
-              
-     
-              <Button
-                type="button"
-                onClick={() => handleRemoveImage(index)}
-                className="absolute top-0 right-5 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
-              >
-                <X size={12} />
-              </Button>
-            </div>
-          ))} */}
           </div>
         </div>
         <DialogFooter>

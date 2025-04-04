@@ -13,7 +13,7 @@ import Categorie from "../../../service/Categorie";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Alert from "./Alert";
-
+import { Loading } from "../ui/loading";
 import { motion } from "framer-motion";
 
 const tableVariants = {
@@ -27,6 +27,7 @@ const tableVariants = {
 
 const CategoriesTable = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchCategories();
@@ -38,13 +39,16 @@ const CategoriesTable = () => {
       setData(res.data);
     } catch (error) {
       console.error("Failed to fetch categories:", error);
+      toast.error("Failed to fetch categories");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEdit = (updateCategorie) => {
     setData((prevCategories) =>
       prevCategories.map((category) =>
-        category.id === updateCategorie.id ? updateCategorie : admin
+        category.id === updateCategorie.id ? updateCategorie : category
       )
     );
   };
@@ -62,6 +66,10 @@ const CategoriesTable = () => {
         );
       });
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Table>

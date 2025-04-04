@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
@@ -12,19 +15,29 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-                'name' => 'Adil Khan',
-                'first_name' => 'Adil',
-                'last_name' => 'Khan',
-                'email' => 'adil@email.com',
-                'matricule' => 'ADMIN001',
-                'password' => Hash::make('password123'),
-                'role' => 'admin',
-                'phone' => '123456789',
-                'address' => '1234 Main Street',
-                'city' => 'New York',
-                'country' => 'USA',
-                'postal_code' => '10001',
+        $faker = Faker::create();
+
+        // Create 20 users
+        for ($i = 0; $i < 20; $i++) {
+            $firstName = $faker->firstName;
+            $lastName = $faker->lastName;
+            
+            User::create([
+                'name' => $firstName . ' ' . $lastName,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $faker->unique()->safeEmail,
+                'matricule' => $faker->unique()->bothify('MAT-####-????'),
+                'password' => Hash::make('password'),
+                'phone' => $faker->phoneNumber,
+                'address' => $faker->streetAddress,
+                'city' => $faker->city,
+                'country' => $faker->country,
+                'postal_code' => $faker->postcode,
+                'role' => $faker->randomElement(['admin', 'client']),
             ]);
+            
+            $this->command->info("Created user: {$firstName} {$lastName}");
+        }
     }
 }
