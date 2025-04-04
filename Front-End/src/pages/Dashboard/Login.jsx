@@ -24,12 +24,20 @@ export default function LoginPage() {
       if (i === fullText.length) clearInterval(interval);
     }, 200);
     return () => clearInterval(interval);
+    
+    
   }, [fullText]);
 
-
-  if (authenticated === true) {
-    navigate('/dashboard');
-  }
+  const checkAuthenticated = () => {
+    console.log(authenticated)
+    if (authenticated === true) {
+      navigate("/dashboard");
+    }
+  };
+  useEffect(() => {
+    checkAuthenticated();
+  }, [authenticated]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

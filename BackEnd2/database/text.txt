@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('products_images', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); 
+    $table->string('image_path');
             $table->timestamps();
         });
     }
@@ -25,3 +27,12 @@ return new class extends Migration
         Schema::dropIfExists('_product_images_migration');
     }
 };
+///////////////
+protected $fillable=[
+        'product_id',
+        'image_path',
+    ];
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
