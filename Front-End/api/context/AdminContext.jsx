@@ -1,11 +1,11 @@
 
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import LoginApi from "../../service/LoginApi";
 
 
 
 export const StateContext = createContext({
-    admin: {},
+    admin: null,
     authenticated:false,
     setAdmin: () => { },
     logout: () => { },
@@ -16,9 +16,9 @@ export const StateContext = createContext({
 
 
 export default function AdminContext({ children }) {
-    const [admin, setAdmin] = useState({})
+    const [admin, _setAdmin] = useState(null)
     const [authenticated, _setAuthenticated] = useState(
-        "true" === window.localStorage.getItem("AUTHENTICATED")
+       JSON.parse(window.localStorage.getItem('AUTHENTICATED'))
     );
 
     const login = async(payload) => {
@@ -26,8 +26,19 @@ export default function AdminContext({ children }) {
         return LoginApi.login(payload)
     }
 
+    useEffect(() => {
+        if (window.localStorage.getItem("ADMIN") === null) {
+            setAuthenticated(false)
+        }
+        
+    }, [ admin])
+
+    const setAdmin = (admin) => {
+        _setAdmin(admin);
+        window.localStorage.setItem('ADMIN', JSON.stringify(admin))
+    }
     const logout = () => {
-        setAdmin({});
+        setAdmin(null);
         setAuthenticated(false)
     }
 
