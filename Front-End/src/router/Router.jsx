@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
     {
         element: <SiteLayout />,
         children: [
-            { path: HOME, element: <Home /> },
+            { path: HOME, element: <HomeSite /> },
             { path: ABOUT, element: <About /> },
             { path: NEWS, element: <News /> },
         ],
