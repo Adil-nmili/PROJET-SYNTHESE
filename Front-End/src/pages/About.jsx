@@ -1,6 +1,6 @@
-import '@fontsource/bebas-neue';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/700.css';
+// import '@fontsource/bebas-neue';
+// import '@fontsource/roboto/400.css';
+// import '@fontsource/roboto/700.css';
 import { motion } from 'framer-motion';
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { useEffect, useState } from 'react';
@@ -50,7 +50,7 @@ function About() {
         <h3 className='text-[#AD8291] font-bold font-bebas text-base  mb-4'>
           The Los Angeles Lakers: A Legacy of Excellence
         </h3>
-        <p className='font-roboto text-base tracking-wider  px-6 mb-12  text-justify'>
+        <p className='text-base tracking-wider  px-6 mb-12  text-justify'>
           Founded in 1947, the Los Angeles Lakers are more than just a basketball team—they are a cultural phenomenon. With 17 NBA championships and a legacy of legendary players like Magic Johnson, Kobe Bryant, Kareem Abdul-Jabbar, and LeBron James, the Lakers represent the pinnacle of basketball greatness. Known for their iconic purple and gold colors, their "Showtime" style of play, and their deep connection to the city of Los Angeles, the Lakers have captivated fans around the world for decades. Whether it’s the electric atmosphere of the Crypto.com Arena or the unforgettable moments that define their history, the Lakers embody passion, innovation, and excellence both on and off the court.
         </p>
          {/* Timeline */}

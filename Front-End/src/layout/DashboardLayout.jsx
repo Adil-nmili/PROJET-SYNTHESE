@@ -13,17 +13,19 @@ import { ThemeProvider  } from '../components/theme-provider'
 function DashboardLayout() {
   const {
     authenticated,
+    admin
+    
 } = useAdminContext();
 const navigate = useNavigate();
 const [isLoading, setIsLoading] = useState(true);
 
 useEffect(() => {
-    if (authenticated === true) {
-        setIsLoading(false);
-        
-    } else {
-        navigate('/login');
-    }
+    // if (authenticated === true) {
+    //     setIsLoading(false);
+    // } else {
+    //     navigate('/login');
+    // }
+    setIsLoading(false);
 }, [authenticated, isLoading]);
 
 if (isLoading) {
@@ -33,13 +35,12 @@ if (isLoading) {
         </div>
     );
 }
-
   return (
    
     <ThemeProvider defaultTheme="dark" storageKey="dashboard-theme">
     <SidebarProvider>
       <AppSidebar />
-      <main className="bg-gray-50 dark:bg-slate-900 h-screen w-full">
+      <main className="bg-gray-50 dark:bg-slate-900 min-h-screen w-full">
         <Nav />
         <Outlet />
       </main>

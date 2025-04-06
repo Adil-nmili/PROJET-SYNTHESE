@@ -23,13 +23,21 @@ export default function LoginPage() {
       i++;
       if (i === fullText.length) clearInterval(interval);
     }, 200);
-    return () => clearInterval(interval); // Cleanup interval on unmount
+    return () => clearInterval(interval);
+    
+    
   }, [fullText]);
 
-
-  if (authenticated === true) {
-    navigate('/dashboard');
-  }
+  const checkAuthenticated = () => {
+    console.log(authenticated)
+    if (authenticated === true) {
+      navigate("/dashboard");
+    }
+  };
+  useEffect(() => {
+    checkAuthenticated();
+  }, [authenticated]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -64,7 +72,7 @@ export default function LoginPage() {
           
           <form className="space-y-6 mt-6" onSubmit={handleSubmit}>
             <div className="relative">
-              <label className="block text-gray-700 text-left">Nom ou Email</label>
+              <label className="block text-gray-700 text-left"> Email</label>
               <div className="flex items-center border rounded-md p-2 focus-within:ring-2 focus-within:ring-blue-500">
                 <span className="text-gray-500 pl-2">✉️</span>
                 <input
@@ -72,14 +80,14 @@ export default function LoginPage() {
                   name="email"
                   value={user.email}
                   onChange={e => setUser({ ...user, email: e.target.value })}
-                  className="w-full outline-none pl-2 bg-transparent"
+                  className="w-full outline-none pl-2 text-gray-800"
                   placeholder="Entrez votre nom ou email"
                   required
                 />
               </div>
             </div>
             <div className="relative">
-              <label className="block text-gray-700 text-left">Mot de passe</label>
+              <label className="block text-gray-700 text-left">Password</label>
               <div className="flex items-center border rounded-md p-2 focus-within:ring-2 focus-within:ring-blue-500">
                 <span className="text-gray-500 pl-2">🔑</span>
                 <input
@@ -87,7 +95,7 @@ export default function LoginPage() {
                   name="password"
                   value={user.password}
                   onChange={e => setUser({ ...user, password: e.target.value })}
-                  className="w-full outline-none pl-2 bg-transparent"
+                  className="w-full outline-none pl-2 bg-transparent text-gray-800"
                   placeholder="Entrez votre mot de passe"
                   required
                 />
@@ -95,14 +103,14 @@ export default function LoginPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#8861B7] text-white py-2 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg"
+              className="w-full bg-[#8861B7] text-white py-2 rounded-lg transition-all duration-300 transform hover:scale-y-125 active:scale-95 shadow-lg"
             >
               Connexion
             </button>
           </form>
           
           <p className="text-center text-gray-600 mt-4">
-            Mot de passe oublié? <span className="text-blue-600 cursor-pointer hover:underline">Réinitialiser</span>
+            Forget Password? <span className="text-blue-600 cursor-pointer hover:underline">Reset</span>
           </p>
         </div>
         <div
@@ -112,10 +120,10 @@ export default function LoginPage() {
             alt="Lakers Image"
             style={{
               maxHeight: '500px',
-              maxWidth: '500px',
-              margin: 'auto'
+              maxWidth: '530px',
+              margin: '0'
             }}
-            className="w-full h-full max-w-full max-h-full object-contain"
+            className="w-full h-full max-w-full max-h-full object-cover"
           />
         </div>
       </div>

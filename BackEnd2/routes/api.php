@@ -1,14 +1,25 @@
 <?php
 
+use App\Http\Controllers\CategorieController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PlayersController;
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 // routes/api.php
 Route::get('/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
+});
+Route::get('/storage/product_images/{filename}', function ($filename) {
+    $path = storage_path('app/public/product_images/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404); // Return 404 if the file is not found
+    }
+
+    return response()->file($path, ['Content-Type' => 'image/jpeg']);
 });
 
 
@@ -27,3 +38,7 @@ Route::post('/admins', [UsersController::class,'store']);
 //     AdminController::class,
 // ]);
 Route::get('/players', [PlayersController::class, 'index']);
+Route::resource('categories', CategorieController::class);
+Route::resource('products', ProductController::class);
+Route::resource('orders', OrderController::class);
+Route::get('/users/{userId}/orders', [OrderController::class, 'getUserOrders']);

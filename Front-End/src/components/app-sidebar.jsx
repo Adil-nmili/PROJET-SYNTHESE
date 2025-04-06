@@ -1,5 +1,6 @@
 import {
     ArrowDownUp,
+    BoxSelectIcon,
     Home,
     LogOut,
     ShoppingCart,
@@ -8,7 +9,7 @@ import {
     Users,
   } from "lucide-react";
   
-  import { Link, useLocation } from "react-router-dom";
+  import { Link, useLocation, useNavigate } from "react-router-dom";
   
   import {
     Sidebar,
@@ -29,10 +30,12 @@ import { useAdminContext } from "../../api/context/AdminContext";
   
   export function AppSidebar() {
     const location = useLocation();
-
-   const { logout } = useAdminContext();
-    const handleLogout = () =>{
+    const navigate = useNavigate();
+    const { logout } = useAdminContext();
+  
+    const handleLogout = () => {
       logout();
+      navigate("/login");
     }
   
     return (
@@ -46,7 +49,7 @@ import { useAdminContext } from "../../api/context/AdminContext";
               <img src={Logo2} className="w-28" />
             </Link>
           </SidebarHeader>
-          <SidebarContent>
+          <SidebarContent style={{scrollbarWidth: "none"}}>
             <SidebarGroup>
               <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
               <SidebarGroupContent>
@@ -66,6 +69,15 @@ import { useAdminContext } from "../../api/context/AdminContext";
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Admins</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
@@ -101,7 +113,7 @@ import { useAdminContext } from "../../api/context/AdminContext";
             </SidebarGroup>
             {/* ////////////////////////// */}
             <SidebarGroup>
-              <SidebarGroupLabel>Product</SidebarGroupLabel>
+              <SidebarGroupLabel>Products</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
@@ -131,6 +143,21 @@ import { useAdminContext } from "../../api/context/AdminContext";
                       >
                         <SquarePlus />
                         <span>New Product</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={"/dashboard/categories"}
+                        className={` ${
+                          location.pathname === "/dashboard/categories"
+                            ? "bg-slate-800 text-gray-100"
+                            : ""
+                        }`}
+                      >
+                        <BoxSelectIcon />
+                        <span>Categories</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
