@@ -15,6 +15,8 @@ import Categories from "../pages/Dashboard/Categories";
 import ListProducts from "../pages/Dashboard/Products";
 import OrdersPage from "../pages/Dashboard/OrdersPage";
 import Home from "../pages/Dashboard/Home";
+import Product from "../../service/Product";
+import ProductDetail from "../pages/store/ProductDetail";
 // Définition des chemins
 export const LOGIN='/login';
 export const HOME = '/';
@@ -45,6 +47,12 @@ export const router = createBrowserRouter([
         ],
     },
     {
+        element: <SiteLayout />,
+        children: [
+            { path: '/product-detail', element: <ProductDetail /> },
+        ],
+    },
+    {
         element: <DashboardLayout />, // Layout pour le dashboard
         children: [
             { path: DASHBOARD, element: <Home /> }, // Page principale pour admin
@@ -61,6 +69,6 @@ export const router = createBrowserRouter([
         path: LOGIN, // Route pour la page de login
         element: <LoginPage />, // Le composant Login pour cette route
     },
- 
+
 ]);
 

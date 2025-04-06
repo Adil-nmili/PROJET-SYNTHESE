@@ -20,11 +20,12 @@ const navigate = useNavigate();
 const [isLoading, setIsLoading] = useState(true);
 
 useEffect(() => {
-    if (authenticated === true) {
-        setIsLoading(false);
-    } else {
-        navigate('/login');
-    }
+    // if (authenticated === true) {
+    //     setIsLoading(false);
+    // } else {
+    //     navigate('/login');
+    // }
+    setIsLoading(false);
 }, [authenticated, isLoading]);
 
 if (isLoading) {
