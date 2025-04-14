@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -39,3 +40,5 @@ Route::post('/admins', [UsersController::class,'store']);
 Route::get('/players', [PlayersController::class, 'index']);
 Route::resource('categories', CategorieController::class);
 Route::resource('products', ProductController::class);
+Route::resource('orders', OrderController::class);
+Route::get('/users/{userId}/orders', [OrderController::class, 'getUserOrders']);

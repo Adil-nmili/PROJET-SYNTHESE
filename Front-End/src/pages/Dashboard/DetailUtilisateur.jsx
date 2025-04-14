@@ -1,128 +1,199 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion"; // Pour animations
-
-const initialUsers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    password: "••••••••",
-    role: "Admin",
-    orders: [
-      { codeCommande: "CMD123", status: "Livré", codeProduit: "PRD001", stock: 10, prix: 50 },
-      { codeCommande: "CMD124", status: "En attente", codeProduit: "PRD002", stock: 5, prix: 30 },
-    ],
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    password: "••••••••",
-    role: "Client",
-    orders: [
-      { codeCommande: "CMD125", status: "Annulé", codeProduit: "PRD003", stock: 2, prix: 70 },
-    ],
-  },
-];
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import AdminApi from "../../../service/Admins";
+import Order from "../../../service/Order";
+import { toast } from "react-hot-toast";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 export default function UsersTable() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
-  const handleDelete = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await AdminApi.getAdmin();
+        
+        const usersWithOrders = await Promise.all(
+        response.data.filter(user => user.role === 'client').map(async (user) => {
+          try {
+            const ordersResponse = await Order.getUserOrders(user.id);
+            return {
+              ...user,
+              orders: ordersResponse.data
+            };
+          } catch (error) {
+            console.error(`Error fetching orders for user ${user.id}:`, error);
+            return {
+              ...user,
+              orders: []
+            };
+          }
+        })
+      );
+      setUsers(usersWithOrders);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      toast.error("Failed to fetch users");
+    } finally {
+      setLoading(false);
+    }
+  };
+console.log(users)
+  const handleDelete = async (id) => {
+    try {
+      await AdminApi.deleteAdmin(id);
+      setUsers(users.filter((user) => user.id !== id));
+      toast.success("User deleted successfully");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast.error("Failed to delete user");
+    }
   };
 
+  // Calculate pagination
+  const indexOfLastUser = currentPage * itemsPerPage;
+  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-6  min-h-screen">
+    <div className="p-6 min-h-screen">
       <h2 className="text-3xl font-bold mb-6 text-center text-black animate-pulse">
         Liste des Utilisateurs
       </h2>
       <div className="overflow-x-auto">
-        <motion.table 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="min-w-full bg-white shadow-lg rounded-lg overflow-hidden"
-        >
-          <thead className="bg-slate-800 text-white">
-            <tr>
-              <th className="py-3 px-4 text-left">Nom</th>
-              <th className="py-3 px-4 text-left">Email</th>
-              <th className="py-3 px-4 text-left">Mot de passe</th>
-              <th className="py-3 px-4 text-left">Rôle</th>
-              <th className="py-3 px-4 text-left">Commandes</th>
-              <th className="py-3 px-4 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <motion.tr 
-                key={user.id} 
-                initial={{ opacity: 20, y: 0 }}
-                animate={{ opacity: 19, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="border-b hover:bg-gray-100 transition"
-              >
-                <td className="py-3 px-4">{user.name}</td>
-                <td className="py-3 px-4">{user.email}</td>
-                <td className="py-3 px-4">{user.password}</td>
-                <td className="py-3 px-4">
+        <Table>
+          <TableCaption>A list of users and their orders.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nom</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Rôle</TableHead>
+              <TableHead>Commandes</TableHead>
+              <TableHead>Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentUsers.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
                   <span
-                    className={`px-3 py-1 rounded-full text-white ${
-                      user.role === "Admin" ? "bg-purple-700" : " bg-[#8861B7]"
+                    className={`px-3 py-1 rounded-full text-white text-xs font-bold ${
+                      user.role === "admin" ? "bg-purple-500" : "bg-blue-500"
                     }`}
                   >
                     {user.role}
                   </span>
-                </td>
-                <td className="py-3 px-4">
-                  <table className="w-full border">
-                    <thead>
-                      <tr className="bg-gray-200">
-                        <th className="py-2 px-3">Code</th>
-                        <th className="py-2 px-3">Statut</th>
-                        <th className="py-2 px-3">Produit</th>
-                        <th className="py-2 px-3">Stock</th>
-                        <th className="py-2 px-3">Prix</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                </TableCell>
+                <TableCell>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Code</TableHead>
+                        <TableHead>Statut</TableHead>
+                        <TableHead>Products</TableHead>
+                       
+                        <TableHead>Prix Total</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
                       {user.orders.map((order, index) => (
-                        <tr key={index} className="border-t">
-                          <td className="py-2 px-3">{order.codeCommande}</td>
-                          <td className="py-2 px-3">
+                        <TableRow key={index}>
+                          <TableCell>{order.id}</TableCell>
+                          <TableCell>
                             <span
                               className={`px-3 py-1 rounded-full text-white text-xs ${
-                                order.status === "Livré"
+                                order.status === "delivered"
                                   ? "bg-green-500"
-                                  : order.status === "En attente"
+                                  : order.status === "waiting"
                                   ? "bg-yellow-500"
+                                  
                                   : "bg-red-500"
                               }`}
                             >
                               {order.status}
                             </span>
-                          </td>
-                          <td className="py-2 px-3">{order.codeProduit}</td>
-                          <td className="py-2 px-3">{order.stock}</td>
-                          <td className="py-2 px-3">{order.prix} €</td>
-                        </tr>
+                          </TableCell>
+                          <TableCell>{order.products.length || 'N/A'}</TableCell>
+                          <TableCell>{order.total_amount != "" ?  order.total_amount : "0.00"} € </TableCell>
+                        </TableRow>
                       ))}
-                    </tbody>
-                  </table>
-                </td>
-                <td className="py-3 px-4">
-                  <button
+                      {user.orders.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={5} className="text-center text-gray-500">
+                            Aucune commande
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableCell>
+                <TableCell>
+                  <Button
                     onClick={() => handleDelete(user.id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+                    variant="destructive"
                   >
                     Supprimer
-                  </button>
-                </td>
-              </motion.tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </motion.table>
+          </TableBody>
+        </Table>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center space-x-2 mt-4">
+          <Button
+            variant="outline"
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+            <Button
+              key={number}
+              variant={currentPage === number ? "default" : "outline"}
+              onClick={() => paginate(number)}
+            >
+              {number}
+            </Button>
+          ))}
+          <Button
+            variant="outline"
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

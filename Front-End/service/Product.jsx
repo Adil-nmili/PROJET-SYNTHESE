@@ -12,7 +12,11 @@ const Product =  {
     return axiosClient.post('/api/products', payload, { headers: { "Content-Type": "multipart/form-data" } })
   },
   update: async (id, payload) => {
-    return axiosClient.put(`/api/products/${id}`, payload)
+    return axiosClient.put(`/api/products/${id}`, payload, {
+      headers: { 
+        "Content-Type": "multipart/form-data" 
+      }
+    })
   },
   delete: async (id) => {
     return axiosClient.delete(`/api/products/${id}`)

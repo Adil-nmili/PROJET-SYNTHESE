@@ -5,16 +5,14 @@ import Footer from '../pages/Footer'; // Importer le footer
 
 const SiteLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen"> {/* Utilisation de flex pour une mise en page fluide */}
-      {/* Navbar (en haut) */}
+    <div className="flex flex-col min-h-screen"> 
       <Nav />
 
-      {/* Contenu principal */}
       <main className="flex-grow flex items-center justify-center ">
-        <Outlet /> {/* Affiche les pages comme Home, About, News */}
+        <Outlet /> 
       </main>
 
-      {/* Footer (en bas) */}
+
       <Footer />
     </div>
   );

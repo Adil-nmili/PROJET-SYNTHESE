@@ -9,7 +9,7 @@ import {
     Users,
   } from "lucide-react";
   
-  import { Link, useLocation } from "react-router-dom";
+  import { Link, useLocation, useNavigate } from "react-router-dom";
   
   import {
     Sidebar,
@@ -30,10 +30,12 @@ import { useAdminContext } from "../../api/context/AdminContext";
   
   export function AppSidebar() {
     const location = useLocation();
-
-   const { logout } = useAdminContext();
-    const handleLogout = () =>{
+    const navigate = useNavigate();
+    const { logout } = useAdminContext();
+  
+    const handleLogout = () => {
       logout();
+      navigate("/login");
     }
   
     return (

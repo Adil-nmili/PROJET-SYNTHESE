@@ -1,3 +1,5 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -7,108 +9,79 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "../ui/button";
-import AdminDetails from "./AdminDetails";
-import { EditAdmin } from "./EditAdmin";
-import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "react-hot-toast";
 import AdminApi from "../../../service/Admins";
-import toast from "react-hot-toast";
-import { motion } from "framer-motion";
+import { EditAdmin } from "./EditAdmin";
+import AdminDetails from "./AdminDetails";
 
-const tableVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (index) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: index * 0.1, duration: 0.3 },
-  }),
-};
-
-const AdminsTable = () => {
-  const [admins, setAdmins] = useState([]);
-
-  // Fetch admins when the component mounts
-  useEffect(() => {
-    fetchAdmins();
-  }, []);
-
-  const fetchAdmins = async () => {
+const AdminsTable = ({ allAdmins, onAdminUpdate, onAdminDelete }) => {
+  const handleDelete = async (id) => {
     try {
-      const res = await AdminApi.getAdmin();
-      setAdmins(res.data);
+      await AdminApi.deleteAdmin(id);
+      onAdminDelete(id);
+      toast.success("Admin deleted successfully");
     } catch (error) {
-      console.error("Failed to fetch admins:", error);
+      console.error("Error deleting admin:", error);
+      toast.error("Failed to delete admin");
     }
   };
 
-  const handleDelete = async (id) => {
-    toast
-      .promise(AdminApi.deleteAdmin(id), {
-        loading: "Deleting admin...",
-        success: (data) =>
-          `Admin ${data.data.first_name} deleted successfully!`,
-        error: (err) => `Could not delete admin: ${err.message}`,
-      })
-      .then(() => {
-        setAdmins((prevAdmins) =>
-          prevAdmins.filter((admin) => admin.id !== id)
-        );
-      });
-  };
-
-  const handleEdit = (updatedAdmin) => {
-    // Update the state with the modified admin
-    setAdmins((prevAdmins) =>
-      prevAdmins.map((admin) =>
-        admin.id === updatedAdmin.id ? updatedAdmin : admin
-      )
-    );
-  };
-
   return (
-    <Table className="mt-4 w-full lg:w-[800px] mx-auto">
-      <TableCaption>A list of Admins.</TableCaption>
+    <Table>
+      <TableCaption>A list of all admin users</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">#ID</TableHead>
-          <TableHead>Firstname</TableHead>
-          <TableHead>Lastname</TableHead>
+          <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead className="text-center">Actions</TableHead>
+          <TableHead>Matricule</TableHead>
+          <TableHead>Role</TableHead>
+          
+          <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {admins.length === 0 ? (
-          <TableRow>
-            <TableCell colSpan={5} className="h-24 text-center">
-              No Admins found.
+        {allAdmins.map((admin) => (
+          <TableRow key={admin.id}>
+            <TableCell className="font-medium">
+              {admin.first_name} {admin.last_name}
             </TableCell>
-          </TableRow>
-        ) : (
-          admins.map((admin) => (
-            <motion.tr
-              key={admin.id}
-              custom={admin.id}
-              initial="hidden"
-              animate="visible"
-              variants={tableVariants}
-            >
-              <TableCell className="font-medium">{admin.matricule}</TableCell>
-              <TableCell>{admin.first_name}</TableCell>
-              <TableCell>{admin.last_name}</TableCell>
-              <TableCell>{admin.email}</TableCell>
-              <TableCell className="flex justify-end gap-2">
+            <TableCell>{admin.email}</TableCell>
+            <TableCell>{admin.matricule}</TableCell>
+            <TableCell>
+              {admin.role.toUpperCase()}
+            </TableCell>
+            <TableCell>
+              <div className="flex space-x-2">
+                {/* <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                >
+                  <Link to={`/dashboard/admins/${admin.id}/edit`}>
+                    Edit
+                  </Link>
+                </Button> */}
                 <AdminDetails admin={admin} />
-                <EditAdmin id={admin.id} onEdit={handleEdit} />
+                <EditAdmin id={admin.id} onEdit={onAdminUpdate} />
                 <Button
-                  variant="destructive"
                   onClick={() => handleDelete(admin.id)}
+                  variant="destructive"
+                  size="sm"
                 >
                   Delete
                 </Button>
-              </TableCell>
-            </motion.tr>
-          ))
+              </div>
+            </TableCell>
+          </TableRow>
+        ))}
+        {allAdmins.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={5} className="text-center text-gray-500">
+              No admins found
+            </TableCell>
+          </TableRow>
         )}
       </TableBody>
     </Table>
