@@ -28,6 +28,7 @@ export const ADMIN = '/dashboard/admins';
 export const PRODUCT = '/dashboard/products';
 export const CATEGORIES = '/dashboard/categories';
 export const ORDERS = '/dashboard/orders';
+export const PRODUCT_DETAIL = '/store/product-detail';
 
 // Création des routes et exportation
 export const router = createBrowserRouter([
@@ -44,13 +45,7 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
             { path: STORE, element: <Store /> },
-            
-        ],
-    },
-    {
-        element: <SiteLayout />,
-        children: [
-            { path: '/product-detail', element: <ProductDetail /> },
+            { path: PRODUCT_DETAIL, element: <ProductDetail /> },
         ],
     },
     {
