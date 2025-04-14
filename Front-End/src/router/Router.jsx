@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import SiteLayout from "../layout/SiteLayout";
+import StoreLayout from "../layout/StoreLayout";
 import HomeSite from "../pages/Home";
 import About from "../pages/About";
 import News from "../pages/News";
-import StoreLayout from "../layout/StoreLayout";
 import Store from "../pages/store/Store";
 import DashboardLayout from "../layout/DashboardLayout"; // Ajout du DashboardLayout
 import ListAdmins from "../pages/Dashboard/ListAdmins"; // Page admin
@@ -42,6 +42,7 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
             { path: STORE, element: <Store /> },
+            
         ],
     },
     {

@@ -1,17 +1,18 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Nav from '../pages/Nav'; // Importer le navbar
-import Footer from '../pages/Footer'; // Importer le footer
+import Footer from '@/components/Partials/Footer'; // Importer le footer
+import WebsiteNav from '@/components/Partials/WebsiteNav';
+import FooterNav from '@/components/Partials/FooterNav';
 
 const SiteLayout = () => {
   return (
     <div className="flex flex-col min-h-screen"> 
-      <Nav />
+      <WebsiteNav />
 
-      <main className="flex-grow flex items-center justify-center ">
+      <main className="flex-grow flex flex-col items-center  justify-center relative ">
         <Outlet /> 
+      <FooterNav/>
       </main>
-
 
       <Footer />
     </div>

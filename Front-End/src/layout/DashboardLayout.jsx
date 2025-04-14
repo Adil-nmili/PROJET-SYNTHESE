@@ -39,7 +39,7 @@ if (isLoading) {
     <ThemeProvider defaultTheme="dark" storageKey="dashboard-theme">
     <SidebarProvider>
       <AppSidebar />
-      <main className="bg-gray-50 dark:bg-slate-900 min-h-screen w-full">
+      <main className="bg-gray-50 dark:bg-slate-900 min-h-screen w-full relative">
         <Nav />
         <Outlet />
       </main>
