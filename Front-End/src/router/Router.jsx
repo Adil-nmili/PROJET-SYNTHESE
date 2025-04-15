@@ -10,9 +10,8 @@ import ListAdmins from "../pages/Dashboard/ListAdmins"; // Page admin
 import AddAdmin from "../pages/Dashboard/AddAdmin"; // Page ajout admin
 import DetailUtilisateur from "../pages/Dashboard/DetailUtilisateur"; // Détails utilisateurs
 import LoginPage from "../pages/Dashboard/Login";
-<<<<<<< HEAD
+
 import OrdersTable from "../pages/Dashboard/OrdersTable";
-=======
 import AddProduct from "../pages/Dashboard/AddProduct";
 import Categories from "../pages/Dashboard/Categories";
 import ListProducts from "../pages/Dashboard/Products";
