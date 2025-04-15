@@ -2,7 +2,7 @@ import { Facebook, Instagram, Youtube } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#552582] text-white py-8">
+    <footer className="bg-purple-950 text-white py-8">
       <div className="max-w-6xl mx-auto px-4">
         {/* Main Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-sm text-left">
