@@ -1,15 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
 import SiteLayout from "../layout/SiteLayout";
+import StoreLayout from "../layout/StoreLayout";
 import HomeSite from "../pages/Home";
 import About from "../pages/About";
 import News from "../pages/News";
-import StoreLayout from "../layout/StoreLayout";
 import Store from "../pages/store/Store";
 import DashboardLayout from "../layout/DashboardLayout"; // Ajout du DashboardLayout
 import ListAdmins from "../pages/Dashboard/ListAdmins"; // Page admin
 import AddAdmin from "../pages/Dashboard/AddAdmin"; // Page ajout admin
 import DetailUtilisateur from "../pages/Dashboard/DetailUtilisateur"; // Détails utilisateurs
 import LoginPage from "../pages/Dashboard/Login";
+
+import OrdersTable from "../pages/Dashboard/OrdersTable";
 import AddProduct from "../pages/Dashboard/AddProduct";
 import Categories from "../pages/Dashboard/Categories";
 import ListProducts from "../pages/Dashboard/Products";
@@ -28,6 +30,7 @@ export const ADMIN = '/dashboard/admins';
 export const PRODUCT = '/dashboard/products';
 export const CATEGORIES = '/dashboard/categories';
 export const ORDERS = '/dashboard/orders';
+export const PRODUCT_DETAIL = '/store/product-detail';
 
 // Création des routes et exportation
 export const router = createBrowserRouter([
@@ -44,12 +47,7 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
             { path: STORE, element: <Store /> },
-        ],
-    },
-    {
-        element: <SiteLayout />,
-        children: [
-            { path: '/product-detail', element: <ProductDetail /> },
+            { path: PRODUCT_DETAIL, element: <ProductDetail /> },
         ],
     },
     {

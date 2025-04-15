@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-const Nav = () => {
+const WebsiteNav = () => {
   const [showSearch, setShowSearch] = useState(false);
 
   return (
@@ -28,4 +28,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default WebsiteNav;

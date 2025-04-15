@@ -1,7 +1,18 @@
+import StoreNav from "@/components/Partials/StoreNav"
+import { Outlet } from "react-router-dom"
+import Footer from "@/components/Partials/Footer"
+
+
 
 function StoreLayout() {
   return (
-    <div>StoreLayout</div>
+    <div>
+      <StoreNav/>
+      <main className="bg-gray-50  min-h-[calc(100vh-200px)]  w-full relative">
+        <Outlet />
+      </main>
+      <Footer/>
+    </div>
   )
 }
 
