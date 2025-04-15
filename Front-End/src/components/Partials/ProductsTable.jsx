@@ -13,6 +13,8 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Product from "../../../service/Product";
 import { Editproduct } from "./EditProduct";
+import ProductDetails from "./ProductDetails";
+import { Loading } from "../ui/loading";
 // import { Editproduct } from "./EditProduct";
 
 const tableVariants = {
@@ -26,11 +28,20 @@ const tableVariants = {
 
 const ProductsTable = () => {
   const [products, setProduct] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch admins when the component mounts
+  // Fetch products when the component mounts
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  // Calculate pagination when products change
+  useEffect(() => {
+    setTotalPages(Math.ceil(products.length / itemsPerPage));
+  }, [products, itemsPerPage]);
 
   const fetchProducts = async () => {
     try {
@@ -38,6 +49,9 @@ const ProductsTable = () => {
       setProduct(res.data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
+      toast.error("Failed to fetch products");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,61 +71,107 @@ const ProductsTable = () => {
   };
 
   const handleEdit = (updateProduct) => {
-    // Update the state with the modified admin
-    setProduct((updateProduct) =>
+    // Update the state with the modified product
+    setProduct((prevProduct) =>
       prevProduct.map((product) =>
         product.id === updateProduct.id ? updateProduct : product
       )
     );
   };
 
+  // Get current products for pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <Table className="mt-4 w-full lg:w-[800px] mx-auto">
-      <TableCaption>A list of Products.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Product code</TableHead>
-          <TableHead>Product name</TableHead>
-          <TableHead>Product description</TableHead>
-          <TableHead>Categorie</TableHead>
-          <TableHead className="text-center">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {products.length === 0 ? (
+    <div className="flex flex-col items-center">
+      <Table className="mt-4 w-full lg:w-[800px] mx-auto">
+        <TableCaption>A list of Products.</TableCaption>
+        <TableHeader>
           <TableRow>
-            <TableCell colSpan={5} className="h-24 text-center">
-              No product found.
-            </TableCell>
+            <TableHead className="w-[100px]">Product code</TableHead>
+            <TableHead>Product name</TableHead>
+            <TableHead>Product description</TableHead>
+            <TableHead>Categorie</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
-        ) : (
-          products.map((product) => (
-            <motion.tr
-              key={product.id}
-              custom={product.id}
-              initial="hidden"
-              animate="visible"
-              variants={tableVariants}
-            >
-              <TableCell className="font-medium">{product.product_code}</TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
-              <TableCell>{product.categorie?.name}</TableCell>
-              <TableCell className="flex justify-end gap-2">
-                <productDetails product={product} />
-                <Editproduct id={product.id} onEdit={handleEdit} />
-                <Button
-                  variant="destructive"
-                  onClick={() => handleDelete(product.id)}
-                >
-                  Delete
-                </Button>
+        </TableHeader>
+        <TableBody>
+          {currentProducts.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={5} className="h-24 text-center">
+                No Products found.
               </TableCell>
-            </motion.tr>
-          ))
-        )}
-      </TableBody>
-    </Table>
+            </TableRow>
+          ) : (
+            currentProducts.map((product) => (
+              <motion.tr
+                key={product.id}
+                custom={product.id}
+                initial="hidden"
+                animate="visible"
+                variants={tableVariants}
+              >
+                <TableCell className="font-medium">{product.product_code}</TableCell>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>{product.description}</TableCell>
+                <TableCell>{product.categorie?.name}</TableCell>
+                <TableCell className="flex justify-end gap-2">
+                  <ProductDetails product={product} />
+                  <Editproduct id={product.id} onEdit={handleEdit} />
+                  <Button
+                    variant="destructive"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </motion.tr>
+            ))
+          )}
+        </TableBody>
+      </Table>
+      
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-4 gap-2">
+          <Button 
+            variant="outline" 
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+            <Button
+              key={number}
+              variant={currentPage === number ? "default" : "outline"}
+              onClick={() => paginate(number)}
+              className="w-10 h-10"
+            >
+              {number}
+            </Button>
+          ))}
+          
+          <Button 
+            variant="outline" 
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      )}
+    </div>
   );
 };
 

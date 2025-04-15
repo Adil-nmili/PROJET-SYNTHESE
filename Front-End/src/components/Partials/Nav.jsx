@@ -10,7 +10,7 @@ function Nav() {
   };
 
   return (
-    <nav className="bg-white dark:bg-slate-800 h-16 px-16 relative w-full flex items-center gap-10 ">
+    <nav className="bg-white dark:bg-slate-800 h-16 px-16   w-full flex items-center gap-10 z-50 shadow-md">
       <div className="absolute left-1">
         <SidebarTrigger />
       </div>

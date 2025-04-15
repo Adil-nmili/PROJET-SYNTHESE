@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import SiteLayout from "../layout/SiteLayout";
-import Home from "../pages/Home";
+import StoreLayout from "../layout/StoreLayout";
+import HomeSite from "../pages/Home";
 import About from "../pages/About";
 import News from "../pages/News";
-import StoreLayout from "../layout/StoreLayout";
 import Store from "../pages/store/Store";
 import DashboardLayout from "../layout/DashboardLayout"; // Ajout du DashboardLayout
 import ListAdmins from "../pages/Dashboard/ListAdmins"; // Page admin
@@ -16,8 +16,10 @@ import OrdersTable from "../pages/Dashboard/OrdersTable";
 import AddProduct from "../pages/Dashboard/AddProduct";
 import Categories from "../pages/Dashboard/Categories";
 import ListProducts from "../pages/Dashboard/Products";
->>>>>>> 496a5ded9a874194f4714ec723097ac539b2f1e2
-
+import OrdersPage from "../pages/Dashboard/OrdersPage";
+import Home from "../pages/Dashboard/Home";
+import Product from "../../service/Product";
+import ProductDetail from "../pages/store/ProductDetail";
 // Définition des chemins
 export const LOGIN='/login';
 export const HOME = '/';
@@ -28,6 +30,8 @@ export const DASHBOARD = '/dashboard';
 export const ADMIN = '/dashboard/admins';
 export const PRODUCT = '/dashboard/products';
 export const CATEGORIES = '/dashboard/categories';
+export const ORDERS = '/dashboard/orders';
+export const PRODUCT_DETAIL = '/store/product-detail';
 
 // Création des routes et exportation
 export const router = createBrowserRouter([
@@ -35,7 +39,7 @@ export const router = createBrowserRouter([
     {
         element: <SiteLayout />,
         children: [
-            { path: HOME, element: <Home /> },
+            { path: HOME, element: <HomeSite /> },
             { path: ABOUT, element: <About /> },
             { path: NEWS, element: <News /> },
         ],
@@ -44,24 +48,26 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
             { path: STORE, element: <Store /> },
+            { path: PRODUCT_DETAIL, element: <ProductDetail /> },
         ],
     },
     {
         element: <DashboardLayout />, // Layout pour le dashboard
         children: [
-            { path: DASHBOARD, element: <ListAdmins /> }, // Page principale pour admin
+            { path: DASHBOARD, element: <Home /> }, // Page principale pour admin
             { path: `${ADMIN}/new`, element: <AddAdmin /> }, // Ajouter un nouvel admin
             { path: `${ADMIN}`, element: <ListAdmins /> }, // Liste des admins
             { path: "/dashboard/users", element: <DetailUtilisateur /> }, // Détails des utilisateurs
             {path: PRODUCT, element: <ListProducts />},
             {path: `${PRODUCT}/new`, element: <AddProduct />},
-            {path: CATEGORIES, element: <Categories />} 
+            {path: CATEGORIES, element: <Categories />},
+            { path: ORDERS, element: <OrdersPage /> }
         ],
     },
     {
         path: LOGIN, // Route pour la page de login
         element: <LoginPage />, // Le composant Login pour cette route
     },
- 
+
 ]);
 
