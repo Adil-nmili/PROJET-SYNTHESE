@@ -1,7 +1,9 @@
-
+import StoreSlider from "@/components/Partials/StoreSlider"
 function Store() {
   return (
-    <div>Store</div>
+    <div>
+      <StoreSlider/>
+    </div>
   )
 }
 

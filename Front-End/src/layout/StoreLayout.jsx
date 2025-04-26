@@ -8,7 +8,7 @@ function StoreLayout() {
   return (
     <div>
       <StoreNav/>
-      <main className="bg-gray-50  min-h-[calc(100vh-200px)]  w-full relative">
+      <main className="bg-gray-50 min-h-[calc(100vh+200px)] w-full relative pt-16">
         <Outlet />
       </main>
       <Footer/>
