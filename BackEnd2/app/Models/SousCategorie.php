@@ -3,17 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Categorie;
 
-class Categorie extends Model
+
+class SousCategorie extends Model
 {
    protected $fillable = [
-      'name',
-      'description',
-      'image'
+    'name',
+    'image',
+    "category_id"
    ];
 
    public function products()
    {
     return $this->hasMany(Product::class);
+   }
+
+   public function categories(){
+    return $this->belongsTo(Categorie::class);
    }
 }

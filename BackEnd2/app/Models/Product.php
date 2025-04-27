@@ -17,6 +17,7 @@ class Product extends Model
         "sizes",
         "colors",
         "category_id",
+        "sousCategorie_id",
         "product_code",
         "images"
     ];
