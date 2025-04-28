@@ -28,7 +28,12 @@ class CategorieController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
+        dd($request['image']);
+        if ($request->hasFile('image')){
+            $path = $request->file('image')->store('images','public');
+            $request['image'] = 'storage/' . $path;
+        }
         $categorie = Categorie::create($request->all());
         return response()->json($categorie, 200);
     }
@@ -55,6 +60,10 @@ class CategorieController extends Controller
      */
     public function update(Request $request,  $categorie)
     {
+        if ($request->hasFile('image')){
+            $path = $request->file('image')->store('images','public');
+            $request['file'] = 'storage/' . $path;
+        }
         $categorie = Categorie::findOrFail($categorie);
         $categorie->update($request->all());
         return response()->json($categorie);

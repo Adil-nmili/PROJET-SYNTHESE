@@ -27,7 +27,7 @@ const HomeSlider = () => {
 
   return (
     <div className="pt-20 w-full">
-      <div className="relative w-full overflow-hidden h-[calc(100vh-80px)]">
+      <div className="relative w-full flex items-center overflow-hidden h-[calc(100vh-80px)]">
         {/* Static Background */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900 to-orange-400">
           <div className="absolute inset-0 bg-[url('/images/palmimage.jpg')] opacity-20 bg-repeat-x"></div>
@@ -35,9 +35,9 @@ const HomeSlider = () => {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 py-12 h-full flex flex-row items-center justify-between">
+        <div className="relative z-10 container mx-auto px-4 py-12 h-10/12  flex flex-row items-center justify-between overflow-hidden ">
           <div className="text-white mb-8 w-1/2">
-            <h1 className="text-[70px] font-bold mb-4 bg-gradient-to-r from-yellow-300 via-orange-500 to-purple-600 text-transparent bg-clip-text">
+            <h1 className="text-[65px] font-bold mb-4 bg-gradient-to-r from-yellow-300 via-orange-500 to-purple-600 text-transparent bg-clip-text">
               BALLERS NATION
               WHERE LEGENDS
               AND FANS UNITE!
@@ -48,26 +48,25 @@ const HomeSlider = () => {
           </div>
 
           {/* News Slider */}
-          <div className="w-full max-w-md">
+          <div className="w-full h-full max-w-md">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
               spaceBetween={30}
               slidesPerView={1}
-              navigation
               pagination={{ clickable: true }}
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,
               }}
-              className="w-full"
+              className="w-10/12 h-full"
             >
               {slides.map((slide, index) => (
                 <SwiperSlide key={index}>
-                  <div className="bg-white h-[600px] rounded-lg overflow-hidden shadow-xl">
+                  <div className=" h-full rounded-lg overflow-hidden shadow-xl">
                     <img
                       src={slide.image}
                       alt={slide.title}
-                      className="w-full h-[600px] object-cover"
+                      className="w-full h-full object-cover"
                     />
                     <div className="p-4">
                       <h3 className="text-xl font-bold text-gray-800 mb-2">
@@ -83,13 +82,13 @@ const HomeSlider = () => {
             </Swiper>
           </div>
         </div>
-        <Button className="absolute text-xl capitalize bg-[#FDBB30] hover:bg-[#FDBB10] hover:text-black font-bold  z-50 bottom-10 w-[300px] h-[50px]  left-1/2 -translate-x-1/2 ">
+        <Button className="absolute text-md capitalize bg-[#FDBB30] hover:bg-[#FDBB10] hover:text-black font-bold  z-50 bottom-10 shadow-md shadow-slate-800 w-[200px] h-[40px]  left-1/2 -translate-x-1/2 transition-all ease-in duration-300">
           <Link to="/about">
             Continue reading
           </Link>
         </Button>
       </div>
-    </div>
+     </div>
   );
 };
 

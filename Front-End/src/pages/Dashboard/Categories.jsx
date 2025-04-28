@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Headers from "../../components/Partials/Hearder";
-import CategoriesTable from "../../components/Partials/CategoriesTable";
-import CategorieForm from "../../components/Partials/CategorieForm";
+import Headers from "@/components/Partials/Hearder";
+import CategoriesTable from "@/components/Partials/CategoriesTable";
+import CategorieForm from "@/components/Partials/CategorieForm";
 import { Loading } from "@/components/ui/loading";
 
 const Categories = () => {

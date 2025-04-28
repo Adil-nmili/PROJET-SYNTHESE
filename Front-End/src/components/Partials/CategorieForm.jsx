@@ -13,11 +13,12 @@ const CategorieForm = () => {
     const [categorie, setCategorie] = useState({
       name: '',
       description: '',
+      image:null
     });
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      
+      console.log(categorie)
       toast.promise(
          Categorie.create(categorie),
         {
@@ -29,7 +30,7 @@ const CategorieForm = () => {
     };
      
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} enctype="multipart/form-data">
       <div className="grid grid-cols-4 items-center ">
         <Label htmlFor="name">Name:</Label>
         <Input
@@ -44,6 +45,17 @@ const CategorieForm = () => {
       <div className="grid grid-cols-4 my-4 items-center ">
         <Label htmlFor="description">Description:</Label>
         <Textarea name="description" placeholder="Categorie's Description..." className=" col-span-3"  id="description" onChange={(e) => setCategorie({ ...categorie, description: e.target.value })} ></Textarea>
+      </div>
+      <div className="grid grid-cols-4 my-4 items-center ">
+        <Label htmlFor="image">Categorie Picture:</Label>
+        <Input
+          type="file"
+          name="image"
+          className=" col-span-3"
+          id="image"
+          accept="image/*"
+          onChange={(e) => setCategorie({ ...categorie, image: e.target.files[0].file})}
+        />
       </div>
       <Button type="submit">Submit</Button>
     </form>
