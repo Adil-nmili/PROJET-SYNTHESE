@@ -251,7 +251,7 @@ const ListeProducts = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const { categoryName } = useParams();  // Récupérer le nom de la catégorie dans l'URL
+  const { category_id } = useParams();  // Récupérer le nom de la catégorie dans l'URL
 
   useEffect(() => {
     axios.get('http://localhost:8000/api/products')
@@ -287,12 +287,14 @@ const ListeProducts = () => {
       setSelectedCategoryId(sub.category_id);
     }
   };
-
+console.log(category_id)
   // Filtrage des produits en fonction de la catégorie ou sous-catégorie sélectionnée
+
+
   const filteredProducts = products.filter(product => {
     // Vérification de la catégorie passée dans l'URL via useParams
-    const matchesCategory = categoryName
-      ? product.category_name && product.category_name.toLowerCase() === categoryName.toLowerCase()  // Vérification avant d'utiliser toLowerCase()
+    const matchesCategory = category_id
+      ? product.category_name && product.category_name.toLowerCase() === category_id.toLowerCase()  // Vérification avant d'utiliser toLowerCase()
       : selectedSubcategoryId
         ? product.sousCategorie_id === selectedSubcategoryId  // Filtrer par sous-catégorie sélectionnée
         : selectedCategoryId

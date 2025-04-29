@@ -20,7 +20,7 @@
     }, []);
 
     const handleCategoryClick = (categoryName) => {
-      navigate(`/store/products/${categoryName}`);
+      navigate(`/store/products/${categoryName.toLowerCase()}`);
     };
     const handleSeeMoreCategories = () => {
       navigate('/store/products'); // <-- ou l'URL que tu veux pour "voir toutes les catégories"
