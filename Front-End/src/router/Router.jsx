@@ -19,8 +19,11 @@ import OrdersPage from "../pages/Dashboard/OrdersPage";
 import Home from "../pages/Dashboard/Home";
 import Product from "../../service/Product";
 import ProductDetail from "../pages/store/ProductDetail";
+import Products from "../pages/store/Products";
+import SousCategories from "../pages/Dashboard/SousCategories";
+import ListeProducts from "../components/Partials/ListeProducts";
 // Définition des chemins
-export const LOGIN='/login';
+export const LOGIN = '/login';
 export const HOME = '/';
 export const ABOUT = '/about';
 export const NEWS = '/news';
@@ -29,12 +32,14 @@ export const DASHBOARD = '/dashboard';
 export const ADMIN = '/dashboard/admins';
 export const PRODUCT = '/dashboard/products';
 export const CATEGORIES = '/dashboard/categories';
+export const SUBCATEGORIES = '/dashboard/souscategories';
 export const ORDERS = '/dashboard/orders';
+export const ALLPRODUCTS = "/store/products";
 export const PRODUCT_DETAIL = '/store/product-detail';
 
 // Création des routes et exportation
 export const router = createBrowserRouter([
-    
+
     {
         element: <SiteLayout />,
         children: [
@@ -47,7 +52,9 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
             { path: STORE, element: <Store /> },
+            { path: `/store/products/:categoryName`, element: <ListeProducts /> },
             { path: PRODUCT_DETAIL, element: <ProductDetail /> },
+            { path: ALLPRODUCTS, element: <Products/> },
         ],
     },
     {
@@ -57,9 +64,10 @@ export const router = createBrowserRouter([
             { path: `${ADMIN}/new`, element: <AddAdmin /> }, // Ajouter un nouvel admin
             { path: `${ADMIN}`, element: <ListAdmins /> }, // Liste des admins
             { path: "/dashboard/users", element: <DetailUtilisateur /> }, // Détails des utilisateurs
-            {path: PRODUCT, element: <ListProducts />},
-            {path: `${PRODUCT}/new`, element: <AddProduct />},
-            {path: CATEGORIES, element: <Categories />},
+            { path: PRODUCT, element: <ListProducts /> },
+            { path: `${PRODUCT}/new`, element: <AddProduct /> },
+            { path: CATEGORIES, element: <Categories /> },
+            { path: SUBCATEGORIES, element: <SousCategories /> },
             { path: ORDERS, element: <OrdersPage /> }
         ],
     },

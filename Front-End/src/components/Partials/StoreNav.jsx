@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { User } from "lucide-react";
 
-const StoreNav = () => {
+const StoreNav = ({SearchTerm,setSearchTerm}) => {
   return (
     <nav className="h-28 w-screen flex flex-col fixed top-0 left-0 items-center z-50 shadow-md border-b-2 border-gray-400">
       <div className="bg-purple-900 py-2 h-1/3 w-full flex items-center justify-end pe-16">
@@ -19,7 +19,10 @@ const StoreNav = () => {
       <div className=" bg-white h-2/3 w-full flex items-center justify-end">
         <div className="flex items-center justify-end pe-16">
           <div className="relative w-77">
-            <Input type="text" placeholder="Search..." className="w-full" />
+            <Input type="text" placeholder="Search..." className="w-full" 
+            value={SearchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+             />
             <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" />
           </div>
           <Button className="ms-2" variant="outline">

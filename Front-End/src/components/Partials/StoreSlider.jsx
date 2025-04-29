@@ -4,93 +4,117 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ABOUT } from "../../router/Router";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import { Button } from "../ui/button";
+import CountUp from 'react-countup';
+
 
 const StoreSlider = () => {
+  const stats = [
+    { number: "50+", label: "JERSEYS" },
+    { number: "100+", label: "Customers" },
+    { number: "25+", label: "Accessories" },
+    // tu peux ajouter autant que tu veux ici
+  ];
   const slides = [
     {
       title: "Lakers Triumph in Thrilling...",
       description:
         "An epic game that went down to the wire, showcasing the best of basketball.",
-      image: "/images/lakers.jpeg",
+      image: "https://lakersstore.com/cdn/shop/files/LAK103BCR0BLK-YELreverse_1.jpg?v=1738876959&width=1080",
     },
     {
       title: "Championship Dreams Alive",
       description: "Team shows remarkable resilience in crucial victory.",
-      image: "/images/lebronJames1.jpg",
+      image: "https://lakersstore.com/cdn/shop/files/mitchell-and-ness-los-angeles-lakers-team-logo-duffle-bag_pi5334000_altimages_ff_5334988-9e224e551efa19c51bdcalt2_full.png?v=1733874739&width=540",
     },
     {
       title: "Star Player's Return",
       description: "Key player makes impressive comeback after injury.",
-      image: "/images/lebronJames2.jpg",
+      image: "https://lakersstore.com/cdn/shop/files/109834.jpg?v=1697661527&width=540",
     },
   ];
 
   return (
-<div className="pt-20 w-11/12 mx-auto">
-      <div className="relative w-full overflow-hidden h-[calc(80vh-80px)]">
-        {/* Static Background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-900 to-orange-400">
-          <div className="absolute inset-0 bg-[url('/images/palmimage.jpg')] opacity-20 bg-repeat-x"></div>
-          <div className="absolute inset-0 bg-black/50"></div>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 py-12 h-full flex flex-row items-center justify-between">
-          <div className="text-white mb-8 w-1/2">
-            <h1 className="text-[70px] font-bold mb-4 text-black">
-            Buy your dream LAKERS item
-            </h1>
-            <p className="text-xl text-center opacity-90 ">
-              The future looks bright. Top players in the spotlight await for
-              the player that gives the highest points in NBA basketball finals!
+    <section className="bg-[#7e57c2] p-20 mt-20 rounded-2xl shadow-xl w-11/12 mx-auto  overflow-hidden relative flex flex-col md:flex-row items-center justify-between">
+      {/* Text Section */}
+      <div className="text-black md:w-1/2 w-full mb-10 md:mb-0">
+        <h1 className="text-3xl font-extrabold mb-6">
+          Buy your <br /> dream LAKERS item
+        </h1>
+        <div className="flex items-center gap-8 mb-8">
+        {stats.map((stat, index) => (
+          <div key={index}>
+            <p className="text-xl font-bold text-white">
+              <CountUp start={0} end={parseInt(stat.number)} duration={10} separator="," />+
             </p>
+            <p className="text-sm text-white">{stat.label}</p>
           </div>
+        ))}
+</div>
 
-          {/* News Slider */}
-          <div className="w-full max-w-md">
-            <Swiper
-              modules={[Navigation, Pagination, Autoplay,EffectFade]}
-              spaceBetween={30}
-              slidesPerView={1}
-              effect="fade"
-            //   navigation
-              pagination={{ clickable: true }}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-              }}
-              className="w-full"
-            >
-              {slides.map((slide, index) => (
-                <SwiperSlide key={index}>
-                  <div className=" h-[400px]  rounded-l-full rounded-tr-full  overflow-hidden ">
-                    <img
-                      src={slide.image}
-                      alt={slide.title}
-                      className="w-full h-[400px] object-cover rounded-l-full rounded-tr-full shadow-2xl"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-xl font-bold text-gray-800 mb-2">
-                        {slide.title}
-                      </h3>
-                      <p className="text-gray-600">{slide.description}</p>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+        {/* Search bar */}
+        <div className="flex items-center bg-white rounded-full px-4 py-2 w-full max-w-xs">
+          <input
+            type="text"
+            placeholder="What are you looking for?"
+            className="flex-1 text-black placeholder-gray-400 bg-transparent outline-none"
+          />
+          <button className="text-purple-600">
+            🔍
+          </button>
         </div>
-        <Button className="absolute text-xl capitalize bg-[#FDBB30] hover:bg-[#FDBB10] hover:text-black font-bold  z-50 bottom-10 w-[300px] h-[50px]  left-1/2 -translate-x-1/2 ">
-          <Link to={ABOUT}>Continue reading</Link>
-        </Button>
       </div>
-    </div>
+
+      {/* Swiper Section */}
+      <div className="relative md:w-1/2 w-full flex justify-center items-center">
+        <div className="bg-black rounded-full w-[320px] h-[320px] flex items-center justify-center overflow-hidden relative rounded-br-none">
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay, EffectFade]}
+            slidesPerView={1}
+            effect="fade"
+            pagination={{ clickable: true }}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            className="w-full h-full"
+          >
+            {slides.map((slide, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="w-full h-full object-cover"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+  {/* Première flèche animée */}
+        <img
+          src={'/asset/flech.png'}
+          alt="Arrow"
+          className="absolute z-50 right-0 top-0 transform -translate-x-1/2 -translate-y-1/2 w-28 h-28 animate-bounce"
+        />
+
+        {/* Deuxième flèche retournée et animée */}
+        <img
+          src={'/asset/flech.png'}
+          alt="Arrow Rotated"
+          className="absolute z-50 left-0 bottom-0 transform -translate-x-1/2 -translate-y-1/2 rotate-180 w-28 h-28 animate-bounce"
+        />
+
+      
+      </div>
+
+      {/* Button
+      <Button className="absolute text-[14px] capitalize bg-[#FDBB30] hover:bg-[#FDBB10] hover:text-black font-bold z-50 bottom-4 left-1/2 -translate-x-1/2">
+        <Link to={ABOUT}>Continue reading</Link>
+      </Button> */}
+    </section>
   );
 };
 

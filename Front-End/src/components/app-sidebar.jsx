@@ -161,6 +161,21 @@ import { useAdminContext } from "../../api/context/AdminContext";
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={"/dashboard/souscategories"}
+                        className={` ${
+                          location.pathname === "/dashboard/souscategories"
+                            ? "bg-slate-800 text-gray-100"
+                            : ""
+                        }`}
+                      >
+                        <BoxSelectIcon />
+                        <span>Sub Categorie</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
