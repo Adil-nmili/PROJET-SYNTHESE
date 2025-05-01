@@ -241,7 +241,8 @@
 import axios from 'axios';
 import StoreNav from './StoreNav';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
+
 
 const ListeProducts = () => {
   const [products, setProducts] = useState([]);
@@ -252,7 +253,10 @@ const ListeProducts = () => {
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const { category_id } = useParams();  // Récupérer le nom de la catégorie dans l'URL
-
+  const navigate = useNavigate();
+  const goToDetail = (id) => {
+    navigate(`/store/product-detail/${id}`);
+  };
   useEffect(() => {
     axios.get('http://localhost:8000/api/products')
       .then(response => setProducts(response.data))
@@ -345,7 +349,7 @@ console.log(category_id)
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map(product => (
-            <div key={product.id} className="relative bg-white rounded-lg shadow-md p-4 flex flex-col items-center transition hover:-translate-y-1 hover:shadow-lg">
+            <div key={product.id} onClick={() => goToDetail(product.id)} className="relative bg-white rounded-lg shadow-md p-4 flex flex-col items-center transition hover:-translate-y-1 hover:shadow-lg">
               <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-35%</span>
               <img
                 src={JSON.parse(product.images)[0]}

@@ -35,7 +35,7 @@ export const CATEGORIES = '/dashboard/categories';
 export const SUBCATEGORIES = '/dashboard/souscategories';
 export const ORDERS = '/dashboard/orders';
 export const ALLPRODUCTS = "/store/products";
-export const PRODUCT_DETAIL = '/store/product-detail';
+export const PRODUCT_DETAIL = '/store/product-detail/:id';
 
 // Création des routes et exportation
 export const router = createBrowserRouter([
