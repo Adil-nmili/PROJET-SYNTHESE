@@ -7,6 +7,7 @@ import {
     SquarePlus,
     User,
     Users,
+    FolderTree,
   } from "lucide-react";
   
   import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -24,10 +25,21 @@ import {
     SidebarHeader,
   } from "./ui/sidebar";
   import { Button } from "./ui/button";
+  import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "./ui/alert-dialog";
   
   import Logo2 from "../../public/asset/logo2.jpeg";
 import { useAdminContext } from "../../api/context/AdminContext";
-  
+import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, ORDERS, PLAYERS, PRODUCT, PRODUCT_CREATE, SUBCATEGORIES, TEAMS, USER_DETAIL } from "../router/Router";
   export function AppSidebar() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -57,9 +69,9 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard"}
+                        to={DASHBOARD}
                         className={` ${
-                          location.pathname === "/dashboard"
+                          location.pathname === DASHBOARD
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
@@ -81,9 +93,9 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard/admins"}
+                        to={ADMIN}
                         className={` ${
-                          location.pathname === "/dashboard/admins"
+                          location.pathname === ADMIN
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
@@ -96,15 +108,53 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard/admins/new"}
+                        to={ADMIN_CREATE}
                         className={` ${
-                          location.pathname === "/dashboard/admins/new"
+                          location.pathname === ADMIN_CREATE
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
                       >
                         <SquarePlus />
                         <span>New Admin</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+            {/* ///////////////////////////////////// */}
+            <SidebarGroup>
+              <SidebarGroupLabel>Lakers</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={PLAYERS}
+                        className={` ${
+                          location.pathname === PLAYERS
+                            ? "bg-slate-800 text-gray-100"
+                            : ""
+                        }`}
+                      >
+                        <User />
+                        <span>Players</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={TEAMS}
+                        className={` ${
+                          location.pathname === TEAMS
+                            ? "bg-slate-800 text-gray-100"
+                            : ""
+                        }`}
+                      >
+                        <SquarePlus />
+                        <span>Teams</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -119,9 +169,9 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard/products"}
+                        to={PRODUCT}
                         className={` ${
-                          location.pathname === "/dashboard/products"
+                          location.pathname === PRODUCT
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
@@ -134,9 +184,9 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard/products/new"}
+                        to={PRODUCT_CREATE}
                         className={` ${
-                          location.pathname === "/dashboard/products/new"
+                          location.pathname === PRODUCT_CREATE
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
@@ -149,15 +199,30 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard/categories"}
+                        to={CATEGORIES}
                         className={` ${
-                          location.pathname === "/dashboard/categories"
+                          location.pathname === CATEGORIES
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
                       >
                         <BoxSelectIcon />
                         <span>Categories</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={SUBCATEGORIES}
+                        className={` ${
+                          location.pathname === SUBCATEGORIES
+                            ? "bg-slate-800 text-gray-100"
+                            : ""
+                        }`}
+                      >
+                        <FolderTree />
+                        <span>Sub-categories</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -171,9 +236,9 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard/users"}
+                        to={USER_DETAIL}
                         className={` ${
-                          location.pathname === "/dashboard/users"
+                          location.pathname === USER_DETAIL
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
@@ -193,9 +258,9 @@ import { useAdminContext } from "../../api/context/AdminContext";
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={"/dashboard/orders"}
+                        to={ORDERS}
                         className={` ${
-                          location.pathname === "/dashboard/orders"
+                          location.pathname === ORDERS
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
@@ -210,10 +275,26 @@ import { useAdminContext } from "../../api/context/AdminContext";
             </SidebarGroup>
           </SidebarContent>
           <SidebarFooter className="pb-4">
-            <Button onClick={handleLogout}>
-              <LogOut />
-              <span>Logout</span>
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>
+                  <LogOut />
+                  <span>Logout</span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    You will need to login again to access the dashboard.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </SidebarFooter>
         </Sidebar>
       </div>

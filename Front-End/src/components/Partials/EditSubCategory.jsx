@@ -11,45 +11,61 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import SubCategory from "../../../service/SubCategory";
 import Categorie from "../../../service/Categorie";
 
-export function EditCategorie({ id, onEdit }) {
-  const [category, setCategory] = useState({});
-  const [file, setFile] = useState(null); // For the newly uploaded file
-  const [previewImage, setPreviewImage] = useState(""); // To preview new image
+export function EditSubCategory({ id, onEdit }) {
+  const [subCategory, setSubCategory] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [file, setFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    Categorie.getById(id).then((res) => setCategory(res.data));
+    fetchData();
   }, [id]);
 
-  console.log(file);
-  console.log(previewImage)
+  const fetchData = async () => {
+    const res = await SubCategory.getById(id);
+    setSubCategory(res.data);
+    const categoriesRes = await Categorie.getAll();
+    setCategories(categoriesRes.data);
+  };
 
   const handleEdit = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("name", category.name);
-    formData.append("description", category.description);
+    formData.append("name", subCategory.name);
+    formData.append("description", subCategory.description);
+    formData.append("category_id", subCategory.category_id);
     if (file) {
       formData.append("image", file);
     }
 
     toast.promise(
-      Categorie.update(id, formData),
+      SubCategory.update(id, formData),
       {
-        loading: "Updating category...",
+        loading: "Updating sub-category...",
         success: (data) => {
           setIsDialogOpen(false);
-          return `Category ${data.data.name} updated successfully!`;
+          return `Sub-category ${data.data.name} updated successfully!`;
         },
-        error: (err) => `Could not update category: ${err.message}`,
+        error: (err) => `Could not update sub-category: ${err.message}`,
       }
     ).then(() => {
-      onEdit(category);
+      onEdit(subCategory);
     });
   };
 
@@ -57,7 +73,7 @@ export function EditCategorie({ id, onEdit }) {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
     if (selectedFile) {
-      setPreviewImage(URL.createObjectURL(selectedFile)); // create preview URL
+      setPreviewImage(URL.createObjectURL(selectedFile));
     }
   };
 
@@ -68,14 +84,13 @@ export function EditCategorie({ id, onEdit }) {
       </DialogTrigger>
       <DialogContent className="md:max-w-[725px]">
         <DialogHeader>
-          <DialogTitle>Edit Category</DialogTitle>
+          <DialogTitle>Edit Sub-category</DialogTitle>
           <DialogDescription>
-            Make changes to your category here. Click save when you're done.
+            Make changes to your sub-category here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-1 gap-4 py-4">
-          {/* Name */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               Name:
@@ -85,14 +100,13 @@ export function EditCategorie({ id, onEdit }) {
               name="name"
               type="text"
               className="col-span-3"
-              value={category.name || ""}
+              value={subCategory.name || ""}
               onChange={(e) =>
-                setCategory({ ...category, name: e.target.value })
+                setSubCategory({ ...subCategory, name: e.target.value })
               }
             />
           </div>
 
-          {/* Description */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
               Description:
@@ -101,17 +115,43 @@ export function EditCategorie({ id, onEdit }) {
               id="description"
               name="description"
               className="col-span-3"
-              value={category.description || ""}
+              value={subCategory.description || ""}
               onChange={(e) =>
-                setCategory({ ...category, description: e.target.value })
+                setSubCategory({ ...subCategory, description: e.target.value })
               }
             />
           </div>
 
-          {/* Image Upload */}
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="category" className="text-right">
+              Parent Category:
+            </Label>
+            <Select
+              onValueChange={(value) =>
+                setSubCategory({ ...subCategory, category_id: value })
+              }
+              value={subCategory.category_id}
+            >
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Categories</SelectLabel>
+                  {categories &&
+                    categories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">
-              Category Picture:
+              Sub-category Picture:
             </Label>
             <Input
               id="image"
@@ -123,7 +163,6 @@ export function EditCategorie({ id, onEdit }) {
             />
           </div>
 
-          {/* Image Preview Section */}
           <div className="grid grid-cols-4 items-start gap-4">
             <Label className="text-right">Current Image:</Label>
             <div className="col-span-3">
@@ -134,17 +173,16 @@ export function EditCategorie({ id, onEdit }) {
                   className="h-32 rounded-md object-cover"
                 />
               ) : (
-                category.image && (
+                subCategory.image && (
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/storage/${category.image}`}
-                    alt="Old category"
+                    src={`${import.meta.env.VITE_BACKEND_URL}/storage/${subCategory.image}`}
+                    alt="Old sub-category"
                     className="h-32 rounded-md object-cover"
                   />
                 )
               )}
             </div>
           </div>
-
         </div>
 
         <DialogFooter>
@@ -155,4 +193,4 @@ export function EditCategorie({ id, onEdit }) {
       </DialogContent>
     </Dialog>
   );
-}
+} 

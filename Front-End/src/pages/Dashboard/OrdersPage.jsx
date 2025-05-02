@@ -26,16 +26,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Loading } from "@/components/ui/loading";
+import Loading from "@/components/Partials/loading";
 import DialogProductOrder from "../../components/Partials/DialogProductOrder";
+import { Search } from "lucide-react";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchOrders();
@@ -104,9 +105,7 @@ export default function OrdersPage() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading) {
-    return <Loading />;
-  }
+  
 
   return (
     <div className="p-6 space-y-6">
@@ -118,13 +117,14 @@ export default function OrdersPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4 mb-6">
-            <div className="flex-1">
+          <div className="flex gap-4 mb-6 border-b-2 border-slate-700 pb-4 w-full flex-row items-center justify-between">
+            <div className="relative w-1/2">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search by order code, product, or customer..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="max-w-sm"
+                className="pl-8 bg-transparent dark:text-white border-slate-700"
               />
             </div>
             <Select
@@ -143,7 +143,11 @@ export default function OrdersPage() {
             </Select>
           </div>
 
-          <Table>
+    {
+      loading ? (
+        <Loading />
+      ) : (
+        <Table>
             <TableCaption>A list of all orders</TableCaption>
             <TableHeader>
               <TableRow>
@@ -211,6 +215,9 @@ export default function OrdersPage() {
               )}
             </TableBody>
           </Table>
+      )
+    }
+          
 
           {/* Pagination Controls */}
           <div className="flex justify-center items-center space-x-2 mt-4">

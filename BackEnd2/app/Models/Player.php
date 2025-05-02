@@ -15,7 +15,9 @@ class Player extends Model
         'height',
         'weight',
         'championships',
-        'image'
+        'image',
+        
     ];
+    
 }
 

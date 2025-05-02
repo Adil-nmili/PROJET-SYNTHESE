@@ -2,25 +2,25 @@ import { useState, useEffect } from "react";
 import Headers from "../../components/Partials/Hearder";
 import ProductAnalytics from "../../components/Analytics/ProductAnalytics";
 import OrderAnalytics from "../../components/Analytics/OrderAnalytics";
-import { Loading } from "@/components/ui/loading";
+// import Loading from "@/components/Partials/loading";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+  // useEffect(() => {
+  //   // Simulate loading time
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000);
     
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   return (
     <div className="p-6 space-y-6">

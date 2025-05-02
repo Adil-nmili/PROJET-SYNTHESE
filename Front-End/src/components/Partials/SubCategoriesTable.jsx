@@ -19,8 +19,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import { EditCategorie } from "./EditCategorie";
-import Categorie from "../../../service/Categorie";
+import { EditSubCategory } from "./EditSubCategory";
+import SubCategory from "../../../service/SubCategory";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Loading from "./loading";
@@ -35,44 +35,53 @@ const tableVariants = {
   }),
 };
 
-const CategoriesTable = () => {
+const SubCategoriesTable = ({ selectedCategory }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchCategories();
+    fetchSubCategories();
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchSubCategories = async () => {
     try {
-      const res = await Categorie.getAll();
+      const res = await SubCategory.getAll();
       setData(res.data);
     } catch (error) {
-      console.error("Failed to fetch categories:", error);
-      toast.error("Failed to fetch categories");
+      console.error("Failed to fetch sub-categories:", error);
+      toast.error("Failed to fetch sub-categories");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleEdit = (updateCategorie) => {
-    setData((prevCategories) =>
-      prevCategories.map((category) =>
-        category.id === updateCategorie.id ? updateCategorie : category
+  // Filter sub-categories by selectedCategory
+  const filteredData = selectedCategory
+    ? data.filter(
+        sub =>
+          String(sub.category_id) === String(selectedCategory) ||
+          String(sub.category?.id) === String(selectedCategory)
+      )
+    : data;
+
+  const handleEdit = (updateSubCategory) => {
+    setData((prevSubCategories) =>
+      prevSubCategories.map((subCategory) =>
+        subCategory.id === updateSubCategory.id ? updateSubCategory : subCategory
       )
     );
   };
 
   const handleDelete = async (id) => {
     toast
-      .promise(Categorie.delete(id), {
-        loading: "Deleting categorie...",
-        success: (data) => `Categorie ${data.data.name} deleted successfully!`,
-        error: (err) => `Could not delete categorie: ${err.message}`,
+      .promise(SubCategory.delete(id), {
+        loading: "Deleting sub-category...",
+        success: (data) => `Sub-category ${data.data.name} deleted successfully!`,
+        error: (err) => `Could not delete sub-category: ${err.message}`,
       })
       .then(() => {
-        setData((prevCategories) =>
-          prevCategories.filter((categorie) => categorie.id !== id)
+        setData((prevSubCategories) =>
+          prevSubCategories.filter((subCategory) => subCategory.id !== id)
         );
       });
   };
@@ -83,37 +92,39 @@ const CategoriesTable = () => {
 
   return (
     <Table>
-      <TableCaption>A list of Categories.</TableCaption>
+      <TableCaption>A list of Sub-categories.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">#ID</TableHead>
           <TableHead>Name</TableHead>
-          <TableHead className="truncate">Description</TableHead>
+          <TableHead>Description</TableHead>
+          <TableHead>Parent Category</TableHead>
           <TableHead className="text-center">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.length == 0 ? (
+        {filteredData.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={4} className="h-24 text-center ">
-              No categories founded.
+            <TableCell colSpan={5} className="h-24 text-center">
+              No sub-categories found.
             </TableCell>
           </TableRow>
         ) : (
-          data.map((category) => (
+          filteredData.map((subCategory) => (
             <motion.tr
-              key={category.id}
-              custom={category.id}
+              key={subCategory.id}
+              custom={subCategory.id}
               initial="hidden"
               animate="visible"
               variants={tableVariants}
-             
+              
             >
-              <TableCell className="font-medium">{category.id}</TableCell>
-              <TableCell>{category.name}</TableCell>
-              <TableCell>{category.description}</TableCell>
+              <TableCell className="font-medium">{subCategory.id}</TableCell>
+              <TableCell>{subCategory.name}</TableCell>
+              <TableCell className="dark:text-white truncate w-[200px]">{subCategory.description}</TableCell>
+              <TableCell>{subCategory.category?.name}</TableCell>
               <TableCell className="flex justify-end gap-2">
-                <EditCategorie id={category.id} onEdit={handleEdit} />
+                <EditSubCategory id={subCategory.id} onEdit={handleEdit} />
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="destructive">Delete</Button>
@@ -121,25 +132,23 @@ const CategoriesTable = () => {
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        Are you absolutely sure?
+                        Are you sure you want to delete this sub-category?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
+                        This action cannot be undone. This will permanently delete
+                        this sub-category.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
-                        onClick={() => handleDelete(category.id)}
+                        onClick={() => handleDelete(subCategory.id)}
                       >
                         Continue
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-                {/* <Alert id={category.id} /> */}
               </TableCell>
             </motion.tr>
           ))
@@ -149,4 +158,4 @@ const CategoriesTable = () => {
   );
 };
 
-export default CategoriesTable;
+export default SubCategoriesTable; 
