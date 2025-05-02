@@ -7,11 +7,11 @@ import { User } from "lucide-react";
 
 const StoreNav = ({SearchTerm,setSearchTerm}) => {
   return (
-    <nav className="h-32  w-screen flex flex-col fixed top-0 left-0 items-center z-50 shadow-md border-b-2 border-gray-400">
+    <nav className="h-28 w-screen flex flex-col fixed top-0 left-0 items-center z-50 shadow-md border-b-2 border-gray-400">
       <div className="bg-purple-900 py-2 h-1/3 w-full flex items-center justify-end pe-16">
-        <p className="text-gray-200 font-normal">
+        <p className="text-gray-200 font-normal text-xs">
           Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
-          <Link to="/store" className="text-white font-normal ms-2 underline">
+          <Link to="/store" className="text-white font-normal ms-1 underline">
             Shop Now
           </Link>
         </p>
@@ -34,7 +34,7 @@ const StoreNav = ({SearchTerm,setSearchTerm}) => {
         </div>
       
       </div>
-      <img src="/logo.png" alt="logo" className="w-24 object-cover h-24 absolute top-1/2 left-16  -translate-y-1/2" />
+      <img src="/logo.png" alt="logo" className="w-16 object-cover h-16 absolute top-1/2 left-16  -translate-y-1/2" />
     </nav>
   );
 };

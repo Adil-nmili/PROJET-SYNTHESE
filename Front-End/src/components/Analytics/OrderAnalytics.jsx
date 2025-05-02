@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import StatCard from "./StatCard";
 import { Truck, RefreshCw, Clock, CheckCircle } from "lucide-react";
 import Order from "../../../service/Order";
-import { Loading } from "../ui/loading";
+import Loading from "../Partials/loading";
 
 const OrderAnalytics = () => {
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ const OrderAnalytics = () => {
         
         // Calculate total amount for delivered orders
         if (order.status === 'delivered') {
-          acc.totalAmount += order.total_amount || 0;
+          acc.totalAmount += Number(order.total_amount) || 0;
         }
         
         return acc;
@@ -58,25 +58,28 @@ const OrderAnalytics = () => {
         value={stats.delivered}
         icon={Truck}
         description="Successfully delivered"
+        trend={stats.delivered}
       />
       <StatCard
         title="Returned Orders"
         value={stats.returned}
         icon={RefreshCw}
         description="Orders returned by customers"
+        trend={stats.returned}
       />
       <StatCard
         title="Waiting Orders"
         value={stats.waiting}
         icon={Clock}
         description="Orders in processing"
+        trend={stats.waiting}
       />
       <StatCard
         title="Total Revenue"
-        value={stats.totalAmount}
-        // value={`${stats.totalAmount.toFixed(2)} FCFA`}
+        value={`${stats.totalAmount.toFixed(2)} DHM`}
         icon={CheckCircle}
         description="From delivered orders"
+        trend={stats.totalAmount}
       />
     </div>
   );

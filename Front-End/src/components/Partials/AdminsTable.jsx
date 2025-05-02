@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Table,
@@ -10,15 +10,28 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { toast } from "react-hot-toast";
 import AdminApi from "../../../service/Admins";
 import { EditAdmin } from "./EditAdmin";
 import AdminDetails from "./AdminDetails";
-
+import Loading from "./loading";
 const AdminsTable = ({ allAdmins, onAdminUpdate, onAdminDelete }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   const handleDelete = async (id) => {
     try {
+
       await AdminApi.deleteAdmin(id);
       onAdminDelete(id);
       toast.success("Admin deleted successfully");
@@ -54,15 +67,7 @@ const AdminsTable = ({ allAdmins, onAdminUpdate, onAdminDelete }) => {
             </TableCell>
             <TableCell>
               <div className="flex space-x-2">
-                {/* <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                >
-                  <Link to={`/dashboard/admins/${admin.id}/edit`}>
-                    Edit
-                  </Link>
-                </Button> */}
+               
                 <AdminDetails admin={admin} />
                 <EditAdmin id={admin.id} onEdit={onAdminUpdate} />
                 <Button

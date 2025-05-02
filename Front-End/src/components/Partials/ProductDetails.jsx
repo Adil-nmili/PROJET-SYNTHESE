@@ -29,7 +29,7 @@ const ProductDetails = () => {
   const images = parseJsonSafely(product.images);
   
   // Add base URL to image paths
-  const imagesWithBaseUrl = images.map(img => `http://localhost:8000/${img}`);
+  const imagesWithBaseUrl = images.map(img => `${img}`);
 
   return (
     <Drawer>

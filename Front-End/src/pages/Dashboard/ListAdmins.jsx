@@ -9,14 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Loading } from "@/components/ui/loading";
 import AdminApi from "../../../service/Admins";
 import { toast } from "react-hot-toast";
 import AdminsTable from "../../components/Partials/AdminsTable";
-
+import { ADMIN_CREATE } from "../../router/Router";
+import { Search } from "lucide-react";
 export default function ListAdmins() {
   const [admins, setAdmins] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -32,9 +32,7 @@ export default function ListAdmins() {
     } catch (error) {
       console.error("Error fetching admins:", error);
       toast.error("Failed to fetch admins");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   // Filter admins based on search query
@@ -65,9 +63,7 @@ export default function ListAdmins() {
     setAdmins(admins.filter(admin => admin.id !== id));
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+     
 
   return (
     <div className="p-6 space-y-6">
@@ -79,15 +75,16 @@ export default function ListAdmins() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex justify-between items-center mb-6">
+          <div className=" relative flex justify-between items-center mb-6">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search admins..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="max-w-sm"
+              className="pl-8 bg-transparent w-1/2 dark:text-white border-slate-700"
             />
             <Button asChild>
-              <Link to="/dashboard/admins/new">Add New Admin</Link>
+              <Link to={ADMIN_CREATE}>Add New Admin</Link>
             </Button>
           </div>
 

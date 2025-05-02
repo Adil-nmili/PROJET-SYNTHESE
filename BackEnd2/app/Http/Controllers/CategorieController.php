@@ -4,69 +4,75 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategorieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $categorie = Categorie::all();
-        return response()->json($categorie);
+        $categories = Categorie::all();
+        return response()->json($categories);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $categorie = Categorie::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public'); 
+            $data['image'] = $path; 
+        }
+
+        $categorie = Categorie::create($data);
         return response()->json($categorie, 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($categorie)
+    public function show($id)
     {
-        $get_categorie = Categorie::findOrFail($categorie);
-        return response()->json($get_categorie);
-    }   
+        $categorie = Categorie::findOrFail($id);
+        return response()->json($categorie);
+    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Categorie $categorie)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request,  $categorie)
+    public function update(Request $request, $id)
     {
-        $categorie = Categorie::findOrFail($categorie);
-        $categorie->update($request->all());
+        $categorie = Categorie::findOrFail($id);
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            // First, delete old image if exists
+            if ($categorie->image && Storage::disk('public')->exists($categorie->image)) {
+                Storage::disk('public')->delete($categorie->image);
+            }
+
+            $path = $request->file('image')->store('images', 'public');
+            $data['image'] = $path;
+        }
+
+        $categorie->update($data);
+
         return response()->json($categorie);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy( $categorie)
+    public function destroy($id)
     {
-        $categorie = Categorie::findOrFail($categorie);
+        $categorie = Categorie::findOrFail($id);
+
+        if ($categorie->image && Storage::disk('public')->exists($categorie->image)) {
+            Storage::disk('public')->delete($categorie->image);
+        }
+
         $categorie->delete();
-        return response()->json(['message' => 'Categorie deleted successfully']);
+
+        return response()->json(['message' => 'Category deleted successfully']);
     }
 }
