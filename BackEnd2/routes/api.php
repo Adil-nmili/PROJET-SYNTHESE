@@ -9,6 +9,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SousCategorieController;
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -45,6 +46,7 @@ Route::put('/players/{id}', [PlayersController::class, 'update']);
 Route::delete('/players/{id}', [PlayersController::class, 'destroy']);
 Route::get('/players/{id}', [PlayersController::class, 'show']);
 Route::resource('categories', CategorieController::class);
+Route::resource('sub-categorie', SousCategorieController::class);
 Route::resource('products', ProductController::class);
 Route::resource('orders', OrderController::class);
 Route::resource('teams', TeamController::class);

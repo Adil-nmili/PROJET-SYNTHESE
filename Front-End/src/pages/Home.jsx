@@ -1,13 +1,22 @@
-import HomeSlider from "../components/Partials/HomeSlider"
-import SponsorCarousel from "../components/Partials/SponsorCarousel"
+import React from 'react';
+import HomeSlider from '../components/partials/HomeSlider';
+import SponsorCarousel from '../components/partials/SponsorCarousel';
+import SocialMediaSlider from '../components/Partials/SocialMediaSlider';
+
 
 function Home() {
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex flex-col items-center justify-center w-full gap-6">
+      {/* Slider principal */}
       <HomeSlider />
-      <SponsorCarousel/>
+
+      {/* Carrousel des sponsors */}
+      <SponsorCarousel />
+
+      {/* Slider des réseaux sociaux */}
+      <SocialMediaSlider />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
