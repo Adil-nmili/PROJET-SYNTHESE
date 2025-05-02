@@ -21,16 +21,10 @@ import OrdersPage from "../pages/Dashboard/OrdersPage";
 import Home from "../pages/Dashboard/Home";
 import Product from "../../service/Product";
 import ProductDetail from "../pages/store/ProductDetail";
-<<<<<<< HEAD
 import Players from "../pages/Dashboard/Players";
 import Teams from "../pages/Dashboard/Teams";
 import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
-=======
-import Products from "../pages/store/Products";
-import SousCategories from "../pages/Dashboard/SousCategories";
-import ListeProducts from "../components/Partials/ListeProducts";
->>>>>>> d544b537ca7d6509ec13582787089e4c01ad3b32
 // Définition des chemins
 export const LOGIN = '/login';
 export const HOME = '/';
@@ -41,11 +35,7 @@ export const DASHBOARD = '/dashboard';
 export const ADMIN = '/dashboard/admins';
 export const PRODUCT = '/dashboard/products';
 export const CATEGORIES = '/dashboard/categories';
-<<<<<<< HEAD
 export const SUBCATEGORIES = '/dashboard/sub-categories';
-=======
-export const SUBCATEGORIES = '/dashboard/souscategories';
->>>>>>> d544b537ca7d6509ec13582787089e4c01ad3b32
 export const ORDERS = '/dashboard/orders';
 export const ALLPRODUCTS = "/store/products";
 export const PRODUCT_DETAIL = '/store/product-detail';
@@ -84,7 +74,6 @@ export const router = createBrowserRouter([
         element: <DashboardLayout />, // Layout pour le dashboard
         children: [
             { path: DASHBOARD, element: <Home /> }, // Page principale pour admin
-<<<<<<< HEAD
             { path: ADMIN_CREATE, element: <AddAdmin /> }, // Ajouter un nouvel admin
             { path: ADMIN, element: <ListAdmins /> }, // Liste des admins
             { path: USER_DETAIL, element: <DetailUtilisateur /> }, // Détails des utilisateurs
@@ -98,16 +87,6 @@ export const router = createBrowserRouter([
             { path: PLAYERS_EDIT(':id'), element: <PlayerForm mode="edit" /> },
             { path: TEAMS, element: <Teams /> },
             { path: TEAMS_CREATE, element: <TeamForm /> },
-=======
-            { path: `${ADMIN}/new`, element: <AddAdmin /> }, // Ajouter un nouvel admin
-            { path: `${ADMIN}`, element: <ListAdmins /> }, // Liste des admins
-            { path: "/dashboard/users", element: <DetailUtilisateur /> }, // Détails des utilisateurs
-            { path: PRODUCT, element: <ListProducts /> },
-            { path: `${PRODUCT}/new`, element: <AddProduct /> },
-            { path: CATEGORIES, element: <Categories /> },
-            { path: SUBCATEGORIES, element: <SousCategories /> },
-            { path: ORDERS, element: <OrdersPage /> }
->>>>>>> d544b537ca7d6509ec13582787089e4c01ad3b32
         ],
     },
     {
