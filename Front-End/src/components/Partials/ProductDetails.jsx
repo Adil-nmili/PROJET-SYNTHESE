@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 
 
 
-const ProductDetails = () => {
+const ProductDetails = ({product}) => {
   // Safely parse JSON strings if they exist
   const parseJsonSafely = (jsonString) => {
     if (!jsonString) return [];
