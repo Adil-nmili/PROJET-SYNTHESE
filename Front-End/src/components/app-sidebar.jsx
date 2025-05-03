@@ -214,26 +214,15 @@ import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, ORDERS, PLAYERS, PRODUCT, P
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-<<<<<<< HEAD
                         to={SUBCATEGORIES}
                         className={` ${
                           location.pathname === SUBCATEGORIES
-=======
-                        to={"/dashboard/souscategories"}
-                        className={` ${
-                          location.pathname === "/dashboard/souscategories"
->>>>>>> d544b537ca7d6509ec13582787089e4c01ad3b32
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
                       >
-<<<<<<< HEAD
                         <FolderTree />
                         <span>Sub-categories</span>
-=======
-                        <BoxSelectIcon />
-                        <span>Sub Categorie</span>
->>>>>>> d544b537ca7d6509ec13582787089e4c01ad3b32
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
