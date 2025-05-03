@@ -44,7 +44,7 @@ export default function LoginPage() {
       const response = await login(user).then((response) => response);
       if (response.status >= 200 && response.status < 300) {
         setAuthenticated(true);
-        setAdmin(response.data);
+        // setAdmin(response.data);
         navigate("/dashboard");
       }
     } catch (error) {

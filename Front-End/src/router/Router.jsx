@@ -63,12 +63,12 @@ export const router = createBrowserRouter([
         ],
     },
     {
-        element: <StoreLayout />,
+        element: <StoreLayout />,   
         children: [
             { path: STORE, element: <Store /> },
             { path: `/store/products/:categoryName`, element: <ListeProducts /> },
             { path: PRODUCT_DETAIL, element: <ProductDetail /> },
-            { path: ALLPRODUCTS, element: <Products/> },
+            // { path: ALLPRODUCTS, element: <Products/> },
         ],
     },
     {
