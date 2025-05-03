@@ -25,6 +25,7 @@ import Players from "../pages/Dashboard/Players";
 import Teams from "../pages/Dashboard/Teams";
 import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
+import ListeProducts from "../components/Partials/ListeProducts";
 // Définition des chemins
 export const LOGIN = '/login';
 export const HOME = '/';
