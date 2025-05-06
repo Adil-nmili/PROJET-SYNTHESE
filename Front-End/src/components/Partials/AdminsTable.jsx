@@ -15,6 +15,7 @@ import AdminApi from "../../../service/Admins";
 import { EditAdmin } from "./EditAdmin";
 import AdminDetails from "./AdminDetails";
 import Loading from "./loading";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "../ui/alert-dialog";
 const AdminsTable = ({ allAdmins, onAdminUpdate, onAdminDelete }) => {
   const [loading, setLoading] = useState(true);
 
@@ -70,13 +71,31 @@ const AdminsTable = ({ allAdmins, onAdminUpdate, onAdminDelete }) => {
                
                 <AdminDetails admin={admin} />
                 <EditAdmin id={admin.id} onEdit={onAdminUpdate} />
-                <Button
-                  onClick={() => handleDelete(admin.id)}
-                  variant="destructive"
-                  size="sm"
-                >
-                  Delete
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive">Delete</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={() => handleDelete(admin.id)}
+                      > 
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </TableCell>
           </TableRow>

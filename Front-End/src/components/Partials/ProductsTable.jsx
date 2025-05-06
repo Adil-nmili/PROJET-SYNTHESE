@@ -19,6 +19,7 @@ import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PRODUCT_CREATE } from "../../router/Router";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "../ui/alert-dialog";
 
 const tableVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -83,8 +84,7 @@ const ProductsTable = () => {
     toast
       .promise(Product.delete(id), {
         loading: "Deleting product...",
-        success: (data) =>
-          `Product ${data.data.name} deleted successfully!`,
+        success: (data) => ` ${data.data.message} !`,
         error: (err) => `Could not delete product: ${err.message}`,
       })
       .then(() => {
@@ -171,12 +171,31 @@ const ProductsTable = () => {
                 <TableCell className="flex justify-end gap-2">
                   <ProductDetails product={product} />
                   <Editproduct id={product.id} onEdit={handleEdit} />
-                  <Button
-                    variant="destructive"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    Delete
-                  </Button>
+                  <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive">Delete</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete product and remove it data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={() => handleDelete(product.id)}
+                      > 
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 </TableCell>
               </motion.tr>
             ))

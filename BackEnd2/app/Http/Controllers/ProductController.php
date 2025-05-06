@@ -163,8 +163,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy( $product)
     {
-        //
+        $product = Product::findOrFail($product);
+        $product->delete();
+        return response()->json(['message' => 'Product ' . $product->name . ' deleted successfully'], 200);
     }
 }

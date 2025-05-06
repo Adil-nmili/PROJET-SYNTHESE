@@ -1,31 +1,13 @@
-import { useState, useEffect } from "react";
 import Headers from "../../components/Partials/Hearder";
 import ProductAnalytics from "../../components/Analytics/ProductAnalytics";
 import OrderAnalytics from "../../components/Analytics/OrderAnalytics";
-// import Loading from "@/components/Partials/loading";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Home = () => {
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   // Simulate loading time
-  //   const timer = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 1000);
-    
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // if (loading) {
-  //   return <Loading />;
-  // }
-
   return (
-    <div className="p-6 space-y-6">
-      <Headers title="Dashboard" />
-      
+    <div className="p-6 ">
+      <Headers title="Store Dashboard" />
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>

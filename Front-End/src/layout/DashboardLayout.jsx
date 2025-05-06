@@ -22,7 +22,7 @@ useEffect(() => {
       if (authenticated === true) {
         setTimeout(() => {
           setIsLoading(false);
-        }, 4000);
+        }, 1000);
       } else {
           navigate('/login');
       }

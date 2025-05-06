@@ -12,9 +12,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import Loading from "../../components/Partials/loading";
+import Loading from "@/components/Partials/loading";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "@/components/ui/alert-dialog";
 
 export default function UsersTable() {
   const [users, setUsers] = useState([]);
@@ -74,16 +75,15 @@ export default function UsersTable() {
       setLoading(false);
     }
   };
-console.log(users)
   const handleDelete = async (id) => {
-    try {
-      await AdminApi.deleteAdmin(id);
+    toast.promise(AdminApi.deleteAdmin(id), {
+      loading: "Deleting user...",
+      success: (data) => ` ${data.data.message} !`,
+      error: (err) => `Could not delete user: ${err.message}`,
+    })
+    .then(() => {
       setUsers(users.filter((user) => user.id !== id));
-      toast.success("User deleted successfully");
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      toast.error("Failed to delete user");
-    }
+    });
   };
 
   // Calculate pagination
@@ -196,12 +196,31 @@ console.log(users)
                     </Table>
                   </TableCell>
                   <TableCell>
-                    <Button
-                      onClick={() => handleDelete(user.id)}
-                      variant="destructive"
-                    >
-                      Supprimer
-                    </Button>
+                  <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive">Delete</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete client and remove his data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={() => handleDelete(user.id)}
+                      > 
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                   </TableCell>
                 </TableRow>
               ))

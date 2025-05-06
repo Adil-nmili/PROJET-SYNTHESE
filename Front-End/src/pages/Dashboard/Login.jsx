@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAdminContext } from "../../../api/context/AdminContext";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [user, setUser] = useState({
-    email: "adil@email.com",
-    password: "password123"
+    email: "adil@gmail.com",
+    password: "password"
   });
 
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ export default function LoginPage() {
   }, [fullText]);
 
   const checkAuthenticated = () => {
-    console.log(authenticated)
     if (authenticated === true) {
       navigate("/dashboard");
     }
@@ -41,18 +41,23 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(user).then((response) => response);
-      if (response.status >= 200 && response.status < 300) {
-        setAuthenticated(true);
-        // setAdmin(response.data);
+      toast.promise(login(user), {
+        loading: "Connecting...",
+        success: (data) => {
+          setAuthenticated(true);
+          setAdmin(data.data.user);
+          return `Welcome back ${data.data.user.first_name}`;
+        },
+        error: (err) => `Email or password incorrect`,
+      }).then(() => {
+        // setAuthenticated(true);
+        // setAdmin(data.data.user);
         navigate("/dashboard");
-      }
+      })
+      
     } catch (error) {
       console.error("Login failed:", error);
     }
-   
-
-
   };
 
   return (
