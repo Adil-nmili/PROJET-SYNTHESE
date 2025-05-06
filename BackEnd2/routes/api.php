@@ -48,6 +48,7 @@ Route::get('/players/{id}', [PlayersController::class, 'show']);
 Route::resource('categories', CategorieController::class);
 Route::resource('sub-categorie', SousCategorieController::class);
 Route::resource('products', ProductController::class);
+Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::resource('orders', OrderController::class);
 Route::resource('teams', TeamController::class);
 Route::get('/users/{userId}/orders', [OrderController::class, 'getUserOrders']);

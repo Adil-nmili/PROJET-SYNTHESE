@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
 =======
             // CategorySeeder::class,
-            ProductSeeder::class
+            // ProductSeeder::class,
             // SousCategorySeeder::class,
 >>>>>>> main
             // OrderSeeder::class,

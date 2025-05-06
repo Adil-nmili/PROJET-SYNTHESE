@@ -11,6 +11,8 @@ import AddAdmin from "../pages/Dashboard/AddAdmin"; // Page ajout admin
 import DetailUtilisateur from "../pages/Dashboard/DetailUtilisateur"; // Détails utilisateurs
 import LoginPage from "../pages/Dashboard/Login";
 import TextFillLoadingExample from "../pages/TextFillLoadingExample";
+import ListeProducts from "../components/Partials/ListeProducts";
+import Products from "../pages/store/Products";
 
 import OrdersTable from "../pages/Dashboard/OrdersTable";
 import AddProduct from "../pages/Dashboard/AddProduct";
@@ -25,6 +27,7 @@ import Players from "../pages/Dashboard/Players";
 import Teams from "../pages/Dashboard/Teams";
 import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
+import SplashScreen from "../components/Partials/SplashScreen";
 import ListeProducts from "../components/Partials/ListeProducts";
 // Définition des chemins
 export const LOGIN = '/login';
@@ -94,6 +97,8 @@ export const router = createBrowserRouter([
         path: LOGIN, // Route pour la page de login
         element: <LoginPage />, // Le composant Login pour cette route
     },
+
+      
 
 ]);
 

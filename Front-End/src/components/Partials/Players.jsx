@@ -31,11 +31,12 @@ function PlayersCoposant() {
               <div className="flex items-center justify-center gap-10">
                 {/* Image du joueur */}
                 <img
-                  src={`players/${player.image}`}
+                  src={import.meta.env.VITE_BACKEND_URL +"/"+ player.image}
                   alt={player.full_name}
                   className="w-96 h-100 object-contain"
                 />
-                
+                {/* {console.log("Image URL:", player.image)} */}
+
                 {/* Carte d'informations */}
                 <Card className="bg-[#816D98] text-white p-6 rounded-lg shadow-lg w-96">
                   <h2 className="text-center text-3xl font-bold text-[#FDBB30] mb-4">

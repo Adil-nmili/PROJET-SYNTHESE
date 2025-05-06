@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "../ui/button";
 
+
+
 const ProductDetails = ({product}) => {
   // Safely parse JSON strings if they exist
   const parseJsonSafely = (jsonString) => {
@@ -36,9 +38,9 @@ const ProductDetails = ({product}) => {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Product Details</DrawerTitle>
+          <DrawerTitle>Product Details {product.id}</DrawerTitle>
           <DrawerDescription>
-            View detailed information about this product
+            View detailed information about this product 
           </DrawerDescription>
         </DrawerHeader>
         <div className="w-full mx-auto grid grid-cols-1 gap-4 p-4">

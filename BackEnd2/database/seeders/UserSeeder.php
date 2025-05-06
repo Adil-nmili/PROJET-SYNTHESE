@@ -15,29 +15,29 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        // Create 20 users
-        for ($i = 0; $i < 20; $i++) {
-            $firstName = $faker->firstName;
-            $lastName = $faker->lastName;
+        // // Create 20 users
+        // for ($i = 0; $i < 20; $i++) {
+        //     $firstName = $faker->firstName;
+        //     $lastName = $faker->lastName;
             
             User::create([
-                'name' => $firstName . ' ' . $lastName,
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $faker->unique()->safeEmail,
-                'matricule' => $faker->unique()->bothify('MAT-####-????'),
+                'name' => 'Nouhaila EL ansari',
+                'first_name' => 'Nouhaila',
+                'last_name' => 'EL ansari',
+                'email' => 'nouhaila@email.com',
+                'matricule' => '123456',
                 'password' => Hash::make('password'),
-                'phone' => $faker->phoneNumber,
-                'address' => $faker->streetAddress,
-                'city' => $faker->city,
-                'country' => $faker->country,
-                'postal_code' => $faker->postcode,
-                'role' => $faker->randomElement(['admin', 'client']),
+                'phone' => '1234567890',
+                'address' => '123 Main St',
+                'city' => 'Ankara',
+                'country' => 'Turkey',
+                'postal_code' => '12345',
+                'role' => 'admin',
             ]);
             
-            $this->command->info("Created user: {$firstName} {$lastName}");
-        }
+            // $this->command->info("Created user: {$firstName} {$lastName}");
+        
     }
 }

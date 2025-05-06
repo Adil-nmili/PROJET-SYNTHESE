@@ -5,6 +5,9 @@ import { motion } from 'framer-motion';
 
 // import { useEffect, useState } from 'react';
 import PlayersCoposant from '../components/Partials/Players';
+import { useEffect, useState } from 'react';
+import SplashScreen from '../components/Partials/SplashScreen';
+import InterviewCoposant from '../components/Partials/InterviewCoposant';
 
 function About() {
   const events = [
@@ -14,14 +17,28 @@ function About() {
     { date: "2000s", text: "Dominance with Kobe Bryant & Shaquille O’Neal." },
     { date: "2020", text: "17th NBA title with LeBron James & Anthony Davis." },
   ];
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // SplashScreen dure 3 secondes
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 9000
+  );
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <SplashScreen onFinish={() => setLoading(false)} />;
+  }
   
   
   return (
     <div className='bg-[#552582]'>
-      <div className="mt-16">
-        <img src="vedioImage.png" alt="vedio" className="w-full h-screen object-cover" />
-      </div>
-      <div className="text-white p-6">
+      
+     
+      <div className="text-white px-6 py-18 md:px-20 md:py-20">
         <h1 className="font-bebas text-5xl text-center uppercase font-bold m-4">
           What is the <span className='bg-gradient-to-r from-[#FDBB30] to-[#A57468] bg-clip-text text-transparent'>Los Angeles Lakers</span>
         </h1>
@@ -33,14 +50,14 @@ function About() {
         </p>
          {/* Timeline */}
          <div className="relative w-full ">
-          <div className="max-w-6xl mx-auto px-4">
+          <div className="max-w-6xl mx-auto ">
             {/* Ligne verticale */}
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-4 border-white"></div>
 
             {events.map((event, index) => (
               <motion.div
                 key={index}
-                className={`mb-16 flex justify-between items-center w-full ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}
+                className={`mb-10 flex justify-between items-center w-full ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}
                 initial={{ opacity: 0, y: 50 }} // Initial state: opaque and slightly down
                 whileInView={{ opacity: 1, y: 0 }}  // Final state: fully visible and in place
                 viewport={{ once: true, amount: 0.5 }}  // Trigger animation when element is 50% in view
@@ -70,26 +87,38 @@ function About() {
           </div>
         </div>
       </div>
-      <div className="flex justify-between ">
-        <img src="basketball2.png"  className='float-left' />
-        <img src="basketball.png" className='float-right' />
-      </div>
-      <div>
-        <img src="image.webp" alt="Lakers Teams" />
-      </div>
-      <div className='h-screen'>
+      <div className="relative w-full ">
+  {/* Image à gauche */}
+  <img
+    src="basketball2.png"
+    className="absolute left-0 top-1/2 transform -translate-y-1/2 w-28 h-28 object-contain"
+    alt="Basketball Left"
+  />
+
+  {/* Image à droite - bien collée au bord droit */}
+  <img
+    src="basketball2.png"
+    className="absolute right-0 top-1/2 transform -translate-y-1/2 w-28 h-28 object-contain"
+    alt="Basketball Right"
+  />
+
+  {/* Contenu centré */}
+  <div className="max-w-4xl mx-auto text-center">
+    <h1 className="font-bebas text-5xl text-white uppercase font-bold mb-6">
+      Players
+    </h1>
+    <PlayersCoposant />
+  </div>
+</div>
+
+      
+      <div className='py-10'>
                 <h1 className="font-bebas text-5xl text-center text-white uppercase font-bold m-4">
-                    Players
+                    interview
                   </h1>
                
-                < PlayersCoposant/>
-  
-
-                
+                < InterviewCoposant/> 
       </div>
-        <div className='flex justify-center items-center'>
-    <img src="background.png" alt="" />
-  </div>
     </div>
   );
 }
