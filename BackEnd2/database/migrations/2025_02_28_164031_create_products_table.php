@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('quantity')->default(0);
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('sousCategorie_id')->constrained('sous_categories')->onDelete('cascade');
             $table->text('sizes')->nullable();
             $table->text('colors')->nullable();
             $table->text('images')->nullable();

@@ -1,0 +1,29 @@
+.slider {
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .slide-track {
+    display: flex;
+    width: calc(250px * 15); /* adapte selon ton nombre */
+    animation: scroll 30s linear infinite;
+  }
+  
+  .slider:hover .slide-track {
+    animation-play-state: paused;
+  }
+  
+  .slide {
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  

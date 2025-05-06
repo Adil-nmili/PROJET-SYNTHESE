@@ -7,13 +7,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import { EditCategorie } from "./EditCategorie";
 import Categorie from "../../../service/Categorie";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Alert from "./Alert";
-import { Loading } from "../ui/loading";
+import Loading from "./loading";
 import { motion } from "framer-motion";
 
 const tableVariants = {
@@ -78,7 +88,7 @@ const CategoriesTable = () => {
         <TableRow>
           <TableHead className="w-[100px]">#ID</TableHead>
           <TableHead>Name</TableHead>
-          <TableHead>Description</TableHead>
+          <TableHead className="truncate">Description</TableHead>
           <TableHead className="text-center">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -97,20 +107,39 @@ const CategoriesTable = () => {
               initial="hidden"
               animate="visible"
               variants={tableVariants}
-              className="border border-gray-300"
+             
             >
               <TableCell className="font-medium">{category.id}</TableCell>
               <TableCell>{category.name}</TableCell>
               <TableCell>{category.description}</TableCell>
               <TableCell className="flex justify-end gap-2">
                 <EditCategorie id={category.id} onEdit={handleEdit} />
-                <Button
-                  variant={"destructive"}
-                  onClick={() => handleDelete(category.id)}
-                >
-                  Delete
-                </Button>
-                <Alert id={category.id} />
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive">Delete</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleDelete(category.id)}
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                {/* <Alert id={category.id} /> */}
               </TableCell>
             </motion.tr>
           ))

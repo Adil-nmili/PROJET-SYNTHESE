@@ -11,11 +11,20 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['categorie'])->latest()->get();
+        $query = Product::with(['categorie'])->latest();
+    
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+    
+        $products = $query->get();
+    
         return response()->json($products);
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -154,8 +163,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy( $product)
     {
-        //
+        $product = Product::findOrFail($product);
+        $product->delete();
+        return response()->json(['message' => 'Product ' . $product->name . ' deleted successfully'], 200);
     }
 }

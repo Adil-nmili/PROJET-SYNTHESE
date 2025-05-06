@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SousCategorieController;
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -38,7 +41,19 @@ Route::post('/admins', [UsersController::class,'store']);
 //     AdminController::class,
 // ]);
 Route::get('/players', [PlayersController::class, 'index']);
+Route::post('/players', [PlayersController::class, 'store']);
+Route::put('/players/{id}', [PlayersController::class, 'update']);
+Route::delete('/players/{id}', [PlayersController::class, 'destroy']);
+Route::get('/players/{id}', [PlayersController::class, 'show']);
 Route::resource('categories', CategorieController::class);
+Route::resource('sub-categorie', SousCategorieController::class);
 Route::resource('products', ProductController::class);
 Route::resource('orders', OrderController::class);
+Route::resource('teams', TeamController::class);
 Route::get('/users/{userId}/orders', [OrderController::class, 'getUserOrders']);
+Route::get('/sub-categories', [SubCategoryController::class, 'index']);
+Route::get('/sub-categories/{id}', [SubCategoryController::class, 'show']);
+Route::post('/sub-categories', [SubCategoryController::class, 'store']);
+Route::put('/sub-categories/{id}', [SubCategoryController::class, 'update']);
+Route::delete('/sub-categories/{id}', [SubCategoryController::class, 'destroy']);
+Route::get('/sub-categories/category/{categoryId}', [SubCategoryController::class, 'getByCategory']);

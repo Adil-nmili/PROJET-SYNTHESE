@@ -76,6 +76,6 @@ class UsersController extends Controller
     {
         $admin = User::findorFail($id);
         $admin->delete();
-        return response()->json(['message' => 'Admin deleted successfully']);
+        return response()->json(['message' => 'Admin ' . $admin->first_name . ' ' . $admin->last_name    . ' deleted successfully']);
     }
 }

@@ -9,10 +9,15 @@ class Categorie extends Model
    protected $fillable = [
     'name',
     'description',
+    'image'
    ];
 
    public function products()
    {
     return $this->hasMany(Product::class);
+   }
+   public function categories()
+   {
+      return $this->hasMany(SousCategorie::class);
    }
 }

@@ -14,8 +14,8 @@ function ProductDetail() {
     };
 
     return (
-        <div className='flex-row'>
-            <div className="max-w-6xl mx-auto bg-white rounded-xl flex flex-col md:flex-row mt-20">
+        <div>
+            <div className="max-w-6xl mx-auto bg-white rounded-xl flex flex-col md:flex-row mt-20 shadow-2xl">
                 <div className="flex-1 flex items-center justify-center p-6">
                     <img src={jerseyImg} alt="Lakers Jersey" className="max-h-96" />
                 </div>
@@ -62,9 +62,9 @@ function ProductDetail() {
                         <div>
                             <label className="block text-gray-500 mb-1">Quantity</label>
                             <div className="flex items-center border px-2 py-1 rounded-md w-fit space-x-4">
-                                <button onClick={decrement} className="text-lg">-</button>
+                                <button onClick={decrement} className="text-lg cursor-pointer">-</button>
                                 <span>{quantity}</span>
-                                <button onClick={increment} className="text-lg">+</button>
+                                <button onClick={increment} className="text-lg cursor-pointer">+</button>
                             </div>
                         </div>
 

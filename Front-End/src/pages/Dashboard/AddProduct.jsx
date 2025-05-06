@@ -51,7 +51,7 @@ function AddProduct() {
     "Orange",
   ];
   const [imagePreviews, setImagePreviews] = useState([]);
-  console.log(product.images)
+  console.log(product.images);
 
   const handleSizeChange = useCallback((size) => {
     event.preventDefault();
@@ -92,27 +92,28 @@ function AddProduct() {
       images: prevState.images.filter((_, i) => i !== index), // Remove from state
     }));
 
-    setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index)); // Remove preview
+    setImagePreviews((prevPreviews) =>
+      prevPreviews.filter((_, i) => i !== index)
+    ); // Remove preview
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    toast.promise(
-      Product.create(product),
-      {
-        loading: 'Creating product... ',
-        success: (data) => `Product ${data.data.name} created successfully!`,
-        error: (err) => `Could not create product: ${err.message}`,
-      }
-    )
+    toast.promise(Product.create(product), {
+      loading: "Creating product... ",
+      success: (data) => `Product ${data.data.name} created successfully!`,
+      error: (err) => `Could not create product: ${err.message}`,
+    });
   };
 
   return (
     <div className="px-4 flex flex-col gap-4 justify-center py-4 items-center">
       <Hearder title={"Add Product"} />
-      <form className="w-5/6 bg-white dark:bg-slate-950 border rounded-2xl p-4 grid grid-cols-2 gap-4 shadow-xl" 
-      enctype="multipart/form-data"
-      onSubmit={handleSubmit}>
+      <form
+        className="w-5/6 bg-white dark:bg-slate-950 border rounded-2xl p-4 grid grid-cols-2 gap-4 shadow-xl"
+        enctype="multipart/form-data"
+        onSubmit={handleSubmit}
+      >
         <div className="grid grid-cols-4 items-center ">
           <Label htmlFor="name">Product name:</Label>
           <Input
@@ -152,10 +153,10 @@ function AddProduct() {
           <Label htmlFor="email">Product categorie:</Label>
           <Select
             onValueChange={(value) =>
-              setProduct({ ...product, category_id: value })
+              setProduct({ ...product, category_id: Number(value) })
             }
           >
-            <SelectTrigger className=" w-[300px]">
+            <SelectTrigger className="w-[300px]">
               <SelectValue placeholder="Select a categorie" />
             </SelectTrigger>
             <SelectContent>
@@ -163,7 +164,10 @@ function AddProduct() {
                 <SelectLabel>Categories</SelectLabel>
                 {categories &&
                   categories.map((categorie) => (
-                    <SelectItem key={categorie.id} value={categorie.id}>
+                    <SelectItem
+                      key={categorie.id}
+                      value={categorie.id.toString()}
+                    >
                       {categorie.name}
                     </SelectItem>
                   ))}
@@ -174,69 +178,84 @@ function AddProduct() {
         <div className="grid grid-cols-4 gap-1 items-center ">
           <Label htmlFor="sizes">Sizes:</Label>
           <div className="col-span-3 grid grid-cols-4 gap-1">
-          {availableSizes.map((size) => (
-            <Label key={size} className="flex items-center space-x-2">
-              <Checkbox
-                type="checkbox"
-                checked={product.sizes.includes(size)}
-                onCheckedChange={(e) => handleSizeChange(size)}
-                className="w-4 h-4"
-              />
-              <span>{size}</span>
-            </Label>
-          ))}
+            {availableSizes.map((size) => (
+              <Label key={size} className="flex items-center space-x-2">
+                <Checkbox
+                  type="checkbox"
+                  checked={product.sizes.includes(size)}
+                  onCheckedChange={(e) => handleSizeChange(size)}
+                  className="w-4 h-4"
+                />
+                <span>{size}</span>
+              </Label>
+            ))}
           </div>
         </div>
         <div className="grid grid-cols-4 gap-1 items-center  ">
-          <Label htmlFor="colors" className="col-span-1">colors:</Label>
+          <Label htmlFor="colors" className="col-span-1">
+            colors:
+          </Label>
           <div className="col-span-3 grid grid-cols-4 gap-1 ">
-          {availableColors.map((color) => (
-            <Label key={color} className="flex items-center space-x-2">
-              <Checkbox
-                type="checkbox"
-                checked={product.colors.includes(color)}
-                onCheckedChange={(e) => handleColorChange(color)}
-                className="w-4 h-4"
-              />
-              <span>{color}</span>
-            </Label>
-          ))}
+            {availableColors.map((color) => (
+              <Label key={color} className="flex items-center space-x-2">
+                <Checkbox
+                  type="checkbox"
+                  checked={product.colors.includes(color)}
+                  onCheckedChange={(e) => handleColorChange(color)}
+                  className="w-4 h-4"
+                />
+                <span>{color}</span>
+              </Label>
+            ))}
           </div>
         </div>
         <div className="grid grid-cols-4 items-center ">
-        <Label htmlFor="quantity">Quantity:</Label>
+          <Label htmlFor="quantity">Quantity:</Label>
           <Input
             type="number"
             name="quantity"
             placeholder="Product quantity..."
             className=" col-span-3"
             id="quantity"
-            onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
+            onChange={(e) =>
+              setProduct({ ...product, quantity: e.target.value })
+            }
           />
         </div>
         <div className="grid grid-cols-4 items-center ">
-        <Label htmlFor="images">Images:</Label>
+          <Label htmlFor="images">Images:</Label>
           <Input
             type="file"
             name="images[]"
             className=" col-span-3"
             id="images"
-           accept="image/*"
-           onChange={handleImageChange}
+            accept="image/*"
+            onChange={handleImageChange}
           />
         </div>
         <div className="grid grid-cols-4 items-center ">
-        <Label htmlFor="images">Product description:</Label>
-          <Textarea className=" col-span-3" placeholder="Product description..."  value={product.description} onChange={(e) => setProduct({ ...product, description: e.target.value })} name='description' id="description">
-
-          </Textarea>
+          <Label htmlFor="images">Product description:</Label>
+          <Textarea
+            className=" col-span-3"
+            placeholder="Product description..."
+            value={product.description}
+            onChange={(e) =>
+              setProduct({ ...product, description: e.target.value })
+            }
+            name="description"
+            id="description"
+          ></Textarea>
         </div>
         {/* Image Preview Section with Delete Buttons */}
-       <div className="grid grid-cols-4  gap-2">
+        <div className="grid grid-cols-4  gap-2">
           {imagePreviews.map((src, index) => (
             <div key={index} className="relative group">
-              <img src={src} alt="Preview" className="w-20 h-20 object-cover rounded-lg shadow" />
-              
+              <img
+                src={src}
+                alt="Preview"
+                className="w-20 h-20 object-cover rounded-lg shadow"
+              />
+
               {/* ❌ X Button to Remove Image */}
               <Button
                 type="button"
@@ -258,7 +277,6 @@ function AddProduct() {
         </div>
       </form>
       {/* Image Preview Section */}
-       
     </div>
   );
 }

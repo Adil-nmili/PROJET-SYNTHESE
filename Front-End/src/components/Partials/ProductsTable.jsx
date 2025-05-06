@@ -14,8 +14,12 @@ import { motion } from "framer-motion";
 import Product from "../../../service/Product";
 import { Editproduct } from "./EditProduct";
 import ProductDetails from "./ProductDetails";
-import { Loading } from "../ui/loading";
-// import { Editproduct } from "./EditProduct";
+import Loading from "./loading";
+import { Input } from "../ui/input";
+import { Search } from "lucide-react";
+import { Link } from "react-router-dom";
+import { PRODUCT_CREATE } from "../../router/Router";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "../ui/alert-dialog";
 
 const tableVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -32,21 +36,42 @@ const ProductsTable = () => {
   const [itemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Fetch products when the component mounts
+  
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  // Calculate pagination when products change
+ 
   useEffect(() => {
-    setTotalPages(Math.ceil(products.length / itemsPerPage));
-  }, [products, itemsPerPage]);
+    setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
+    setCurrentPage(1); // Reset to first page when search changes
+  }, [filteredProducts, itemsPerPage]);
+
+  useEffect(() => {
+    // Filter products based on search query
+    if (searchQuery.trim() === "") {
+      setFilteredProducts(products);
+    } else {
+      const query = searchQuery.toLowerCase();
+      const filtered = products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(query) ||
+          product.product_code.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query) ||
+          (product.categorie?.name && product.categorie.name.toLowerCase().includes(query))
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, products]);
 
   const fetchProducts = async () => {
     try {
       const res = await Product.getAll();
       setProduct(res.data);
+      setFilteredProducts(res.data);
     } catch (error) {
       console.error("Failed to fetch products:", error);
       toast.error("Failed to fetch products");
@@ -59,8 +84,7 @@ const ProductsTable = () => {
     toast
       .promise(Product.delete(id), {
         loading: "Deleting product...",
-        success: (data) =>
-          `Product ${data.data.name} deleted successfully!`,
+        success: (data) => ` ${data.data.message} !`,
         error: (err) => `Could not delete product: ${err.message}`,
       })
       .then(() => {
@@ -82,20 +106,40 @@ const ProductsTable = () => {
   // Get current products for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+  const currentProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
-    <div className="flex flex-col items-center">
-      <Table className="mt-4 w-full lg:w-[800px] mx-auto">
-        <TableCaption>A list of Products.</TableCaption>
-        <TableHeader>
+    <div className="flex flex-col items-start border-1 shadow-md dark:border-slate-700 border-slate-300 rounded-md p-4 dark:bg-slate-950 bg-white">
+      <div className="w-full border-b-2 border-slate-700 pb-4 mb-4 relative">
+        <div className="flex flex-col items-start mb-4">
+        <h1 className="text-black dark:text-white text-xl font-semibold">Products List</h1>
+        <p className="dark:text-gray-400 text-gray-800 text-sm">Search for a product by name, code, or description</p>
+        </div>
+        <div className="flex flex-row items-center justify-between">
+        <div className="relative w-1/2">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search products by name, code, or description..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-8 bg-transparent dark:text-white border-slate-700"
+          />
+        </div>
+        <Link to={PRODUCT_CREATE}>
+        <Button variant="default">Add Product</Button>
+        </Link>
+        </div>
+      </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Table className="mt-4 w-full lg:w-[800px] mx-auto">
+          <TableCaption>A list of Products.</TableCaption>
+          <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Product code</TableHead>
             <TableHead>Product name</TableHead>
@@ -108,7 +152,7 @@ const ProductsTable = () => {
           {currentProducts.length === 0 ? (
             <TableRow>
               <TableCell colSpan={5} className="h-24 text-center">
-                No Products found.
+                {searchQuery ? "No products match your search." : "No Products found."}
               </TableCell>
             </TableRow>
           ) : (
@@ -127,22 +171,41 @@ const ProductsTable = () => {
                 <TableCell className="flex justify-end gap-2">
                   <ProductDetails product={product} />
                   <Editproduct id={product.id} onEdit={handleEdit} />
-                  <Button
-                    variant="destructive"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    Delete
-                  </Button>
+                  <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive">Delete</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete product and remove it data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={() => handleDelete(product.id)}
+                      > 
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 </TableCell>
               </motion.tr>
             ))
           )}
         </TableBody>
       </Table>
-      
+      )}
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-4 gap-2">
+        <div className="flex mx-auto justify-center mt-4 gap-2">
           <Button 
             variant="outline" 
             onClick={() => paginate(currentPage - 1)}

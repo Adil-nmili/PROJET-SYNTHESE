@@ -8,12 +8,10 @@ const SiteLayout = () => {
   return (
     <div className="flex flex-col min-h-screen"> 
       <WebsiteNav />
-
       <main className="flex-grow flex flex-col items-center  justify-center relative ">
         <Outlet /> 
       <FooterNav/>
       </main>
-
       <Footer />
     </div>
   );

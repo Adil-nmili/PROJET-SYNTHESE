@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('weight');
             $table->text('championships')->nullable();
             $table->string('image'); // URL de l'image
+            
             $table->timestamps();
         });
     }

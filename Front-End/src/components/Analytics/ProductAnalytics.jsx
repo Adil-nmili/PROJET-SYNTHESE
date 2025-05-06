@@ -3,7 +3,7 @@ import StatCard from "./StatCard";
 import { Package, TrendingUp, AlertTriangle, BarChart } from "lucide-react";
 import Product from "../../../service/Product";
 import Order from "../../../service/Order";
-import { Loading } from "../ui/loading";
+import Loading from "../Partials/loading";
 
 const ProductAnalytics = () => {
   const [loading, setLoading] = useState(true);

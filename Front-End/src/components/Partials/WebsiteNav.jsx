@@ -7,7 +7,7 @@ const WebsiteNav = () => {
   const [showSearch, setShowSearch] = useState(false);
 
   return (
-    <nav className="bg-[#552582] text-white p-4 fixed top-0 left-0 right-0 z-50 h-20 flex justify-between items-center px-6">
+    <nav className="bg-purple-950 text-white p-4 fixed top-0 left-0 right-0 z-50 h-20 flex justify-between items-center px-6">
       <img src="logo2.png" alt="Logo" className="h-10" />
       <div className="flex items-center gap-2">
         {showSearch && (
