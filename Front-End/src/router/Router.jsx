@@ -28,7 +28,7 @@ import Teams from "../pages/Dashboard/Teams";
 import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
 import SplashScreen from "../components/Partials/SplashScreen";
-import ListeProducts from "../components/Partials/ListeProducts";
+import ProductDetails2 from "../components/Partials/ProductDetails2";
 // Définition des chemins
 export const LOGIN = '/login';
 export const HOME = '/';
@@ -41,8 +41,9 @@ export const PRODUCT = '/dashboard/products';
 export const CATEGORIES = '/dashboard/categories';
 export const SUBCATEGORIES = '/dashboard/sub-categories';
 export const ORDERS = '/dashboard/orders';
+
 export const ALLPRODUCTS = "/store/products";
-export const PRODUCT_DETAIL = '/store/product-detail';
+export const PRODUCT_DETAIL = (id) => `/store/product-detail/${id}`;
 export const PRODUCT_CREATE = '/dashboard/products/create';
 export const TEXT_FILL_LOADING = '/text-fill-loading';
 export const ADMIN_CREATE = '/dashboard/admins/new';
@@ -69,9 +70,11 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,   
         children: [
             { path: STORE, element: <Store /> },
-            { path: `/store/products/:categoryName`, element: <ListeProducts /> },
-            { path: PRODUCT_DETAIL, element: <ProductDetail /> },
-            // { path: ALLPRODUCTS, element: <Products/> },
+            // { path: ProductsList, element: <ListeProducts /> },
+            //  { path: PRODUCT_DETAIL(':id'), element: <ProductDetail /> },
+             { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
+            { path: ALLPRODUCTS, element: <Products/> },
+
         ],
     },
     {

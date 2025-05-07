@@ -57,7 +57,7 @@ class ProductSeeder extends Seeder
                 'price' => 50.00,
                 'quantity' => 50,
                 'category_id' => 1,
-                'sousCategorie_id' => 1,
+                'sub_category_id' => 1,
                 'sizes' => '["M", "L"]',
                 'colors' => '["Vert", "Noir"]',
                 'images' => '["https://lakersstore.com/cdn/shop/products/AR4887-109-a_7b6985a3-fd51-4bef-a8c8-2c9f25cebf07.png?v=1611786257&width=1080", "https://lakersstore.com/cdn/shop/products/AR4887-109-b_838454a3-2868-4d51-9433-53e2a107f0ac.png?v=1611786260&width=1800"]',

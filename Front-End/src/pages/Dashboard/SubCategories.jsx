@@ -4,7 +4,6 @@ import Headers from "@/components/Partials/Hearder";
 import SubCategoriesTable from "@/components/Partials/SubCategoriesTable";
 import SubCategoryForm from "@/components/Partials/SubCategoryForm";
 import Loading from "../../components/Partials/loading";
-import Categorie from "../../../service/Categorie";
 import {
   Select,
   SelectContent,
@@ -15,13 +14,16 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 
+import SubCategoriesApi from "../../../service/SubCategorie";
+
+
 const SubCategories = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
-    Categorie.getAll().then((res) => {
+    SubCategoriesApi.getAll().then((res) => {
       setCategories(res.data);
       setLoading(false);
     });

@@ -1,14 +1,15 @@
   import React, { useState, useEffect } from 'react';
   import { ArrowRight } from 'lucide-react';
-  import { useNavigate } from "react-router-dom";
+  import { useNavigate,Link } from "react-router-dom";
   import axios from 'axios';
+import { Button } from '../ui/button';
+import { ALLPRODUCTS } from '../../router/Router';
 
   function StoreProduct() {
 
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
 
-    // Fetch categories depuis ton API Laravel
     useEffect(() => {
       axios.get('http://127.0.0.1:8000/api/categories')
         .then(response => {
@@ -22,9 +23,9 @@
     const handleCategoryClick = (categoryName) => {
       navigate(`/store/products/${categoryName.toLowerCase()}`);
     };
-    const handleSeeMoreCategories = () => {
-      navigate('/store/products'); // <-- ou l'URL que tu veux pour "voir toutes les catégories"
-    };
+    // const handleSeeMoreCategories = () => {
+    //   navigate('/store/products'); 
+    // };
 
     return (
       <div>
@@ -34,11 +35,12 @@
           <div className="flex flex-col items-start gap-4 max-w-sm">
             <h2 className="text-3xl font-extrabold text-gray-800">Best Selling Jersey</h2>
             <p className="text-lg text-gray-600">Los Angeles Lakers LeBron James #23 Icon Jersey</p>
-            <button onClick={handleSeeMoreCategories}  className="group  bg-[#7e57c2] flex gap-2 text-white px-6 py-3 rounded-full hover:bg-amber-50 hover:text-black transition">
+            <Link to={ALLPRODUCTS}>
+            <Button  className="group  bg-[#7e57c2] flex gap-2 text-white px-6 py-3 rounded-full hover:bg-amber-50 hover:text-black transition">
             See more
             <ArrowRight size={24} className="text-white transition group-hover:text-black" />
-          </button>
-
+          </Button>
+          </Link>
           </div>
 
           {/* Premier produit */}

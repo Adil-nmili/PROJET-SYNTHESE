@@ -111,7 +111,7 @@ const ProductsTable = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-
+console.log(currentProducts)
   return (
     <div className="flex flex-col items-start border-1 shadow-md dark:border-slate-700 border-slate-300 rounded-md p-4 dark:bg-slate-950 bg-white">
       <div className="w-full border-b-2 border-slate-700 pb-4 mb-4 relative">
@@ -145,6 +145,7 @@ const ProductsTable = () => {
             <TableHead>Product name</TableHead>
             <TableHead>Product description</TableHead>
             <TableHead>Categorie</TableHead>
+            <TableHead>Sous categorie</TableHead>
             <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -165,9 +166,10 @@ const ProductsTable = () => {
                 variants={tableVariants}
               >
                 <TableCell className="font-medium">{product.product_code}</TableCell>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{product.description}</TableCell>
-                <TableCell>{product.categorie?.name}</TableCell>
+                <TableCell className="truncate-cell">{product.name}</TableCell>
+                <TableCell className="truncate-cell">{product.description}</TableCell>
+                <TableCell>{product.categories?.name}</TableCell>
+                <TableCell>{product.sous_categories?.name}</TableCell>
                 <TableCell className="flex justify-end gap-2">
                   <ProductDetails product={product} />
                   <Editproduct id={product.id} onEdit={handleEdit} />

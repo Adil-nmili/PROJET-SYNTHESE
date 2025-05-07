@@ -13,16 +13,10 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::with(['categorie'])->latest();
+        $query = Product::with(['categories', 'sousCategories'])->latest();
+   
     
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where('name', 'like', '%' . $search . '%');
-        }
-    
-        $products = $query->get();
-    
-        return response()->json($products);
+        return response()->json($query->get());
     }
     
 

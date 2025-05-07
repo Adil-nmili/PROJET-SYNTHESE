@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import SubCategory from "../../../service/SubCategory";
+import SubCategoriesApi from "../../../service/SubCategorie";
 import Categorie from "../../../service/Categorie";
 import {
   Select,
@@ -43,7 +43,7 @@ const SubCategoryForm = () => {
       formData.append("image", subCategory.image);
     }
 
-    const state = toast.promise(SubCategory.create(formData), {
+    const state = toast.promise(SubCategoriesApi.create(formData), {
       loading: "Creating sub-category...",
       success: (data) => `Sub-category ${data.data.name} created successfully!`,
       error: (err) => `Could not create sub-category: ${err.message}`,

@@ -1,7 +1,7 @@
 import { axiosClient } from "../api/axios"
 
 
-const SubCategories = {
+const SubCategoriesApi = {
   
     getCSRFToken: async () => {
         return await axiosClient.get("/sanctum/csrf-cookie")
@@ -24,4 +24,4 @@ const SubCategories = {
 
 }
 
-export default SubCategories
+export default SubCategoriesApi

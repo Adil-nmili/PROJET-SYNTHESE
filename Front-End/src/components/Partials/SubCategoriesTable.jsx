@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import { EditSubCategory } from "./EditSubCategory";
-import SubCategory from "../../../service/SubCategory";
+import SubCategoriesApi from "../../../service/SubCategorie";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Loading from "./loading";
@@ -45,7 +45,7 @@ const SubCategoriesTable = ({ selectedCategory }) => {
 
   const fetchSubCategories = async () => {
     try {
-      const res = await SubCategory.getAll();
+      const res = await SubCategoriesApi.getAll();
       setData(res.data);
     } catch (error) {
       console.error("Failed to fetch sub-categories:", error);

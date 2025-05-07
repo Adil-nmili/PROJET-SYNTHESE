@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import SubCategory from "../../../service/SubCategory";
+import SubCategoriesApi from "../../../service/SubCategorie";
 import Categorie from "../../../service/Categorie";
 
 export function EditSubCategory({ id, onEdit }) {
@@ -37,7 +37,7 @@ export function EditSubCategory({ id, onEdit }) {
   }, [id]);
 
   const fetchData = async () => {
-    const res = await SubCategory.getById(id);
+    const res = await SubCategoriesApi.getById(id);
     setSubCategory(res.data);
     const categoriesRes = await Categorie.getAll();
     setCategories(categoriesRes.data);
@@ -55,7 +55,7 @@ export function EditSubCategory({ id, onEdit }) {
     }
 
     toast.promise(
-      SubCategory.update(id, formData),
+      SubCategoriesApi.update(id, formData),
       {
         loading: "Updating sub-category...",
         success: (data) => {

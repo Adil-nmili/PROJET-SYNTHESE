@@ -22,9 +22,14 @@ class Product extends Model
         "images"
     ];
 
-    public function categorie()
+    public function categories()
     {
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Categorie::class, 'category_id');
+    }
+
+    public function sousCategories()
+    {
+        return $this->belongsTo(SousCategorie::class, 'sousCategorie_id');
     }
 
     public function orderItems()

@@ -22,7 +22,7 @@ const Product =  {
     return axiosClient.delete(`/api/products/${id}`)
   },
   getById: async (id) => {
-    return axiosClient.get(`/api/products/${id}/edit`)
+    return axiosClient.get(`/api/products/${id}`)
   }
 }
 
