@@ -22,7 +22,9 @@ class UserSeeder extends Seeder
         //     $firstName = $faker->firstName;
         //     $lastName = $faker->lastName;
             
-            User::create([
+            User::updateOrCreate(
+                ['phone' => '1234567890'],
+                [
                 'name' => 'Nouhaila EL ansari',
                 'first_name' => 'Nouhaila',
                 'last_name' => 'EL ansari',

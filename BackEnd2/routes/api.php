@@ -10,6 +10,7 @@ use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SousCategorieController;
+use App\Http\Controllers\CartController;
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -58,3 +59,11 @@ Route::post('/sub-categories', [SubCategoryController::class, 'store']);
 Route::put('/sub-categories/{id}', [SubCategoryController::class, 'update']);
 Route::delete('/sub-categories/{id}', [SubCategoryController::class, 'destroy']);
 Route::get('/sub-categories/category/{categoryId}', [SubCategoryController::class, 'getByCategory']);
+// Route::get('/cart', [CartController::class, 'index']);        
+// Route::post('/cart', [CartController::class, 'store']);       
+// Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+Route::get('/cart', [CartController::class, 'index']);
+Route::post('/cart/add', [CartController::class, 'add']);
+Route::put('/cart/update/{itemId}', [CartController::class, 'updateQuantity']);
+Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove']);
+Route::delete('/cart/clear', [CartController::class, 'clear']);

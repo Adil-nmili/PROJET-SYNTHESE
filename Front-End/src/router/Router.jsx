@@ -11,8 +11,9 @@ import AddAdmin from "../pages/Dashboard/AddAdmin"; // Page ajout admin
 import DetailUtilisateur from "../pages/Dashboard/DetailUtilisateur"; // Détails utilisateurs
 import LoginPage from "../pages/Dashboard/Login";
 import TextFillLoadingExample from "../pages/TextFillLoadingExample";
-import ListeProducts from "../components/Partials/ListeProducts";
 import Products from "../pages/store/Products";
+// import Cart from '../components/Partials/Cart';
+import Cart from '../pages/store/Cart';
 
 import OrdersTable from "../pages/Dashboard/OrdersTable";
 import AddProduct from "../pages/Dashboard/AddProduct";
@@ -41,6 +42,7 @@ export const PRODUCT = '/dashboard/products';
 export const CATEGORIES = '/dashboard/categories';
 export const SUBCATEGORIES = '/dashboard/sub-categories';
 export const ORDERS = '/dashboard/orders';
+export const CART = '/store/cart';
 
 export const ALLPRODUCTS = "/store/products";
 export const PRODUCT_DETAIL = (id) => `/store/product-detail/${id}`;
@@ -74,6 +76,7 @@ export const router = createBrowserRouter([
             //  { path: PRODUCT_DETAIL(':id'), element: <ProductDetail /> },
              { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
             { path: ALLPRODUCTS, element: <Products/> },
+            { path: CART , element: <Cart /> }, 
 
         ],
     },

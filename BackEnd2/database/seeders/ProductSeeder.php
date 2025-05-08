@@ -13,7 +13,9 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         // Insérer des produits fictifs
-        DB::table('products')->insert([
+        // DB::table('products')->insert([
+            $products = [
+            
             [
                 'product_code' => 'P001',
                 'name' => 'LeBron James Los Angeles Lakers Icon Edition 2023-24 Player Tee',
@@ -49,20 +51,20 @@ class ProductSeeder extends Seeder
             ],
             
             [
-                'product_code' => 'P003',
-                'name' => 'Los Angeles Lakers LeBron James Association Edition Player T-Shirt',
-                'description' => "LeBron James Los Angeles Lakers Icon Edition
-                Men's Nike NBA T-Shirt
-                Rep your favorite player in the Los Angeles Lakers T-Shirt. Inspired by the jersey, it displays bold name and number graphics on a casual favorite.",
-                'price' => 50.00,
-                'quantity' => 50,
-                'category_id' => 1,
-                'sub_category_id' => 1,
-                'sizes' => '["M", "L"]',
-                'colors' => '["Vert", "Noir"]',
-                'images' => '["https://lakersstore.com/cdn/shop/products/AR4887-109-a_7b6985a3-fd51-4bef-a8c8-2c9f25cebf07.png?v=1611786257&width=1080", "https://lakersstore.com/cdn/shop/products/AR4887-109-b_838454a3-2868-4d51-9433-53e2a107f0ac.png?v=1611786260&width=1800"]',
-                'created_at' => now(),
-                'updated_at' => now(),
+                 'product_code' => 'P003',
+                 'name' => 'Los Angeles Lakers LeBron James Association Edition Player T-Shirt',
+                 'description' => "LeBron James Los Angeles Lakers Icon Edition
+                 Men's Nike NBA T-Shirt
+                 Rep your favorite player in the Los Angeles Lakers T-Shirt. Inspired by the jersey, it displays bold name and number graphics on a casual favorite.",
+                 'price' => 50.00,
+                 'quantity' => 50,
+                 'category_id' => 1,
+                 'sousCategorie_id' => 1,
+                 'sizes' => '["M", "L"]',
+                 'colors' => '["Vert", "Noir"]',
+                 'images' => '["https://lakersstore.com/cdn/shop/products/AR4887-109-a_7b6985a3-fd51-4bef-a8c8-2c9f25cebf07.png?v=1611786257&width=1080", "https://lakersstore.com/cdn/shop/products/AR4887-109-b_838454a3-2868-4d51-9433-53e2a107f0ac.png?v=1611786260&width=1800"]',
+                 'created_at' => now(),
+                 'updated_at' => now(),
             ],
             
             [
@@ -94,8 +96,13 @@ class ProductSeeder extends Seeder
                 'updated_at' => now(),
             ],
             
-          
+          ];
+          foreach ($products as $product) {
+            DB::table('products')->updateOrInsert(
+                ['product_code' => $product['product_code']],
+                $product
 
-        ]);
+        );
     }
+}
 }

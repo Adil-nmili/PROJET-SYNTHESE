@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import CartService from '../../../service/Cart';
+import ProductService from '../../../service/Product';
+import { toast } from 'react-hot-toast';
 
 const mockProduct = {
   id: 1,
@@ -7,6 +11,8 @@ const mockProduct = {
   price: 420,
   rating: 4.5,
   images: [
+    'https://lakersstore.com/cdn/shop/files/AURORA_DR6380-734_PHSBH001-2000.jpg?v=1697134448&width=540',
+    'https://lakersstore.com/cdn/shop/products/AR4887-557-a_0304874e-be4d-4a37-be3f-cac4204a3484.png?v=1611786251&width=1080',
     'https://lakersstore.com/cdn/shop/files/AURORA_DR6380-734_PHSBH001-2000.jpg?v=1697134448&width=540',
     'https://lakersstore.com/cdn/shop/products/AR4887-557-a_0304874e-be4d-4a37-be3f-cac4204a3484.png?v=1611786251&width=1080',
     'https://lakersstore.com/cdn/shop/products/AR4887-109-a_7b6985a3-fd51-4bef-a8c8-2c9f25cebf07.png?v=1611786257&width=1080',
@@ -37,12 +43,113 @@ const mockReviews = [
 ];
 
 const ProductDetails2 = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedColor, setSelectedColor] = useState(mockProduct.colors[0]);
-  const [quantity, setQuantity] = useState(2);
+  const [selectedColor, setSelectedColor] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState('description');
+  const [addingToCart, setAddingToCart] = useState(false);
 
-  const totalPrice = mockProduct.price * quantity;
+  // Fetch product data
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        setLoading(true);
+        if (id) {
+          const response = await ProductService.getProduct(id);
+          const productData = response.data;
+
+          setProduct(productData);
+
+          // Set default color if available
+          if (productData.colors && typeof productData.colors === 'string') {
+            try {
+              const colors = JSON.parse(productData.colors);
+              if (colors && colors.length > 0) {
+                setSelectedColor(colors[0]);
+              }
+            } catch (e) {
+              console.error('Error parsing colors:', e);
+            }
+          }
+        } else {
+          // Use mock data as fallback
+          setSelectedColor(mockProduct.colors[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        toast.error('Failed to load product details');
+        // Fallback to mock data
+        setSelectedColor(mockProduct.colors[0]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductData();
+  }, [id]);
+
+  const handleAddToCart = async () => {
+    try {
+      setAddingToCart(true);
+      const productToAdd = product || mockProduct;
+      
+      // Ensure we have a valid product ID
+      if (!productToAdd || !productToAdd.id) {
+        console.error('Invalid product data:', productToAdd);
+        toast.error('Product information is invalid');
+        return;
+      }
+
+      console.log('Adding to cart:', {
+        id: productToAdd.id,
+        quantity,
+        color: selectedColor
+      });
+      
+      // Convert ID to number if it's a string (URLs sometimes pass IDs as strings)
+      const productId = parseInt(productToAdd.id, 10);
+      
+      const response = await CartService.addToCart(
+        productId,
+        quantity,
+        null, // No size selection in this component
+        selectedColor
+      );
+      
+      console.log('Cart response:', response);
+      toast.success('Added to cart successfully!');
+      
+      // Dispatch event to update cart count in navbar
+      window.dispatchEvent(new CustomEvent('cart-updated'));
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      
+      // More detailed error logging
+      if (error.response) {
+        console.error('Response data:', error.response.data);
+        console.error('Response status:', error.response.status);
+      }
+      
+      toast.error('Failed to add to cart. Please try again.');
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  // If still loading
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-4 border-purple-900 border-t-yellow-500 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  const displayProduct = product || mockProduct;
+  const totalPrice = displayProduct.price * quantity;
 
   return (
     <div className="bg-gray-50 min-h-screen p-8 flex flex-col items-center">
@@ -51,12 +158,12 @@ const ProductDetails2 = () => {
         {/* Image Gallery */}
         <div className="flex flex-col items-center md:w-1/2">
           <img
-            src={mockProduct.images[selectedImage]}
-            alt={mockProduct.name}
+            src={displayProduct.images[selectedImage]}
+            alt={displayProduct.name}
             className="w-64 h-64 object-contain rounded-xl mb-4 border"
           />
           <div className="flex gap-2">
-            {mockProduct.images.map((img, idx) => (
+            {displayProduct.images.map((img, idx) => (
               <img
                 key={idx}
                 src={img}
@@ -70,15 +177,15 @@ const ProductDetails2 = () => {
         {/* Product Info */}
         <div className="md:w-1/2 md:pl-10 flex flex-col gap-4">
           <div>
-            <h2 className="text-2xl font-bold">{mockProduct.name}</h2>
-            <p className="text-gray-400 font-medium mb-1">{mockProduct.brand}</p>
+            <h2 className="text-2xl font-bold">{displayProduct.name}</h2>
+            <p className="text-gray-400 font-medium mb-1">{displayProduct.brand}</p>
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl font-semibold">${mockProduct.price}</span>
+              <span className="text-2xl font-semibold">${displayProduct.price}</span>
               <span className="flex text-yellow-400">
-                {'★'.repeat(Math.floor(mockProduct.rating))}
-                {'☆'.repeat(5 - Math.floor(mockProduct.rating))}
+                {'★'.repeat(Math.floor(displayProduct.rating))}
+                {'☆'.repeat(5 - Math.floor(displayProduct.rating))}
               </span>
-              <span className="text-gray-500 ml-2">({mockProduct.rating})</span>
+              <span className="text-gray-500 ml-2">({displayProduct.rating})</span>
             </div>
           </div>
           {/* Tabs */}
@@ -94,11 +201,11 @@ const ProductDetails2 = () => {
             ))}
           </div>
           <div className="min-h-[60px] text-gray-700">
-            {tab === 'description' && <p>{mockProduct.description}</p>}
-            {tab === 'details' && <p>{mockProduct.details}</p>}
+            {tab === 'description' && <p>{displayProduct.description}</p>}
+            {tab === 'details' && <p>{displayProduct.details}</p>}
             {tab === 'comments' && (
               <ul className="space-y-1">
-                {mockProduct.comments.map((c, i) => (
+                {displayProduct.comments.map((c, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm">
                     <span className="font-semibold">{c.user}:</span>
                     <span>{c.comment}</span>
@@ -117,7 +224,7 @@ const ProductDetails2 = () => {
                 value={selectedColor}
                 onChange={(e) => setSelectedColor(e.target.value)}
               >
-                {mockProduct.colors.map((color) => (
+                {displayProduct.colors.map((color) => (
                   <option key={color} value={color}>{color}</option>
                 ))}
               </select>
@@ -127,7 +234,7 @@ const ProductDetails2 = () => {
               <input
                 type="number"
                 min={1}
-                max={mockProduct.stock}
+                max={displayProduct.stock}
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 className="border rounded px-2 py-1 w-16"
@@ -140,13 +247,19 @@ const ProductDetails2 = () => {
           </div>
           {/* Buttons */}
           <div className="flex gap-2 mt-4">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded-lg flex-1 transition">ADD TO CART</button>
+            <button
+              className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded-lg flex-1 transition"
+              onClick={handleAddToCart}
+              disabled={addingToCart}
+            >
+              {addingToCart ? 'ADDING...' : 'ADD TO CART'}
+            </button>
             <button className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded-lg">♡</button>
           </div>
           {/* Stock/Shipping Info */}
           <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
             <span>✔</span>
-            <span>{mockProduct.shipping}</span>
+            <span>{displayProduct.shipping}</span>
           </div>
         </div>
       </div>
@@ -182,4 +295,4 @@ const ProductDetails2 = () => {
   );
 };
 
-export default ProductDetails2; 
+export default ProductDetails2;
