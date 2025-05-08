@@ -26,12 +26,13 @@ export default function AdminContext({ children }) {
     };
 
     useEffect(() => {
-        if (Object.keys(admin).length === 0) {
-            setAuthenticated(false);
-        } else {
-            setAuthenticated(true);
+        if (admin) {
+          Object.keys(admin).forEach(key => {
+            console.log(key, admin[key])
+          })
         }
-    }, [admin]);
+      }, [admin])
+      
 
     const setAdmin = (admin) => {
         _setAdmin(admin);
