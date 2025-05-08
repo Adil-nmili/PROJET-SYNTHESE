@@ -17,10 +17,7 @@ class UserSeeder extends Seeder
     {
         // $faker = Faker::create();
 
-        // // Create 20 users
-        // for ($i = 0; $i < 20; $i++) {
-        //     $firstName = $faker->firstName;
-        //     $lastName = $faker->lastName;
+       
             
             User::updateOrCreate(
                 ['phone' => '1234567890'],
@@ -39,7 +36,7 @@ class UserSeeder extends Seeder
                 'role' => 'admin',
             ]);
             
-            // $this->command->info("Created user: {$firstName} {$lastName}");
+            
         
     }
 }

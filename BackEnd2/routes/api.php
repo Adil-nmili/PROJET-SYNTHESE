@@ -10,7 +10,14 @@ use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SousCategorieController;
+<<<<<<< HEAD
 use App\Http\Controllers\CartController;
+=======
+use App\Http\Controllers\AuthController;
+
+Route::post('/register', [AuthController::class, 'register']);
+
+>>>>>>> origin/dev
 
 // routes/api.php
 Route::get('/csrf-token', function () {
