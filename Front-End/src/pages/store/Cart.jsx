@@ -11,7 +11,7 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
-  // Fetch cart on component mount
+  
   useEffect(() => {
     fetchCart();
   }, []);
@@ -35,7 +35,7 @@ const Cart = () => {
     try {
       setUpdating(true);
       await CartService.updateQuantity(itemId, newQuantity);
-      await fetchCart(); // Refresh cart data
+      await fetchCart();
       toast.success('Cart updated');
     } catch (error) {
       console.error('Error updating quantity:', error);
@@ -49,7 +49,7 @@ const Cart = () => {
     try {
       setUpdating(true);
       await CartService.removeItem(itemId);
-      await fetchCart(); // Refresh cart data
+      await fetchCart(); 
       toast.success('Item removed from cart');
     } catch (error) {
       console.error('Error removing item:', error);
@@ -64,7 +64,7 @@ const Cart = () => {
       try {
         setUpdating(true);
         await CartService.clearCart();
-        await fetchCart(); // Refresh cart data
+        await fetchCart(); 
         toast.success('Cart cleared');
       } catch (error) {
         console.error('Error clearing cart:', error);
@@ -86,7 +86,6 @@ const Cart = () => {
     );
   }
 
-  // Empty cart state
   if (!cart || cart.items?.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16 mt-32 min-h-[70vh]">
@@ -109,7 +108,7 @@ const Cart = () => {
     );
   }
 
-  // Calculate total from cart items
+ 
   const cartTotal = cart.items?.reduce(
     (total, item) => total + item.quantity * item.product?.price,
     0

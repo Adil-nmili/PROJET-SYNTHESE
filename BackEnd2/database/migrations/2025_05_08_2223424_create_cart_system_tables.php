@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Create carts table if it doesn't exist
+        
         if (!Schema::hasTable('carts')) {
             Schema::create('carts', function (Blueprint $table) {
                 $table->id();
@@ -20,7 +20,7 @@ return new class extends Migration
                 $table->timestamps();
             });
         } else {
-            // If carts table exists but doesn't have session_id, add it
+            
             if (!Schema::hasColumn('carts', 'session_id')) {
                 Schema::table('carts', function (Blueprint $table) {
                     $table->string('session_id')->nullable()->index()->after('user_id');
@@ -28,7 +28,7 @@ return new class extends Migration
             }
         }
 
-        // Create cart_items table if it doesn't exist
+       
         if (!Schema::hasTable('cart_items')) {
             Schema::create('cart_items', function (Blueprint $table) {
                 $table->id();
@@ -47,7 +47,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // We don't want to accidentally drop existing tables
-        // So we'll do nothing in the down method
+        
     }
 };

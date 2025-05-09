@@ -11,7 +11,7 @@ class Cart extends Model
 
     protected $fillable = ['user_id', 'session_id'];
 
-    protected $with = ['items']; // Always load the items relation
+    protected $with = ['items']; 
 
     public function items()
     {

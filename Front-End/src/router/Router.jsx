@@ -12,12 +12,9 @@ import DetailUtilisateur from "../pages/Dashboard/DetailUtilisateur";
 import LoginPage from "../pages/Dashboard/Login";
 import TextFillLoadingExample from "../pages/TextFillLoadingExample";
 import Products from "../pages/store/Products";
-<<<<<<< HEAD
-// import Cart from '../components/Partials/Cart';
 import Cart from '../pages/store/Cart';
 
-=======
->>>>>>> origin/dev
+
 import OrdersTable from "../pages/Dashboard/OrdersTable";
 import AddProduct from "../pages/Dashboard/AddProduct";
 import Categories from "../pages/Dashboard/Categories";
@@ -33,7 +30,7 @@ import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
 import SplashScreen from "../components/Partials/SplashScreen";
 import ProductDetails2 from "../components/Partials/ProductDetails2";
-<<<<<<< HEAD
+<
 // Définition des chemins
 export const LOGIN = '/login';
 export const HOME = '/';
@@ -47,8 +44,7 @@ export const CATEGORIES = '/dashboard/categories';
 export const SUBCATEGORIES = '/dashboard/sub-categories';
 export const ORDERS = '/dashboard/orders';
 export const CART = '/store/cart';
-=======
->>>>>>> origin/dev
+
 
 // 👇 Les formulaires login/register
 import LoginForm from "../components/LoginForm";
@@ -94,17 +90,12 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
             { path: STORE, element: <Store /> },
-<<<<<<< HEAD
+
             // { path: ProductsList, element: <ListeProducts /> },
             //  { path: PRODUCT_DETAIL(':id'), element: <ProductDetail /> },
              { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
             { path: ALLPRODUCTS, element: <Products/> },
             { path: CART , element: <Cart /> }, 
-
-=======
-            { path: PRODUCT_DETAIL(":id"), element: <ProductDetails2 /> },
-            { path: ALLPRODUCTS, element: <Products /> },
->>>>>>> origin/dev
         ],
     },
     {

@@ -52,7 +52,7 @@ const ProductDetails2 = () => {
   const [tab, setTab] = useState('description');
   const [addingToCart, setAddingToCart] = useState(false);
 
-  // Fetch product data
+  
   useEffect(() => {
     const fetchProductData = async () => {
       try {
@@ -63,7 +63,7 @@ const ProductDetails2 = () => {
 
           setProduct(productData);
 
-          // Set default color if available
+      
           if (productData.colors && typeof productData.colors === 'string') {
             try {
               const colors = JSON.parse(productData.colors);
@@ -75,13 +75,13 @@ const ProductDetails2 = () => {
             }
           }
         } else {
-          // Use mock data as fallback
+        
           setSelectedColor(mockProduct.colors[0]);
         }
       } catch (error) {
         console.error('Error fetching product:', error);
         toast.error('Failed to load product details');
-        // Fallback to mock data
+        
         setSelectedColor(mockProduct.colors[0]);
       } finally {
         setLoading(false);
@@ -96,7 +96,7 @@ const ProductDetails2 = () => {
       setAddingToCart(true);
       const productToAdd = product || mockProduct;
       
-      // Ensure we have a valid product ID
+      //To Ensure we have a valid product ID
       if (!productToAdd || !productToAdd.id) {
         console.error('Invalid product data:', productToAdd);
         toast.error('Product information is invalid');
@@ -109,25 +109,24 @@ const ProductDetails2 = () => {
         color: selectedColor
       });
       
-      // Convert ID to number if it's a string (URLs sometimes pass IDs as strings)
       const productId = parseInt(productToAdd.id, 10);
       
       const response = await CartService.addToCart(
         productId,
         quantity,
-        null, // No size selection in this component
+        null, 
         selectedColor
       );
       
       console.log('Cart response:', response);
       toast.success('Added to cart successfully!');
       
-      // Dispatch event to update cart count in navbar
+      
       window.dispatchEvent(new CustomEvent('cart-updated'));
     } catch (error) {
       console.error('Error adding to cart:', error);
       
-      // More detailed error logging
+      
       if (error.response) {
         console.error('Response data:', error.response.data);
         console.error('Response status:', error.response.status);
@@ -139,7 +138,6 @@ const ProductDetails2 = () => {
     }
   };
 
-  // If still loading
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">

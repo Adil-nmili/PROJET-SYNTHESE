@@ -124,15 +124,12 @@ class CartController extends Controller
     protected function getOrCreateCart(Request $request)
     {
         if (auth()->check()) {
-            // For authenticated users, get or create their cart
             return Cart::firstOrCreate(['user_id' => auth()->id()]);
         } else {
-            // For guests, use session ID to track the cart
             $sessionId = $request->cookie('cart_session_id');
             
             if (!$sessionId) {
                 $sessionId = Str::uuid()->toString();
-                // We'll set the cookie in the response
                 cookie()->queue('cart_session_id', $sessionId, 60*24*30); // 30 days
             }
             
