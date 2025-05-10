@@ -2,6 +2,7 @@ import React from 'react';
 import HomeSlider from '../components/partials/HomeSlider';
 import SponsorCarousel from '../components/partials/SponsorCarousel';
 import SocialMediaSlider from '../components/Partials/SocialMediaSlider';
+import Newsletter from '../components/Partials/Newsletter';
 
 
 function Home() {
@@ -12,6 +13,9 @@ function Home() {
 
       {/* Carrousel des sponsors */}
       <SponsorCarousel />
+
+      {/* Newsletter subscription */}
+      <Newsletter />
 
       {/* Slider des réseaux sociaux */}
       <SocialMediaSlider />
