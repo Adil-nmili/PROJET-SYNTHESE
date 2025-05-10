@@ -21,7 +21,23 @@ const Order = {
     },
     getUserOrders: async (userId) => {
         return axiosClient.get(`/api/users/${userId}/orders`)
+    },
+    
+    // Checkout methods for the new checkout process
+    // Create a new order from the cart and billing information
+    checkout: async (billingInfo) => {
+        return axiosClient.post('/api/checkout', billingInfo);
+    },
+    
+    // Process payment for an order
+    processPayment: async (orderId, paymentData) => {
+        return axiosClient.post(`/api/orders/${orderId}/payment`, paymentData);
+    },
+    
+    // Apply a coupon code
+    applyCoupon: async (couponCode) => {
+        return axiosClient.post('/api/coupons/apply', { code: couponCode });
     }
 }
 
-export default Order 
+export default Order

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingBag, Trash2, Minus, Plus, X, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { CHECKOUT } from '../../router/Router'; 
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
@@ -242,12 +243,14 @@ const Cart = () => {
                 <span className="text-lg font-medium">Total</span>
                 <span className="text-lg font-bold text-purple-900">${cartTotal.toFixed(2)}</span>
               </div>
-              <Button 
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-md"
-                disabled={updating}
-              >
-                Proceed to Checkout
-              </Button>
+              <Link to={CHECKOUT}>
+                <Button 
+                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-md"
+                  disabled={updating}
+                >
+                  Proceed to Checkout
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

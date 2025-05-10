@@ -13,6 +13,7 @@ import LoginPage from "../pages/Dashboard/Login";
 import TextFillLoadingExample from "../pages/TextFillLoadingExample";
 import Products from "../pages/store/Products";
 import Cart from '../pages/store/Cart';
+import Checkout from '../pages/store/Checkout';
 
 
 import OrdersTable from "../pages/Dashboard/OrdersTable";
@@ -30,27 +31,27 @@ import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
 import SplashScreen from "../components/Partials/SplashScreen";
 import ProductDetails2 from "../components/Partials/ProductDetails2";
-<
-// Définition des chemins
-export const LOGIN = '/login';
-export const HOME = '/';
-export const ABOUT = '/about';
-export const NEWS = '/news';
-export const STORE = '/store';
-export const DASHBOARD = '/dashboard';
-export const ADMIN = '/dashboard/admins';
-export const PRODUCT = '/dashboard/products';
-export const CATEGORIES = '/dashboard/categories';
-export const SUBCATEGORIES = '/dashboard/sub-categories';
-export const ORDERS = '/dashboard/orders';
-export const CART = '/store/cart';
+// <
+// // Définition des chemins
+// export const LOGIN = '/login';
+// export const HOME = '/';
+// export const ABOUT = '/about';
+// export const NEWS = '/news';
+// export const STORE = '/store';
+// export const DASHBOARD = '/dashboard';
+// export const ADMIN = '/dashboard/admins';
+// export const PRODUCT = '/dashboard/products';
+// export const CATEGORIES = '/dashboard/categories';
+// export const SUBCATEGORIES = '/dashboard/sub-categories';
+// export const ORDERS = '/dashboard/orders';
+// export const CART = '/store/cart';
 
 
-// 👇 Les formulaires login/register
+// // 👇 Les formulaires login/register
 import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
 
-// Paths
+// Définition des chemins
 export const LOGIN = "/login";
 export const REGISTER = "/register";
 export const HOME = "/";
@@ -63,6 +64,8 @@ export const PRODUCT = "/dashboard/products";
 export const CATEGORIES = "/dashboard/categories";
 export const SUBCATEGORIES = "/dashboard/sub-categories";
 export const ORDERS = "/dashboard/orders";
+export const CART = '/store/cart';
+export const CHECKOUT = '/store/checkout';
 export const ALLPRODUCTS = "/store/products";
 export const PRODUCT_DETAIL = (id) => `/store/product-detail/${id}`;
 export const PRODUCT_CREATE = "/dashboard/products/create";
@@ -93,9 +96,10 @@ export const router = createBrowserRouter([
 
             // { path: ProductsList, element: <ListeProducts /> },
             //  { path: PRODUCT_DETAIL(':id'), element: <ProductDetail /> },
-             { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
+            { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
             { path: ALLPRODUCTS, element: <Products/> },
-            { path: CART , element: <Cart /> }, 
+            { path: CART, element: <Cart /> },
+            { path: CHECKOUT, element: <Checkout /> },
         ],
     },
     {
@@ -117,7 +121,6 @@ export const router = createBrowserRouter([
             { path: TEAMS_CREATE, element: <TeamForm /> },
         ],
     },
-
     {
         path: LOGIN, element: <LoginForm />
     },
