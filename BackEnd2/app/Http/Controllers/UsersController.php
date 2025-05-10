@@ -78,4 +78,19 @@ class UsersController extends Controller
         $admin->delete();
         return response()->json(['message' => 'Admin ' . $admin->first_name . ' ' . $admin->last_name    . ' deleted successfully']);
     }
+
+    public function verifie_user(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+        return response()->json(['user' => $user, 'token' => $user->createToken('token')->plainTextToken]);
+
+    }
 }

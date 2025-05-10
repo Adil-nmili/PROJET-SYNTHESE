@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { REGISTERSTORE } from "@/router/Router";
 const loginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -61,7 +61,7 @@ const loginForm = () => {
         </form>
         <p>
           Don’t have an account?{" "}
-          <button onClick={() => navigate("/register")} style={styles.linkButton}>
+          <button onClick={() => navigate(REGISTERSTORE)} style={styles.linkButton}>
             Sign up
           </button>
         </p>

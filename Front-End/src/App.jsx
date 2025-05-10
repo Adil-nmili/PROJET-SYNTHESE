@@ -1,11 +1,10 @@
 
 import "./App.css";
-import { RouterProvider } from "react-router-dom"; // Importer RouterProvider
-import { router } from "./router/Router"; // Importer le router
-import AdminContext from "../api/context/AdminContext"; // Contexte d'admin
+import { RouterProvider } from "react-router-dom"; 
+import { router } from "./router/Router"; 
+import AdminContext from "../api/context/AdminContext"; 
 import { Toaster } from "react-hot-toast";
-import RegisterForm from "./components/RegisterForm";
-import loginForm from "./components/LoginForm"; // ✅ camel case correct
+
 
 
 function App() {

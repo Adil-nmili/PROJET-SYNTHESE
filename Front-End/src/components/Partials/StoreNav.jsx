@@ -4,9 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { User } from "lucide-react";
 import CartService from "../../../service/Cart";
 import { CART } from "../../router/Router";
+import { DropDownLogin } from "./DropDownLogin";
 
 const StoreNav = ({SearchTerm, setSearchTerm}) => {
   const [cartCount, setCartCount] = useState(0);
@@ -68,9 +68,7 @@ const StoreNav = ({SearchTerm, setSearchTerm}) => {
               </span>
             )}
           </Button>
-          <Button className="ms-2" variant="outline">
-            <User className="w-4 h-4" />
-          </Button>
+            <DropDownLogin />
         </div>
       </div>
       <img src="/logo.png" alt="logo" className="w-16 object-cover h-16 absolute top-1/2 left-16 -translate-y-1/2" />

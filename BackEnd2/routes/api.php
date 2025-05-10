@@ -10,14 +10,7 @@ use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SousCategorieController;
-<<<<<<< HEAD
 use App\Http\Controllers\CartController;
-=======
-use App\Http\Controllers\AuthController;
-
-Route::post('/register', [AuthController::class, 'register']);
-
->>>>>>> origin/dev
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -45,9 +38,9 @@ Route::get('/admins/{id}', [UsersController::class,'show']);
 Route::delete('/admins/{id}', [UsersController::class,'destroy']);
 Route::put('/admins/{id}', [UsersController::class,'update']);
 Route::post('/admins', [UsersController::class,'store']);
-// Route::apiressources([
-//     AdminController::class,
-// ]);
+Route::post('/users', [UsersController::class,'verifie_user']);
+
+
 Route::get('/players', [PlayersController::class, 'index']);
 Route::post('/players', [PlayersController::class, 'store']);
 Route::put('/players/{id}', [PlayersController::class, 'update']);
