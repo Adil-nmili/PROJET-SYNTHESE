@@ -11,6 +11,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SousCategorieController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AuthController;
+
+Route::post('/register', [AuthController::class, 'register']);
+
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -38,9 +42,6 @@ Route::get('/admins/{id}', [UsersController::class,'show']);
 Route::delete('/admins/{id}', [UsersController::class,'destroy']);
 Route::put('/admins/{id}', [UsersController::class,'update']);
 Route::post('/admins', [UsersController::class,'store']);
-Route::post('/users', [UsersController::class,'verifie_user']);
-
-
 Route::get('/players', [PlayersController::class, 'index']);
 Route::post('/players', [PlayersController::class, 'store']);
 Route::put('/players/{id}', [PlayersController::class, 'update']);
@@ -59,11 +60,15 @@ Route::post('/sub-categories', [SubCategoryController::class, 'store']);
 Route::put('/sub-categories/{id}', [SubCategoryController::class, 'update']);
 Route::delete('/sub-categories/{id}', [SubCategoryController::class, 'destroy']);
 Route::get('/sub-categories/category/{categoryId}', [SubCategoryController::class, 'getByCategory']);
-// Route::get('/cart', [CartController::class, 'index']);        
-// Route::post('/cart', [CartController::class, 'store']);       
-// Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+
+// Cart routes
 Route::get('/cart', [CartController::class, 'index']);
 Route::post('/cart/add', [CartController::class, 'add']);
 Route::put('/cart/update/{itemId}', [CartController::class, 'updateQuantity']);
 Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove']);
 Route::delete('/cart/clear', [CartController::class, 'clear']);
+
+// Checkout routes
+Route::post('/checkout', [OrderController::class, 'checkout']);
+Route::post('/orders/{id}/payment', [OrderController::class, 'processPayment']);
+Route::post('/coupons/apply', [OrderController::class, 'applyCoupon']);

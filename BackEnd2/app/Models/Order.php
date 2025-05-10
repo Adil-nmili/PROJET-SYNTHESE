@@ -13,6 +13,19 @@ class Order extends Model
         'user_id',
         'status',
         'total_amount',
+        'billing_first_name',
+        'billing_last_name',
+        'billing_company',
+        'billing_address',
+        'billing_apartment',
+        'billing_city',
+        'billing_state',
+        'billing_postcode',
+        'billing_phone',
+        'billing_email',
+        'payment_method',
+        'payment_status',
+        'notes'
     ];
 
     public function user()
@@ -28,7 +41,7 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'order_items')
-            ->withPivot('quantity', 'price')
+            ->withPivot('quantity', 'price', 'selected_size', 'selected_color')
             ->withTimestamps();
     }
-} 
+}
