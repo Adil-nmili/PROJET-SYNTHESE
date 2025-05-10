@@ -46,7 +46,6 @@ import ProductDetails2 from "@/components/Partials/ProductDetails2";
 // export const CATEGORIES = '/dashboard/categories';
 // export const SUBCATEGORIES = '/dashboard/sub-categories';
 // export const ORDERS = '/dashboard/orders';
-export const CART = '/store/cart';
 
 
 
