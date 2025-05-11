@@ -53,12 +53,12 @@ const Checkout = () => {
     phoneNumber: '0612345678',
     streetAddress: '123 Lakers Ave',
     townCity: 'Los Angeles',
-    stateCounty: 'Casablanca', // Changed to a Moroccan city
+    stateCounty: 'Casablanca', 
     zipPostcode: '90001'
   });
 
   const validatePhoneNumber = (phone) => {
-    // Regex pattern for Moroccan phone numbers (05, 06, or 07 followed by 8 digits)
+   
     const phoneRegex = /^(0[567])[0-9]{8}$/;
     return phoneRegex.test(phone);
   };
@@ -67,10 +67,10 @@ const Checkout = () => {
     const { name, value, type, checked } = e.target;
     
     if (name === 'phoneNumber') {
-      // Clear previous error
+      
       setPhoneError('');
       
-      // Only allow digits
+     
       const phoneValue = value.replace(/[^0-9]/g, '');
       
       setBillingInfo({
@@ -78,7 +78,7 @@ const Checkout = () => {
         [name]: phoneValue
       });
       
-      // Validate if number is complete
+   
       if (phoneValue.length === 10 && !validatePhoneNumber(phoneValue)) {
         setPhoneError('Please enter a valid Moroccan phone number starting with 05, 06, or 07');
       }
@@ -93,7 +93,7 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate phone number before submission
+  
     if (!validatePhoneNumber(billingInfo.phoneNumber)) {
       setPhoneError('Please enter a valid Moroccan phone number starting with 05, 06, or 07');
       return;
@@ -102,7 +102,7 @@ const Checkout = () => {
     setProcessing(true);
     
     try {
-      // Simulate order creation success
+   
       setTimeout(() => {
         toast.success('Order placed successfully!');
         toast.success('Payment processed successfully!');
@@ -122,7 +122,7 @@ const Checkout = () => {
     0
   ) || 0;
   
-  const shipping = 0; // Free shipping
+  const shipping = 0; 
   const total = subtotal + shipping;
 
   if (loading) {
@@ -209,7 +209,7 @@ const Checkout = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="stateCounty" className="block text-sm mb-1">State*</label>
+                  <label htmlFor="stateCounty" className="block text-sm mb-1">region*</label>
                   <select
                     id="stateCounty"
                     name="stateCounty"
@@ -218,12 +218,18 @@ const Checkout = () => {
                     className="w-full p-2 border rounded-md"
                     required
                   >
-                    <option value="Casablanca">Casablanca</option>
-                    <option value="Rabat">Rabat</option>
-                    <option value="Marrakech">Marrakech</option>
-                    <option value="Fes">Fes</option>
-                    <option value="Tangier">Tangier</option>
-                    <option value="Agadir">Agadir</option>
+                    <option >Tanger-Tétouan-Al Hoceïma</option>
+                    <option >L'Oriental</option>
+                    <option >Fès-Meknès</option>
+                    <option >Rabat-Salé-Kénitra</option>
+                    <option >Béni Mellal-Khénifra</option>
+                    <option >Casablanca-Settat</option>
+                    <option >Marrakech-Safi</option>
+                    <option >Drâa-Tafilalet</option>
+                    <option >Souss-Massa</option>
+                    <option >Laâyoune-Sakia El Hamra</option>
+                    <option >Guelmim-Oued Noun</option>
+                    <option >Dakhla-Oued Ed Dahab</option>
                   </select>
                 </div>
               </div>
