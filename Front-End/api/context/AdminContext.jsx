@@ -38,9 +38,12 @@ export default function AdminContext({ children }) {
         localStorage.setItem("ADMIN", JSON.stringify(admin));
     };
 
-    const logout = () => {
+   const logout = () => {
         setAdmin({});
         setAuthenticated(false);
+        localStorage.removeItem("ADMIN");
+        localStorage.removeItem("AUTHENTICATED");
+        localStorage.removeItem("CSRF_TOKEN");
     };
 
     const setAuthenticated = (isAuthenticated) => {

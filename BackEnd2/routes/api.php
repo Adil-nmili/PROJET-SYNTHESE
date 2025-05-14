@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ Route::get('/admins/{id}', [UsersController::class,'show']);
 Route::delete('/admins/{id}', [UsersController::class,'destroy']);
 Route::put('/admins/{id}', [UsersController::class,'update']);
 Route::post('/admins', [UsersController::class,'store']);
+Route::resource('/clients', ClientController::class);
 // Route::apiressources([
 //     AdminController::class,
 // ]);
@@ -49,6 +51,7 @@ Route::resource('categories', CategorieController::class);
 Route::resource('sub-categorie', SousCategorieController::class);
 Route::resource('products', ProductController::class);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::get('/products/similar/{category}', [ProductController::class, 'getSimilarProducts']);
 Route::resource('orders', OrderController::class);
 Route::resource('teams', TeamController::class);
 Route::get('/users/{userId}/orders', [OrderController::class, 'getUserOrders']);

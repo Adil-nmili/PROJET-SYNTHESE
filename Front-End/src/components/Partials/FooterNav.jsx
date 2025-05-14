@@ -33,9 +33,9 @@ const FooterNav = () => {
     ]
 
   return (
-    <nav className="flex justify-center items-center gap-10 py-2 fixed bottom-10 z-50 w-1/3 bg-yellow-600  rounded-2xl shadow-lg shadow-slate-800">
+    <nav className="flex justify-center items-center gap-16 py-2 fixed bottom-5 z-50 w-5/12 bg-yellow-600  rounded-2xl shadow-lg shadow-slate-800">
         {links.map((link) => (
-            <Link to={link.path} key={link.name} className={`flex flex-col text-sm items-center justify-center gap-1 ${location.pathname === link.path ? 'text-purple-900 font-bold scale-105' : 'text-gray-300'}`}>
+            <Link to={link.path} key={link.name} className={`flex flex-col text-sm items-center justify-center gap-0.5 ${location.pathname === link.path ? 'text-purple-900 font-semibold scale-105' : 'text-gray-300'}`}>
                 {link.icon}
                 {link.name}
             </Link>

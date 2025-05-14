@@ -164,4 +164,9 @@ class ProductController extends Controller
         $product->delete();
         return response()->json(['message' => 'Product ' . $product->name . ' deleted successfully'], 200);
     }
+    public function getSimilarProducts($category)
+    {
+        $products = Product::where('category_id', $category)->get();
+        return response()->json($products);
+    }
 }

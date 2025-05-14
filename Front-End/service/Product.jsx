@@ -23,7 +23,10 @@ const Product =  {
   },
   getById: async (id) => {
     return axiosClient.get(`/api/products/${id}`)
-  }
+  },
+   getSimilarProducts: async (category) => {
+      return axiosClient.get(`/api/products/similar/${category}`)
+    }
 }
 
 export default Product
