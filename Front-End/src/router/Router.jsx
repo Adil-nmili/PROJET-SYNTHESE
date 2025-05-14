@@ -32,8 +32,7 @@ import Teams from "../pages/Dashboard/Teams";
 import PlayerForm from "@/components/Partials/PlayerForm";
 import TeamForm from "@/components/Partials/TeamForm";
 import SplashScreen from "@/components/Partials/SplashScreen";
-import ProductDetails2 from "@/components/Partials/ProductDetails2";
-
+    
 // Définition des chemins
 // export const LOGIN = '/login';
 // export const HOME = '/';
@@ -95,8 +94,8 @@ export const router = createBrowserRouter([
             { path: STORE, element: <Store /> },
 
             // { path: ProductsList, element: <ListeProducts /> },
-            //  { path: PRODUCT_DETAIL(':id'), element: <ProductDetail /> },
-            { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
+             { path: PRODUCT_DETAIL(':id'), element:     <ProductDetail /> },
+         
             { path: ALLPRODUCTS, element: <Products/> },
             { path: CART, element: <Cart /> },
             { path: CHECKOUT, element: <Checkout /> },
@@ -108,7 +107,7 @@ export const router = createBrowserRouter([
         element: <DashboardLayout />,
         children: [
             { path: DASHBOARD, element: <Home /> },
-            { path: ADMIN_CREATE, element: <AddAdmin /> },
+            { path: ADMIN_CREATE, element: <AddAdmin /> },  
             { path: ADMIN, element: <ListAdmins /> },
             { path: USER_DETAIL, element: <DetailUtilisateur /> },
             { path: PRODUCT, element: <ListProducts /> },
