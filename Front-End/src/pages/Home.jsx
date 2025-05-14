@@ -3,6 +3,7 @@ import HomeSlider from '../components/partials/HomeSlider';
 import SponsorCarousel from '../components/partials/SponsorCarousel';
 import SocialMediaSlider from '../components/Partials/SocialMediaSlider';
 import Newsletter from '../components/Partials/Newsletter';
+import LatestNews from '../components/Partials/LatestNews';
 
 
 function Home() {
@@ -13,6 +14,9 @@ function Home() {
 
       {/* Carrousel des sponsors */}
       <SponsorCarousel />
+
+      {/* Section d'actualités Lakers */}
+      <LatestNews />
 
       {/* Newsletter subscription */}
       <Newsletter />
