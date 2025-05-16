@@ -1,30 +1,27 @@
 import { axiosClient } from "../api/axios"
 
+
 const CartService = {
-    getCart: async () => {
-        return axiosClient.get('/api/cart');
+    getCart: async (clientId) => {
+       
+        return axiosClient.get(`/api/cart/${clientId}`);
     },
     
-    addToCart: async (product_id, quantity = 1, selected_size = null, selected_color = null) => {
-        return axiosClient.post('/api/cart/add', {
-            product_id,
-            quantity,
-            selected_size,
-            selected_color
-        });
+    addToCart: async (data) => {
+        return axiosClient.post('/api/cart/add', data);
     },
     
     updateQuantity: async (itemId, quantity) => {
-        return axiosClient.put(`/api/cart/update/${itemId}`, { quantity });
+        return axiosClient.put(`/api/cart/item/${itemId}`, { quantity });
     },
     
     removeItem: async (itemId) => {
-        return axiosClient.delete(`/api/cart/remove/${itemId}`);
+        return axiosClient.delete(`/api/cart/item/${itemId}`);
     },
     
-    clearCart: async () => {
-        return axiosClient.delete('/api/cart/clear');
-    }
+    clearCart: async (clientId) => {
+    return axiosClient.delete(`/api/cart/clear/${clientId}`);
+  },
 };
 
-export default CartService;
+export default CartService

@@ -13,8 +13,8 @@ import TextFillLoadingExample from "../pages/TextFillLoadingExample";
 import Products from "../pages/store/Products";
 import Cart from '../pages/store/Cart';
 import LoginForm from "../pages/store/LoginForm";
-import RegisterForm from "../pages/store/RegisterForm";
 import LoginPage from "../pages/Dashboard/Login";
+import RegisterForm from "../pages/store/RegisterForm";
 import Checkout from '../pages/store/Checkout';
 
 
@@ -78,9 +78,6 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
             { path: STORE, element: <Store /> },
-
-            // { path: ProductsList, element: <ListeProducts /> },
-            //  { path: PRODUCT_DETAIL(':id'), element: <ProductDetail /> },
             { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
             { path: ALLPRODUCTS, element: <Products/> },
             { path: CART , element: <Cart /> }, 

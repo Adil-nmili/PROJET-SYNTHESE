@@ -3,7 +3,10 @@ import ClientApi from "../../../service/Client";
 import { LOGINSTORE } from "@/router/Router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useClientContext } from "../../../api/context/ClientContext";
+import { ALLPRODUCTS } from "../../router/Router";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -16,48 +19,42 @@ const RegisterForm = () => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const {authenticated} = useClientContext();
   
 
-  const handleSubmit = async (e) => {
-    console.log(formData);
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  useEffect(() => {
+    authenticated ? navigate(ALLPRODUCTS) : '';
+  }, [authenticated]);
 
-    try {
-      if (
-        formData.password !== formData.password_confirmation || 
-        formData.password.length < 8
-      ) {
-        setLoading(false);
-        setError("Incorect password confirmation or password too short");
-        return;
-      }
-     const response =  await ClientApi.addAdmin(formData);
-     console.log(response)
-      if (response.status !== 201) {
-        setLoading(false);
-        setError(response.data.message);
-        return;
-      }
-      setLoading(false);
-      toast.success(response.data.message);
-      setTimeout(() => {
-        navigate(LOGINSTORE);
-      }, 2000);
-    } catch (err) {
-      setLoading(false);
-      if (err.response) {
-        setError(
-          err.response.data.message ||
-            "Error occurred while creating your account."
-        );
-      } else {
-        setError("Error occurred while creating your account.");
-      }
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+
+  
+    if (
+      formData.password !== formData.password_confirmation || 
+      formData.password.length < 8
+    ) {
+      setError("Incorrect password confirmation or password too short");
+      return;
     }
-  };
+
+    const response = await ClientApi.addClient(formData);
+    console.log(response);
+
+    if (response.status !== 201) {
+      setError(response.data.message);
+      return;
+    }
+
+    toast.success(response.data.message);
+    setTimeout(() => {
+      navigate(LOGINSTORE);
+    }, 2000);
+    
+ 
+};
 
   return (
     <div className="h-full py-20 w-full flex items-center justify-center">

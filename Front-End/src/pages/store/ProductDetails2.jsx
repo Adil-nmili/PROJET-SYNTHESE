@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import CartService from '../../../service/Cart';
-import { toast } from 'react-hot-toast';
-import Product from '../../../service/Product';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Navigation, Pagination } from 'swiper/modules';
-import { ALLPRODUCTS, PRODUCT_DETAIL } from '../../router/Router';
-import { Button } from '../../components/ui/button';
-import { ArrowBigLeft } from 'lucide-react';
-
+import React, { useState, useEffect, use } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import Product from "../../../service/Product";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import { ALLPRODUCTS, LOGINSTORE, PRODUCT_DETAIL } from "../../router/Router";
+import { Button } from "../../components/ui/button";
+import { ArrowBigLeft } from "lucide-react";
+import { useClientContext } from "../../../api/context/ClientContext";
+import { useCartContext } from "../../../api/context/CartContext";
+import CartService from "../../../service/Cart";
+import AlertSimple from "../../components/Partials/AlertSimple";
 // Custom styles for Swiper
 const swiperStyles = {
-  '.similar-products-swiper': {
-    padding: '20px 0',
-    '& .swiper-button-next, & .swiper-button-prev': {
-      color: '#F59E0B',
-      '&:after': {
-        fontSize: '24px',
+  ".similar-products-swiper": {
+    padding: "20px 0",
+    "& .swiper-button-next, & .swiper-button-prev": {
+      color: "#F59E0B",
+      "&:after": {
+        fontSize: "24px",
       },
     },
-    '& .swiper-pagination-bullet': {
-      background: '#F59E0B',
-      '&.swiper-pagination-bullet-active': {
-        background: '#F59E0B',
+    "& .swiper-pagination-bullet": {
+      background: "#F59E0B",
+      "&.swiper-pagination-bullet-active": {
+        background: "#F59E0B",
       },
     },
   },
@@ -37,113 +39,125 @@ const ProductDetails2 = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedColor, setSelectedColor] = useState("");
   const [images, setImages] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const [tab, setTab] = useState('description');
+  const [tab, setTab] = useState("description");
   const [addingToCart, setAddingToCart] = useState(false);
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [colors, setColors] = useState([]);
 
-  useEffect(() => {
-    const fetchProductData = async () => {
-      try {
-        setLoading(true);
-        if (id) {
-          const response = await Product.getById(id);
-          const productData = response.data;
-          setProduct(productData);
-          // Parse colors if they're stored as a JSON string
-          if (productData.colors && typeof productData.colors === 'string' && productData.images.length > 0 && typeof productData.images === 'string') {
-            try {
-              const colors = JSON.parse(productData.colors);
-              const images = JSON.parse(productData.images);
-              if (colors && colors.length > 0) {
-                setColors(colors);
-                setSelectedColor(colors[0]);
-              }
-              if (images && images.length > 0) {
-                setImages(images);
-              }
-            } catch (e) {
-              console.error('Error parsing colors:', e);
-              // If parsing fails, try to use the colors as is
-              if (productData.colors.length > 0) {
-                setSelectedColor(productData.colors[0]);
-              }
-            }
-          } else if (productData.colors && productData.colors.length > 0) {
-            setSelectedColor(productData.colors[0]);
-          }
+  const { authenticated, client } = useClientContext();
 
-          // Fetch similar products
-          const similarResponse = await Product.getSimilarProducts(productData.category_id);
-          setSimilarProducts(similarResponse.data);
-        }
-      } catch (error) {
-        console.error('Error fetching product:', error);
-        toast.error('Failed to load product details');
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchProductData();
-  }, [id]);
-  
-  const handleAddToCart = async () => {
+  useEffect(() => {
+    authenticated ? fetchProductData() : navigate(LOGINSTORE);
+  }, [id, authenticated]);
+
+  const fetchProductData = async () => {
     try {
-      setAddingToCart(true);
-      if (!product || !product.id) {
-        console.error('Invalid product data:', product);
-        toast.error('Product information is invalid');
-        return;
+      setLoading(true);
+      if (id) {
+        const response = await Product.getById(id);
+        const productData = response.data;
+        setProduct(productData);
+        // Parse colors if they're stored as a JSON string
+        if (
+          productData.colors &&
+          typeof productData.colors === "string" &&
+          productData.images.length > 0 &&
+          typeof productData.images === "string"
+        ) {
+          try {
+            const colors = JSON.parse(productData.colors);
+            const images = JSON.parse(productData.images);
+            if (colors && colors.length > 0) {
+              setColors(colors);
+              setSelectedColor(colors[0]);
+            }
+            if (images && images.length > 0) {
+              setImages(images);
+            }
+          } catch (e) {
+            console.error("Error parsing colors:", e);
+            // If parsing fails, try to use the colors as is
+            if (productData.colors.length > 0) {
+              setSelectedColor(productData.colors[0]);
+            }
+          }
+        } else if (productData.colors && productData.colors.length > 0) {
+          setSelectedColor(productData.colors[0]);
+        }
+
+        // Fetch similar products
+        const similarResponse = await Product.getSimilarProducts(
+          productData.category_id
+        );
+        setSimilarProducts(similarResponse.data);
       }
-      console.log('Adding to cart:', {
-        id: product.id,
-        quantity,
-        color: selectedColor,
-        product: product
-      });
-      
-      const response = await CartService.addToCart(
-        product.id,
-        quantity,
-        null, 
-        selectedColor
-      );
-      
-      console.log('Cart response:', response);
-      toast.success('Added to cart successfully!');
-      
-      // Refresh cart count
-      window.dispatchEvent(new CustomEvent('cart-updated'));
     } catch (error) {
-      console.error('Error adding to cart:', error);
-      
-      if (error.response) {
-        console.error('Response data:', error.response.data);
-        console.error('Response status:', error.response.status);
-        console.error('Response headers:', error.response.headers);
+      console.error("Error fetching product:", error);
+      toast.error("Failed to load product details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Logic to add to cart
+  const handleAddToCart = async () => {
+    setAddingToCart(true);
+    const data = {
+      product_id: product.id,
+      quantity,
+      color: selectedColor,
+      client_id: client.id,
+    };
+  
+    try {
+      const res = await CartService.addToCart(data);
+      console.log(res)
+      if (res.status === 201) { 
+        setErrors(false);
+        toast.success(res.data.message);
+        setIsAddedToCart(true);
+      } else if (res.status === 409) {
+        setErrors(true);
+        toast.success(res.data.message);
+        setIsAddedToCart(true);
+      } else {
+        setErrors(true);
+        toast.error(res.data.message || "An unexpected error occurred");
+        setIsAddedToCart(true);
       }
+    } catch (error) {
       
-      toast.error('Failed to add to cart. Please try again.');
+      toast.error(
+        error.response?.data?.message || "An error occurred while adding to cart"
+      );
+      setIsAddedToCart(true);
     } finally {
       setAddingToCart(false);
     }
   };
+  useEffect(()=>{
+    if(isAddedToCart){
+      setTimeout(()=>{
+        setIsAddedToCart(false)
+      },2000)
+    }
+  },[isAddedToCart])
 
-  const handleRedirect = () =>{
-    navigate(ALLPRODUCTS)
-  }
+  const handleRedirect = () => {
+    navigate(ALLPRODUCTS);
+  };
 
   const handleSimilarProductClick = (productId) => {
     // Reset states when navigating to a new product
     setLoading(true);
     setSelectedImage(0);
     setQuantity(1);
-    setTab('description');
-    
+    setTab("description");
+
     // Navigate to the new product
     navigate(PRODUCT_DETAIL(productId));
   };
@@ -167,8 +181,9 @@ const ProductDetails2 = () => {
   const totalPrice = product.price * quantity;
 
   return (
-    <div className="bg-gray-50 min-h-[100vh] pt-20 p-8 flex flex-col items-center gap-4">
-      <div className='text-right pr-26 w-full'>
+    <div className="bg-gray-50 min-h-[100vh] relative pt-20 p-8 flex flex-col items-center gap-4">
+      
+      <div className="text-right pr-26 w-full">
         <Button onClick={handleRedirect}>
           <ArrowBigLeft />
           All Product
@@ -189,7 +204,11 @@ const ProductDetails2 = () => {
                 key={idx}
                 src={img}
                 alt="thumb"
-                className={`w-14 h-14 object-contain rounded-lg border cursor-pointer ${selectedImage === idx ? 'border-yellow-400' : 'border-gray-200'}`}
+                className={`w-14 h-14 object-contain rounded-lg border cursor-pointer ${
+                  selectedImage === idx
+                    ? "border-yellow-400"
+                    : "border-gray-200"
+                }`}
                 onClick={() => setSelectedImage(idx)}
               />
             ))}
@@ -203,18 +222,24 @@ const ProductDetails2 = () => {
             <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl font-semibold">${product.price}</span>
               <span className="flex text-yellow-400">
-                {'★'.repeat(Math.floor(product.rating || 0))}
-                {'☆'.repeat(5 - Math.floor(product.rating || 0))}
+                {"★".repeat(Math.floor(product.rating || 0))}
+                {"☆".repeat(5 - Math.floor(product.rating || 0))}
               </span>
-              <span className="text-gray-500 ml-2">({product.rating || 0})</span>
+              <span className="text-gray-500 ml-2">
+                ({product.rating || 0})
+              </span>
             </div>
           </div>
           {/* Tabs */}
           <div className="flex gap-4 border-b mb-2">
-            {['description', 'details', 'comments'].map((t) => (
+            {["description", "details", "comments"].map((t) => (
               <button
                 key={t}
-                className={`pb-2 px-2 capitalize font-medium ${tab === t ? 'border-b-2 border-yellow-400 text-black' : 'text-gray-400'}`}
+                className={`pb-2 px-2 capitalize font-medium ${
+                  tab === t
+                    ? "border-b-2 border-yellow-400 text-black"
+                    : "text-gray-400"
+                }`}
                 onClick={() => setTab(t)}
               >
                 {t}
@@ -222,15 +247,17 @@ const ProductDetails2 = () => {
             ))}
           </div>
           <div className="min-h-[60px] text-gray-700">
-            {tab === 'description' && <p>{product.description}</p>}
-            {tab === 'details' && <p>{product.details}</p>}
-            {tab === 'comments' && (
+            {tab === "description" && <p>{product.description}</p>}
+            {tab === "details" && <p>{product.details}</p>}
+            {tab === "comments" && (
               <ul className="space-y-1">
                 {product.comments?.map((c, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm">
                     <span className="font-semibold">{c.user}:</span>
                     <span>{c.comment}</span>
-                    <span className="text-yellow-400">{'★'.repeat(c.rating)}</span>
+                    <span className="text-yellow-400">
+                      {"★".repeat(c.rating)}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -246,7 +273,9 @@ const ProductDetails2 = () => {
                 onChange={(e) => setSelectedColor(e.target.value)}
               >
                 {colors?.map((color) => (
-                  <option key={color} value={color}>{color}</option>
+                  <option key={color} value={color}>
+                    {color}
+                  </option>
                 ))}
               </select>
             </div>
@@ -263,24 +292,26 @@ const ProductDetails2 = () => {
             </div>
             <div>
               <span className="block text-xs text-gray-400">TOTAL PRICE</span>
-                <span className="font-semibold">${totalPrice.toFixed(2)}</span>
+              <span className="font-semibold">${totalPrice.toFixed(2)}</span>
             </div>
           </div>
           {/* Buttons */}
           <div className="flex gap-2 mt-4">
-            <Button 
+            <Button
               className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded-lg flex-1 transition"
               onClick={handleAddToCart}
               disabled={addingToCart}
             >
-              {addingToCart ? 'ADDING...' : 'ADD TO CART'}
+              {addingToCart ? "ADDING..." : "ADD TO CART"}
             </Button>
-            <Button className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded-lg">♡</Button>
+            <Button className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded-lg">
+              ♡
+            </Button>
           </div>
           {/* Stock/Shipping Info */}
           <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
             <span>✔</span>
-            <span>{product.shipping || 'Free shipping available'}</span>
+            <span>{product.shipping || "Free shipping available"}</span>
           </div>
         </div>
       </div>
@@ -309,30 +340,31 @@ const ProductDetails2 = () => {
               },
             }}
             className="similar-products-swiper"
-            style={swiperStyles['.similar-products-swiper']}
+            style={swiperStyles[".similar-products-swiper"]}
           >
             {similarProducts.map((prod) => (
               <SwiperSlide key={prod.id}>
-                <div 
+                <div
                   className="bg-white rounded-xl shadow p-3 flex flex-col items-center cursor-pointer hover:shadow-lg transition h-full"
                   onClick={() => handleSimilarProductClick(prod.id)}
                 >
-                  <img 
-                    src={JSON.parse(prod.images)[0]} 
-                    alt="Product image" 
+                  <img
+                    src={JSON.parse(prod.images)[0]}
+                    alt="Product image"
                     className="w-32 h-32 object-contain mb-2"
                   />
                   <span className="font-semibold text-sm text-center mb-1 truncate w-full">
                     {prod.name}
                   </span>
-                  <span className="text-yellow-400 font-bold">${prod.price}</span>
+                  <span className="text-yellow-400 font-bold">
+                    ${prod.price}
+                  </span>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       )}
-      
     </div>
   );
 };

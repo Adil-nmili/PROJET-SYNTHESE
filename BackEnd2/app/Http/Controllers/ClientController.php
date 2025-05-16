@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
@@ -28,26 +30,51 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:clients',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
-        
-        $validator['password'] = bcrypt($validator['password']);
 
-
-        $client = Client::create($validator);
-        if (!$client) {
-            return response()->json([
-                'message' => 'Failed to create client',
-            ], 500);
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first()], 422);
         }
-        return response()->json([
-            'message' => 'Client created successfully',
-            'client' => $client,
-        ], 201);
 
+        $client = Client::create([
+    'name' => $request->name,
+    'email' => $request->email,
+    'password' => Hash::make($request->password),
+]);
+
+$token = $client->createToken('auth_token')->plainTextToken;
+
+        return response()->json(['message' => 'Account created successfully.'], 201);
+    }
+
+    
+     public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        $user = Client::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return response()->json(['message' => 'Invalid credentials.'], 401);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login successful.',
+            'token' => $token,
+            'user' => $user
+        ], 200);
+    }
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logged out successfully.']);
     }
 
     /**

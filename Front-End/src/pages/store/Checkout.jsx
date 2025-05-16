@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Order from '../../../service/Order';
 import { toast } from 'react-hot-toast';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,6 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState('paypal');
   const [phoneError, setPhoneError] = useState('');
   
-  // Example cart items with Lakers products
   const exampleCart = {
     items: [
       {

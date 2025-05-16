@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SubCategoryController;
@@ -32,16 +34,15 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
-Route::post('/login', [UsersController::class,'verifie']);
-Route::get('/admins', [UsersController::class,'index']);
-Route::get('/admins/{id}', [UsersController::class,'show']);
-Route::delete('/admins/{id}', [UsersController::class,'destroy']);
-Route::put('/admins/{id}', [UsersController::class,'update']);
-Route::post('/admins', [UsersController::class,'store']);
+Route::post('/login', [UsersController::class, 'verifie']);
+Route::get('/admins', [UsersController::class, 'index']);
+Route::get('/admins/{id}', [UsersController::class, 'show']);
+Route::delete('/admins/{id}', [UsersController::class, 'destroy']);
+Route::put('/admins/{id}', [UsersController::class, 'update']);
+Route::post('/admins', [UsersController::class, 'store']);
 Route::resource('/clients', ClientController::class);
-// Route::apiressources([
-//     AdminController::class,
-// ]);
+Route::post('/clients/login', [ClientController::class, 'login']);
+
 Route::get('/players', [PlayersController::class, 'index']);
 Route::post('/players', [PlayersController::class, 'store']);
 Route::put('/players/{id}', [PlayersController::class, 'update']);
@@ -61,3 +62,15 @@ Route::post('/sub-categories', [SubCategoryController::class, 'store']);
 Route::put('/sub-categories/{id}', [SubCategoryController::class, 'update']);
 Route::delete('/sub-categories/{id}', [SubCategoryController::class, 'destroy']);
 Route::get('/sub-categories/category/{categoryId}', [SubCategoryController::class, 'getByCategory']);
+
+
+// Cart routes
+Route::get('/cart/{clientId}', [CartController::class, 'show']);
+Route::post('/cart', [CartController::class, 'createCart']);
+Route::delete('/cart/{clientId}', [CartController::class, 'destroy']);
+Route::delete('/cart/clear/{clientId}', [CartController::class, 'clearCart']);
+
+// CartItem routes
+Route::post('/cart/add', [CartItemController::class, 'add']);
+Route::put('/cart/item/{itemId}', [CartItemController::class, 'update']);
+Route::delete('/cart/item/{itemId}', [CartItemController::class, 'remove']);

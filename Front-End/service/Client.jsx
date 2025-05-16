@@ -17,9 +17,12 @@ const ClientApi = {
     updateAdmin: async (id, payload) => {
         return axiosClient.put(`/api/clients/${id}`, payload)
     },
-    addAdmin: async (payload) => {
+    addClient: async (payload) => {
         return axiosClient.post('/api/clients', payload)
-    }
+    },
+    login: async (payload) => {
+        return axiosClient.post('/api/clients/login', payload)
+    },
 }
 
 export default ClientApi

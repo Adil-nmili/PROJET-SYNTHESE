@@ -5,12 +5,15 @@ import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import CartService from "../../../service/Cart";
-import { CART } from "../../router/Router";
+import { CART, STORE } from "../../router/Router";
 import { DropDownLogin } from "./DropDownLogin";
+import { useClientContext } from "../../../api/context/ClientContext";
+import { HoverCardClient } from "../ui/hoverCardClient";
 
 const StoreNav = ({SearchTerm, setSearchTerm}) => {
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
+  const { authenticated } = useClientContext();
 
   useEffect(() => {
     fetchCartCount();
@@ -39,7 +42,7 @@ const StoreNav = ({SearchTerm, setSearchTerm}) => {
       <div className="bg-purple-900 py-2 h-1/3 w-full flex items-center justify-end pe-16">
         <p className="text-gray-200 font-normal text-xs">
           Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{" "}
-          <Link to="/store" className="text-white font-normal ms-1 underline">
+          <Link to={STORE} className="text-white font-normal ms-1 underline">
             Shop Now
           </Link>
         </p>
@@ -68,10 +71,18 @@ const StoreNav = ({SearchTerm, setSearchTerm}) => {
               </span>
             )}
           </Button>
-            <DropDownLogin />
+          {
+            authenticated ? (
+              <HoverCardClient />
+            ) : (
+              
+              <DropDownLogin />
+            )
+          }
         </div>
       </div>
-      <img src="/logo.png" alt="logo" className="w-16 object-cover h-16 absolute top-1/2 left-16 -translate-y-1/2" />
+
+      <img onClick={() => navigate(STORE)} src="/logo.png" alt="logo" className="w-16 cursor-pointer   object-cover h-16 absolute top-1/2 left-16 -translate-y-1/2" />
     </nav>
   );
 };
