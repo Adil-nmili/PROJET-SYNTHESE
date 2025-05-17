@@ -68,10 +68,26 @@ const Products = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen p-10 bg-gray-50">
       <StoreNav searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       
-      <div className="container mx-auto px-4 py-8 mt-28">
+      {/* Bannière de la catégorie sélectionnée */}
+      {selectedCategory && (
+        <div className="w-full h-[300px] relative mt-5  overflow-hidden rounded-lg">
+          <img
+            src={selectedCategory.image || "/images/default.jpg"}
+            alt={selectedCategory.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/40 flex items-center  justify-center">
+            <h1 className="text-5xl font-bold text-white text-center">
+              {selectedCategory.name}
+            </h1>
+          </div>
+        </div>
+      )}
+
+      <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-center mb-8">
           {selectedCategory ? `Products in ${selectedCategory.name}` : 
            selectedSubcategory ? `Products in ${selectedSubcategory.name}` : 

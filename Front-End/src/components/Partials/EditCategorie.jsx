@@ -25,12 +25,10 @@ export function EditCategorie({ id, onEdit }) {
     Categorie.getById(id).then((res) => setCategory(res.data));
   }, [id]);
 
-  console.log(file);
-  console.log(previewImage)
 
   const handleEdit = (e) => {
     e.preventDefault();
-
+    console.log(category)
     const formData = new FormData();
     formData.append("name", category.name);
     formData.append("description", category.description);

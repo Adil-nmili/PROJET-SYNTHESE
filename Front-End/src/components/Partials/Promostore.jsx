@@ -1,6 +1,8 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
+import { ALLPRODUCTS } from '../../router/Router';
 const Promostore = () => {
+
   return (
     <div className="relative bg-[#FAF1DF] min-h-[500px] flex items-center justify-center overflow-hidden">
       {/* Images à différentes positions */}
@@ -15,7 +17,9 @@ const Promostore = () => {
       <div className="text-center z-10">
         <h1 className="text-4xl font-bold mb-4">Get 50% Off</h1>
         <p className="text-gray-600 mb-6">for all new product purchases<br />min. purchase Rp. 350.000</p>
+        <Link to={ALLPRODUCTS}>
         <button className="bg-white text-black py-2 px-6 rounded-full hover:bg-gray-800 hover:text-white transition">SHOP NOW</button>
+        </Link>
       </div>
     </div>
   );

@@ -19,8 +19,11 @@ function StoreProduct() {
       });
   }, []);
 
-  const handleCategoryClick = (categoryName) => {
-    navigate(`/store/products/${categoryName.toLowerCase()}`);
+  const handleCategoryClick = (category) => {
+    // Stocker la catégorie sélectionnée dans le localStorage
+    localStorage.setItem('selectedCategory', JSON.stringify(category));
+    // Rediriger vers la page des produits
+    navigate(ALLPRODUCTS);
   };
 
   return (
@@ -71,19 +74,18 @@ function StoreProduct() {
       </section>
 
       {/* Section Categories */}
-      <div className="p-15 mt-10  bg-white">
+      <div className="p-15 mt-10 bg-white">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-extrabold">Categories</h2>
           <p className="text-gray-600 text-lg">Find what you are looking for</p>
         </div>
-        <div className="flex flex-wrap justify-center w-full h-[500px] relative gap-8 bg-[#7e57c2]  px-5 ">
+        <div className="flex flex-wrap justify-center w-full h-[500px] relative gap-8 bg-[#7e57c2] px-5">
           {categories.length >= 3 && (
-            <div className="flex justify-center gap-8  rounded-lg">
-
+            <div className="flex justify-center gap-8 rounded-lg">
               {/* 1er bloc */}
               <div
                 className="text-center cursor-pointer w-96 h-96 flex flex-col items-center"
-                onClick={() => handleCategoryClick(categories[0].name)}
+                onClick={() => handleCategoryClick(categories[0])}
               >
                 <div className="bg-white rounded-b-lg p-4 shadow-md hover:scale-105 transition-transform">
                   <img
@@ -92,28 +94,28 @@ function StoreProduct() {
                     className="mx-auto mb-4 h-72 w-52 object-contain"
                   />
                 </div>
-                <h3 className="mt-4 font-semibold">{categories[0].name}</h3>
+                <h3 className="mt-4 font-semibold text-white">{categories[0].name}</h3>
               </div>
 
               {/* 2ème bloc (décalé en bas) */}
               <div
-                className="text-center cursor-pointer w-100 flex flex-col items-center mt-10" // <-- ICI décalage vers le bas
-                onClick={() => handleCategoryClick(categories[1].name)}
+                className="text-center cursor-pointer w-100 flex flex-col items-center mt-10"
+                onClick={() => handleCategoryClick(categories[1])}
               >
                 <div className="bg-white rounded-lg p-4 shadow-md hover:scale-105 transition-transform h-84">
                   <img
                     src={categories[1].image}
                     alt={categories[1].name}
-                    className="mx-auto mb-4 h-80 w-52 "
+                    className="mx-auto mb-4 h-80 w-52"
                   />
                 </div>
-                <h3 className="mt-4 font-semibold">{categories[1].name}</h3>
+                <h3 className="mt-4 font-semibold text-white">{categories[1].name}</h3>
               </div>
 
               {/* 3ème bloc */}
               <div
                 className="text-center cursor-pointer w-100 flex flex-col items-center"
-                onClick={() => handleCategoryClick(categories[2].name)}
+                onClick={() => handleCategoryClick(categories[2])}
               >
                 <div className="bg-white rounded-b-lg p-4 shadow-md hover:scale-105 transition-transform">
                   <img
@@ -122,12 +124,10 @@ function StoreProduct() {
                     className="mx-auto mb-4 h-72 w-52 object-contain"
                   />
                 </div>
-                <h3 className="mt-4 font-semibold">{categories[2].name}</h3>
+                <h3 className="mt-4 font-semibold text-white">{categories[2].name}</h3>
               </div>
-
             </div>
           )}
-          
         </div>
       </div>
     </div>

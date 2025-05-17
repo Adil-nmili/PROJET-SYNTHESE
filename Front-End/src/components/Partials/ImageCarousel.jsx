@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../css/product.css";
 import axios from "axios"; // tu avais oublié l'import de axios
 import { useNavigate } from "react-router-dom"; // si tu utilises react-router
+import { PRODUCT_DETAIL } from "../../router/Router";
 
 export default function ImageCarousel() {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,7 @@ export default function ImageCarousel() {
   }, []);
 
   const handleClick = (productId) => {
-    navigate(`/products/${productId}`); // adapte l'URL selon ton projet
+    navigate(PRODUCT_DETAIL(productId));
   };
 
   return (
@@ -31,9 +32,8 @@ export default function ImageCarousel() {
             <div className="slide" key={index}>
               <img
                 src={JSON.parse(product.images)[0]} 
-
-                alt={product.name || `Product ${index + 1}`} // meilleure description
-                className="h-20 w-auto max-w-[120px] object-contain cursor-pointer"
+                alt={product.name || `Product ${index + 1}`}
+                className="h-20 w-auto max-w-[120px] object-contain cursor-pointer hover:scale-110 transition-transform duration-300"
                 onClick={() => handleClick(product.id)}
               />
             </div>
