@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import CartService from "../../../service/Cart";
@@ -10,7 +10,7 @@ import { DropDownLogin } from "./DropDownLogin";
 import { useClientContext } from "../../../api/context/ClientContext";
 import { HoverCardClient } from "../ui/hoverCardClient";
 
-const StoreNav = ({SearchTerm, setSearchTerm}) => {
+const StoreNav = ({searchTerm, setSearchTerm, isSearching}) => {
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const { authenticated } = useClientContext();
@@ -50,14 +50,18 @@ const StoreNav = ({SearchTerm, setSearchTerm}) => {
       <div className="bg-white h-2/3 w-full flex items-center justify-end">
         <div className="flex items-center justify-end pe-16">
           <div className="relative w-77">
-            <Input 
+            {/* <Input 
               type="text" 
               placeholder="Search..." 
               className="w-full" 
-              value={SearchTerm}
+              value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" />
+            /> */}
+            {/* {isSearching ? (
+              <Loader2 className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 animate-spin" />
+            ) : (
+              <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" />
+            )} */}
           </div>
           <Button 
             className="ms-2 relative" 

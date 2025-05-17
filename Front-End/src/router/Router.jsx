@@ -16,7 +16,7 @@ import LoginForm from "../pages/store/LoginForm";
 import LoginPage from "../pages/Dashboard/Login";
 import RegisterForm from "../pages/store/RegisterForm";
 import Checkout from '../pages/store/Checkout';
-
+import AllCategories from "../pages/store/AllCategories";
 
 import OrdersTable from "../pages/Dashboard/OrdersTable";
 import AddProduct from "../pages/Dashboard/AddProduct";
@@ -51,6 +51,7 @@ export const ORDERS = "/dashboard/orders";
 export const CART = '/store/cart';
 export const CHECKOUT = '/store/checkout';
 export const ALLPRODUCTS = "/store/products";
+export const ALL_CATEGORIES = "/store/categories";
 export const PRODUCT_DETAIL = (id) => `/store/product-detail/${id}`;
 export const PRODUCT_CREATE = "/dashboard/products/create";
 export const TEXT_FILL_LOADING = "/text-fill-loading";
@@ -80,6 +81,7 @@ export const router = createBrowserRouter([
             { path: STORE, element: <Store /> },
             { path: PRODUCT_DETAIL(':id'), element: <ProductDetails2 /> },
             { path: ALLPRODUCTS, element: <Products/> },
+            { path: ALL_CATEGORIES, element: <AllCategories /> },
             { path: CART , element: <Cart /> }, 
             { path: REGISTERSTORE, element: <RegisterForm /> },
             { path: LOGINSTORE, element: <LoginForm /> },

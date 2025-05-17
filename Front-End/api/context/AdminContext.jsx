@@ -26,7 +26,7 @@ export default function AdminContext({ children }) {
     };
 
     useEffect(() => {
-        if (Object.keys(admin).length === 0) {
+        if (!admin || Object.keys(admin).length === 0) {
             setAuthenticated(false);
         } else {
             setAuthenticated(true);
