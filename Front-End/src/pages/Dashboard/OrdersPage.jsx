@@ -45,7 +45,7 @@ export default function OrdersPage() {
   const fetchOrders = async () => {
     try {
       const response = await Order.getAll();
-      console.log(response.data)
+      console.log(response.data);
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -93,7 +93,7 @@ export default function OrdersPage() {
         order.products.some(product => 
           product.name.toLowerCase().includes(searchQuery.toLowerCase())
         )) ||
-      order.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
+      `${order.client?.first_name} ${order.client?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesStatus && matchesSearch;
   });
 
@@ -104,8 +104,6 @@ export default function OrdersPage() {
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  
 
   return (
     <div className="p-6 space-y-6">
@@ -143,84 +141,77 @@ export default function OrdersPage() {
             </Select>
           </div>
 
-    {
-      loading ? (
-        <Loading />
-      ) : (
-        <Table>
-            <TableCaption>A list of all orders</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Products</TableHead>
-                <TableHead>Total Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {currentOrders.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell className="font-medium">{order.id}</TableCell>
-                  <TableCell>{order.user?.name || 'N/A'}</TableCell>
-                  <TableCell>
-                    <DialogProductOrder products={order.products} />
-                  </TableCell>
-                  <TableCell>{order.total_amount} €</TableCell>
-                  <TableCell>
-                    <Select
-                      value={order.status}
-                      onValueChange={(value) => handleStatusChange(order.id, value)}
-                    >
-                      <SelectTrigger className="w-[130px]">
-                        <SelectValue>
-                          <span
-                            className={`px-2 py-1 rounded-full text-white text-xs ${
-                              order.status === "delivered"
-                                ? "bg-green-500"
-                                : order.status === "waiting"
-                                ? "bg-yellow-500"
-                                : "bg-red-500"
-                            }`}
-                          >
-                            {order.status}
-                          </span>
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="waiting">Waiting</SelectItem>
-                        <SelectItem value="delivered">Delivered</SelectItem>
-                        <SelectItem value="returned">Returned</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={() => handleDelete(order.id)}
-                      variant="destructive"
-                      size="sm"
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-              {currentOrders.length === 0 && (
+          {loading ? (
+            <Loading />
+          ) : (
+            <Table>
+              <TableCaption>A list of all orders</TableCaption>
+              <TableHeader>
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-gray-500">
-                    No orders found
-                  </TableCell>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Products</TableHead>
+                  <TableHead>Total Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-      )
-    }
-          
+              </TableHeader>
+              <TableBody>
+                {currentOrders.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="font-medium">{order.id}</TableCell>
+                    <TableCell>
+                      {order.client ? 
+                        `${order.client.first_name} ${order.client.last_name}` : 
+                        'N/A'}
+                    </TableCell>
+                    <TableCell>
+                      <DialogProductOrder products={order.products || []} />
+                    </TableCell>
+                    <TableCell>{order.total_amount} €</TableCell>
+                    <TableCell>
+                      <Select
+                        value={order.status}
+                        onValueChange={(value) => handleStatusChange(order.id, value)}
+                      >
+                        <SelectTrigger className="w-[130px]">
+                          <SelectValue>
+                            <span
+                              className={`px-2 py-1 rounded-full text-white text-xs ${
+                                order.status === "delivered"
+                                  ? "bg-green-500"
+                                  : order.status === "waiting"
+                                  ? "bg-yellow-500"
+                                  : "bg-red-500"
+                              }`}
+                            >
+                              {order.status}
+                            </span>
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="waiting">Waiting</SelectItem>
+                          <SelectItem value="delivered">Delivered</SelectItem>
+                          <SelectItem value="returned">Returned</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="destructive"
+                        onClick={() => handleDelete(order.id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
 
           {/* Pagination Controls */}
-          <div className="flex justify-center items-center space-x-2 mt-4">
+          <div className={loading ? "hidden" : "flex justify-center items-center space-x-2 mt-4"}>
             <Button
               variant="outline"
               onClick={() => paginate(currentPage - 1)}

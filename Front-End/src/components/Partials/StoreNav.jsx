@@ -4,38 +4,16 @@ import { Input } from "@/components/ui/input";
 import { Search, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import CartService from "../../../service/Cart";
 import { CART, STORE } from "../../router/Router";
 import { DropDownLogin } from "./DropDownLogin";
 import { useClientContext } from "../../../api/context/ClientContext";
 import { HoverCardClient } from "../ui/hoverCardClient";
+import { useCartContext } from "../../../api/context/CartContext";
 
 const StoreNav = ({searchTerm, setSearchTerm, isSearching}) => {
-  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
-  const { authenticated } = useClientContext();
-
-  useEffect(() => {
-    fetchCartCount();
-
-    window.addEventListener('cart-updated', fetchCartCount);
-    return () => {
-      window.removeEventListener('cart-updated', fetchCartCount);
-    };
-  }, []);
-
-  const fetchCartCount = async () => {
-    try {
-      const response = await CartService.getCart();
-      const totalItems = response.data?.items?.reduce(
-        (total, item) => total + item.quantity, 
-        0
-      ) || 0;
-      setCartCount(totalItems);
-    } catch (error) {
-      console.error('Error fetching cart count:', error);
-    }
-  };
+  const { authenticated, client } = useClientContext();
+  const { cartCount } = useCartContext();
 
   return (
     <nav className="h-28 w-screen flex flex-col fixed top-0 left-0 items-center z-50 shadow-md border-b-2 border-gray-400">
@@ -70,7 +48,7 @@ const StoreNav = ({searchTerm, setSearchTerm, isSearching}) => {
           >
             <ShoppingCart className="w-4 h-4" />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-yellow-500 text-black rounded-full text-xs flex items-center justify-center font-bold">
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center font-bold">
                 {cartCount}
               </span>
             )}
@@ -79,14 +57,13 @@ const StoreNav = ({searchTerm, setSearchTerm, isSearching}) => {
             authenticated ? (
               <HoverCardClient />
             ) : (
-              
               <DropDownLogin />
             )
           }
         </div>
       </div>
 
-      <img onClick={() => navigate(STORE)} src="/logo.png" alt="logo" className="w-16 cursor-pointer   object-cover h-16 absolute top-1/2 left-16 -translate-y-1/2" />
+      <img onClick={() => navigate(STORE)} src="/logo.png" alt="logo" className="w-16 cursor-pointer object-cover h-16 absolute top-1/2 left-16 -translate-y-1/2" />
     </nav>
   );
 };

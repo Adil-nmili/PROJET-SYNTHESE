@@ -19,30 +19,32 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-      authenticated ? navigate(ALLPRODUCTS) : '';
-    }, [authenticated]);
+    authenticated ? navigate(ALLPRODUCTS) : '';
+  }, [authenticated]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    
-      const response = await login(formData); // call context login
-      if (response.status !== 200) {
-        setError(response.data.message);
-        return;
-      }
-      const clientData = response.data.user; // adjust according to backend
-      setClient(clientData);
-      setAuthenticated(true);
-      localStorage.setItem("token", response.data.token); // optional if needed
-
-      toast.success(response.data.message);
-      setTimeout(() => {
+    try {
+      const response = await login(formData);
+      
+      if (response.status === 200) {
+        const clientData = response.data.user;
+        setClient(clientData);
+        setAuthenticated(true);
+        localStorage.setItem("token", response.data.token);
+        toast.success("Login successful!");
         navigate(ALLPRODUCTS);
-      }, 2000);
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(err.response?.data?.message || "An error occurred during login");
+      toast.error(err.response?.data?.message || "Login failed");
+    } finally {
       setLoading(false);
+    }
   };
 
   return (
@@ -75,6 +77,7 @@ const LoginForm = () => {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 required
+                disabled={loading}
               />
               <Input
                 type="password"
@@ -85,9 +88,10 @@ const LoginForm = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
                 required
+                disabled={loading}
               />
               {error && (
-                <p className="text-xs text-red-400 italic underline">{error}</p>
+                <p className="text-xs text-red-500 italic">{error}</p>
               )}
               <Button type="submit" disabled={loading}>
                 {loading ? "Logging in..." : "Log in"}
@@ -95,8 +99,8 @@ const LoginForm = () => {
             </div>
             <div>
               <p>
-                Don’t have an account?{" "}
-                <Button variant="link" onClick={() => navigate(REGISTERSTORE)}>
+                Don't have an account?{" "}
+                <Button variant="link" onClick={() => navigate(REGISTERSTORE)} disabled={loading}>
                   Sign up
                 </Button>
               </p>

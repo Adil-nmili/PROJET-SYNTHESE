@@ -23,7 +23,7 @@ export function HoverCardClient() {
         <div className="flex justify-between space-x-4 w-full">
           <div className="space-y-1 w-full">
             <div className="flex items-center justify-between gap-2 w-full">
-              <h4 className="text-sm font-semibold">{client.name}</h4>
+              <h4 className="text-sm font-semibold">{client.first_name} {client.last_name}</h4>
             </div>
             <p className="text-sm">{client.email}</p>
             <div className="flex items-center pt-2">

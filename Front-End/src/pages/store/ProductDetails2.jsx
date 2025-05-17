@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Product from "../../../service/Product";
@@ -12,8 +12,8 @@ import { Button } from "../../components/ui/button";
 import { ArrowBigLeft } from "lucide-react";
 import { useClientContext } from "../../../api/context/ClientContext";
 import { useCartContext } from "../../../api/context/CartContext";
-import CartService from "../../../service/Cart";
 import AlertSimple from "../../components/Partials/AlertSimple";
+
 // Custom styles for Swiper
 const swiperStyles = {
   ".similar-products-swiper": {
@@ -47,8 +47,10 @@ const ProductDetails2 = () => {
   const [similarProducts, setSimilarProducts] = useState([]);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [colors, setColors] = useState([]);
+  const [errors, setErrors] = useState(false);
 
   const { authenticated, client } = useClientContext();
+  const { addToCart } = useCartContext();
 
   useEffect(() => {
     authenticated ? fetchProductData() : navigate(LOGINSTORE);
@@ -105,47 +107,31 @@ const ProductDetails2 = () => {
 
   // Logic to add to cart
   const handleAddToCart = async () => {
+    if (!selectedColor) {
+      toast.error("Please select a color");
+      return;
+    }
+
     setAddingToCart(true);
-    const data = {
-      product_id: product.id,
-      quantity,
-      color: selectedColor,
-      client_id: client.id,
-    };
-  
     try {
-      const res = await CartService.addToCart(data);
-      console.log(res)
-      if (res.status === 201) { 
-        setErrors(false);
-        toast.success(res.data.message);
-        setIsAddedToCart(true);
-      } else if (res.status === 409) {
-        setErrors(true);
-        toast.success(res.data.message);
-        setIsAddedToCart(true);
-      } else {
-        setErrors(true);
-        toast.error(res.data.message || "An unexpected error occurred");
-        setIsAddedToCart(true);
-      }
-    } catch (error) {
-      
-      toast.error(
-        error.response?.data?.message || "An error occurred while adding to cart"
-      );
+      await addToCart(product.id, quantity, selectedColor);
       setIsAddedToCart(true);
+      setErrors(false);
+    } catch (error) {
+      setErrors(true);
+      toast.error("Failed to add item to cart");
     } finally {
       setAddingToCart(false);
     }
   };
-  useEffect(()=>{
-    if(isAddedToCart){
-      setTimeout(()=>{
-        setIsAddedToCart(false)
-      },2000)
+
+  useEffect(() => {
+    if (isAddedToCart) {
+      setTimeout(() => {
+        setIsAddedToCart(false);
+      }, 2000);
     }
-  },[isAddedToCart])
+  }, [isAddedToCart]);
 
   const handleRedirect = () => {
     navigate(ALLPRODUCTS);
@@ -182,7 +168,6 @@ const ProductDetails2 = () => {
 
   return (
     <div className="bg-gray-50 min-h-[100vh] relative pt-20 p-8 flex flex-col items-center gap-4">
-      
       <div className="text-right pr-26 w-full">
         <Button onClick={handleRedirect}>
           <ArrowBigLeft />

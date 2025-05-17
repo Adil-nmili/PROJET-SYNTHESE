@@ -3,7 +3,7 @@ import SiteLayout from "../layout/SiteLayout";
 import StoreLayout from "../layout/StoreLayout";
 import HomeSite from "../pages/Home";
 import About from "../pages/About";
-import News from "../pages/News";
+import NewsPage from "../pages/NewsPage";
 import Store from "../pages/store/Store";
 import DashboardLayout from "../layout/DashboardLayout";
 import ListAdmins from "../pages/Dashboard/ListAdmins";
@@ -71,7 +71,7 @@ export const router = createBrowserRouter([
         children: [
             { path: HOME, element: <HomeSite /> },
             { path: ABOUT, element: <About /> },
-            { path: NEWS, element: <News /> },
+            { path: NEWS, element: <NewsPage /> },
             { path: TEXT_FILL_LOADING, element: <TextFillLoadingExample /> },
         ],
     },

@@ -19,8 +19,14 @@ const Order = {
     getById: async (id) => {
         return axiosClient.get(`/api/orders/${id}`)
     },
-    getUserOrders: async (userId) => {
-        return axiosClient.get(`/api/users/${userId}/orders`)
+    getClientOrders: async (clientId) => {
+        return axiosClient.get(`/api/clients/${clientId}/orders`)
+    },
+    getShippingAddress: async (orderId) => {
+        return axiosClient.get(`/api/shipping-address/${orderId}`)
+    },
+    updateShippingAddress: async (orderId, addressData) => {
+        return axiosClient.put(`/api/shipping-address/${orderId}`, addressData)
     }
 }
 
