@@ -33,8 +33,7 @@ class CartItemController extends Controller
 
             return response()->json([
                 'message' => 'Product quantity updated in cart',
-                'item' => $existingItem,
-                
+                'item' => $existingItem,  
             ], status: 409);
         } else if (!$existingItem) {
             $item = CartItem::create([

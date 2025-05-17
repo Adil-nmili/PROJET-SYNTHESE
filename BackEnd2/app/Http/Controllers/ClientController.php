@@ -14,7 +14,27 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $clients = Client::select([
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'phone',
+                'address',
+                'city',
+                'country',
+                'postal_code',
+                'created_at'
+            ])->latest()->get();
+
+            return response()->json($clients);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to fetch clients: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -31,9 +51,15 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:clients,email',
             'password' => 'required|string|min:8|confirmed',
+            'phone' => 'nullable|string|max:255',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -41,12 +67,18 @@ class ClientController extends Controller
         }
 
         $client = Client::create([
-    'name' => $request->name,
-    'email' => $request->email,
-    'password' => Hash::make($request->password),
-]);
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+            'country' => $request->country,
+            'postal_code' => $request->postal_code,
+        ]);
 
-$token = $client->createToken('auth_token')->plainTextToken;
+        $token = $client->createToken('auth_token')->plainTextToken;
 
         return response()->json(['message' => 'Account created successfully.'], 201);
     }

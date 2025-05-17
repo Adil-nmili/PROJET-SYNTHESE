@@ -13,8 +13,15 @@ class Client extends Authenticatable
     use HasApiTokens, Notifiable;
     
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'matricule',
+        'phone',
+        'address',
+        'city',
+        'country',
+        'postal_code',
         'password',
     ];
 
@@ -22,9 +29,24 @@ class Client extends Authenticatable
         'password',
         'remember_token',
     ];
-    public function cartItems()
-{
-    return $this->hasMany(CartItem::class);
-}
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 }

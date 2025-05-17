@@ -13,6 +13,7 @@ use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SousCategorieController;
+use App\Http\Controllers\ShippingAddressController;
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -55,7 +56,7 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/products/similar/{category}', [ProductController::class, 'getSimilarProducts']);
 Route::resource('orders', OrderController::class);
 Route::resource('teams', TeamController::class);
-Route::get('/users/{userId}/orders', [OrderController::class, 'getUserOrders']);
+Route::get('/clients/{clientId}/orders', [OrderController::class, 'getClientOrders']);
 Route::get('/sub-categories', [SubCategoryController::class, 'index']);
 Route::get('/sub-categories/{id}', [SubCategoryController::class, 'show']);
 Route::post('/sub-categories', [SubCategoryController::class, 'store']);
@@ -74,3 +75,8 @@ Route::delete('/cart/clear/{clientId}', [CartController::class, 'clearCart']);
 Route::post('/cart/add', [CartItemController::class, 'add']);
 Route::put('/cart/item/{itemId}', [CartItemController::class, 'update']);
 Route::delete('/cart/item/{itemId}', [CartItemController::class, 'remove']);
+
+// Shipping Address routes
+Route::post('/shipping-address', [ShippingAddressController::class, 'store']);
+Route::get('/shipping-address/{orderId}', [ShippingAddressController::class, 'show']);
+Route::put('/shipping-address/{orderId}', [ShippingAddressController::class, 'update']);

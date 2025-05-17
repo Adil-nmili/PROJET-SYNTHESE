@@ -13,18 +13,16 @@ use Database\Factories\ProductFactory;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,
             SousCategorySeeder::class,
             ProductSeeder::class,
+            ClientSeeder::class,
             OrderSeeder::class,
             OrderItemSeeder::class,
-
         ]);
-       
     }
 }
