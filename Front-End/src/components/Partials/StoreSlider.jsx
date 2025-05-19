@@ -97,23 +97,16 @@ const StoreSlider = () => {
         <img
           src={'/asset/flech.png'}
           alt="Arrow"
-          className="absolute z-50 right-0 top-0 transform -translate-x-1/2 -translate-y-1/2 w-28 h-28 animate-bounce"
+          className="absolute z-10 right-0 top-0 transform -translate-x-1/2 -translate-y-1/2 w-28 h-28 animate-bounce"
         />
 
         {/* Deuxième flèche retournée et animée */}
         <img
           src={'/asset/flech.png'}
           alt="Arrow Rotated"
-          className="absolute z-50 left-0 bottom-0 transform -translate-x-1/2 -translate-y-1/2 rotate-180 w-28 h-28 animate-bounce"
+          className="absolute z-10 left-0 bottom-0 transform -translate-x-1/2 -translate-y-1/2 rotate-180 w-28 h-28 animate-bounce"
         />
-
-      
       </div>
-
-      {/* Button
-      <Button className="absolute text-[14px] capitalize bg-[#FDBB30] hover:bg-[#FDBB10] hover:text-black font-bold z-50 bottom-4 left-1/2 -translate-x-1/2">
-        <Link to={ABOUT}>Continue reading</Link>
-      </Button> */}
     </section>
   );
 };

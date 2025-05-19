@@ -55,6 +55,7 @@ Route::resource('products', ProductController::class);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/products/similar/{category}', [ProductController::class, 'getSimilarProducts']);
 Route::resource('orders', OrderController::class);
+Route::get('/orders/last_id',[OrderController::class,'get_id']);
 Route::resource('teams', TeamController::class);
 Route::get('/clients/{clientId}/orders', [OrderController::class, 'getClientOrders']);
 Route::get('/sub-categories', [SubCategoryController::class, 'index']);

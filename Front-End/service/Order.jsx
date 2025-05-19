@@ -27,6 +27,9 @@ const Order = {
     },
     updateShippingAddress: async (orderId, addressData) => {
         return axiosClient.put(`/api/shipping-address/${orderId}`, addressData)
+    },
+    getLastOrderId: () =>{
+        return axiosClient.get('/api/orders/last_id')
     }
 }
 

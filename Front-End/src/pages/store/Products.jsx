@@ -8,6 +8,9 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Button } from '../../components/ui/button';
+import { BaggageClaim } from 'lucide-react';
+import { useCartContext } from '../../../api/context/CartContext';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +20,7 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const navigate = useNavigate();
-
+  const { addToCart } = useCartContext()
   useEffect(() => {
     // Récupérer la catégorie sélectionnée du localStorage
     const storedCategory = localStorage.getItem('selectedCategory');
@@ -66,6 +69,15 @@ const Products = () => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSubcategory && matchesSearch;
   });
+
+  const handleAddToCart = async (e, productId) => {
+    e.stopPropagation(); // Prevent navigation to product details
+    try {
+      await addToCart(productId, 1, "default"); // Add default color
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen p-10 bg-gray-50">
@@ -154,9 +166,12 @@ const Products = () => {
                   alt={product.name}
                   className="w-32 h-32 object-contain mb-4"
                 />
-                <button className="bg-black text-white w-full py-2 rounded mb-3 flex items-center justify-center gap-2 hover:bg-gray-800 transition">
-                  🛒 Add To Cart
-                </button>
+                <Button 
+                  onClick={(e) => handleAddToCart(e, product.id)} 
+                  className="bg-black text-white w-full py-2 rounded mb-3 flex items-center justify-center gap-2 hover:bg-gray-800 transition"
+                >
+                  <BaggageClaim/> Add To Cart
+                </Button>
                 <p className="font-medium text-sm text-center">{product.name}</p>
                 <div className="flex justify-center items-center gap-2 mt-1">
                   <span className="text-red-600 font-semibold">{product.price} DH</span>

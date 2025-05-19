@@ -21,16 +21,28 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { CHECKOUT, ALLPRODUCTS } from '../../router/Router';
 import { Contact, Gift, PhoneCall, Trash, Truck, ArrowLeft } from 'lucide-react';
+import { useCartContext } from '../../../api/context/CartContext';
 
 
 export default function Cart() {
   const { client } = useClientContext();
+  const { 
+    cart, 
+    applyCoupon, 
+    removeCoupon, 
+    coupon, 
+    discountType,
+    discountValue,
+    isFreeShipping,
+    calculateSubtotal,
+    calculateDiscount,
+    calculateShipping,
+    calculateTotal
+  } = useCartContext();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate()
-  const [coupon, setCoupon] = useState('');
-  const [discount, setDiscount] = useState(false)
-  const [total, setTotal] = useState(0);
+  const [couponInput, setCouponInput] = useState('');
 
   const fetchCart = async () => {
     try {
@@ -53,22 +65,48 @@ export default function Cart() {
     }
   }, [client.id]);
 
-  const shipping = 7.5;
-  const subtotal = items.reduce(
-    (sum, item) => sum + (item.product?.price || 0) * item.quantity,
-    0
-  );
-
-  useEffect(() => {
-    setTotal(subtotal + shipping);
-  }, [subtotal, shipping]);
-
   const handleAddCoupon = () => {
-    if (coupon !== '') {
-      setTotal((subtotal + shipping) * 0.85);
-      setDiscount(true)
-    } else {
-      setTotal(subtotal + shipping);
+    if (couponInput !== '') {
+      applyCoupon(couponInput.toUpperCase());
+      setCouponInput('');
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    removeCoupon();
+    setCouponInput('');
+  };
+
+  const renderDiscountInfo = () => {
+    if (!coupon) return null;
+
+    const subtotal = calculateSubtotal();
+    const discountAmount = calculateDiscount(subtotal);
+
+    switch (discountType) {
+      case 'percentage':
+        return (
+          <div className="flex justify-between mb-2 text-green-600">
+            <span>Discount ({discountValue}%)</span>
+            <span>-${discountAmount.toFixed(2)}</span>
+          </div>
+        );
+      case 'fixed_amount':
+        return (
+          <div className="flex justify-between mb-2 text-green-600">
+            <span>Discount (Fixed Amount)</span>
+            <span>-${discountAmount.toFixed(2)}</span>
+          </div>
+        );
+      case 'free_shipping':
+        return (
+          <div className="flex justify-between mb-2 text-green-600">
+            <span>Free Shipping Applied</span>
+            <span>-${calculateShipping().toFixed(2)}</span>
+          </div>
+        );
+      default:
+        return null;
     }
   };
 
@@ -218,29 +256,38 @@ export default function Cart() {
                       type='text'
                       className="flex-1"
                       placeholder="Enter code"
-                      value={coupon}
-                      onChange={(e) => setCoupon(e.target.value)}
+                      value={couponInput}
+                      onChange={(e) => setCouponInput(e.target.value)}
+                      disabled={!!coupon}
                     />
-                    <Button variant="outline" onClick={handleAddCoupon}>Apply</Button>
+                    {coupon ? (
+                      <Button variant="destructive" onClick={handleRemoveCoupon}>
+                        Remove
+                      </Button>
+                    ) : (
+                      <Button variant="outline" onClick={handleAddCoupon}>
+                        Apply
+                      </Button>
+                    )}
                   </div>
+                  {coupon && (
+                    <div className="text-sm text-green-600 mb-4">
+                      Coupon applied: {coupon}
+                    </div>
+                  )}
                   <div className="border-t pt-4 mt-4">
                     <div className="flex justify-between mb-2">
                       <span>Cart Subtotal</span>
-                      <span>${subtotal.toFixed(2)}</span>
+                      <span>${calculateSubtotal().toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between mb-2">
                       <span>Shipping</span>
-                      <span>${shipping.toFixed(2)}</span>
+                      <span>${calculateShipping().toFixed(2)}</span>
                     </div>
-                    {discount && (
-                      <div className="flex justify-between mb-2 text-green-600">
-                        <span>Discount (15%)</span>
-                        <span>-${((subtotal + shipping) * 0.15).toFixed(2)}</span>
-                      </div>
-                    )}
+                    {renderDiscountInfo()}
                     <div className="flex justify-between font-bold text-lg">
                       <span>Cart Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>${calculateTotal().toFixed(2)}</span>
                     </div>
                     <Button onClick={()=>navigate(CHECKOUT)} className="mt-6 w-full" variant="default">
                       Checkout

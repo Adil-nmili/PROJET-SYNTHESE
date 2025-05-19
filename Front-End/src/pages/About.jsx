@@ -9,13 +9,12 @@ import { useEffect, useState } from 'react';
 import SplashScreen from '../components/Partials/SplashScreen';
 import InterviewCoposant from '../components/Partials/InterviewCoposant';
 
-function About() {
+const About = () => {
   const events = [
-    { date: "1947", text: "Creation of the Minneapolis Lakers." },
-    { date: "1960", text: "Relocation to Los Angeles." },
-    { date: "1980s", text: 'The era of Magic Johnson & Kareem Abdul-Jabbar ("Showtime Lakers").' },
-    { date: "2000s", text: "Dominance with Kobe Bryant & Shaquille O'Neal." },
-    { date: "2020", text: "17th NBA title with LeBron James & Anthony Davis." },
+    { date: "1947", text: " the Lakers franchise was founded, but not in Los Angeles — they were originally based in Minneapolis, Minnesota, and were called the Minneapolis Lakers."},
+    { date: "1980", text: "Marked the start of a dynasty: The Lakers would go on to win 5 championships in the 1980s (1980, 1982, 1985, 1987, 1988).Cemented Magic Johnson as a superstar and revolutionized the point guard role."  },
+    { date: "2000", text: "Start of the Shaq-Kobe 3-peat (2000, 2001, 2002)Phil Jackson proved he could win without Michael Jordan.Lakers re-established themselves as the NBA's most dominant franchise of the early 2000s." },
+    { date: "2020", text: "The year 2020 was an emotional and historic year for the Los Angeles Lakers. Despite the global COVID-19 pandemic and the tragic loss of Lakers legend Kobe Bryant, the team went on to win their 17th NBA Championship, tying the Boston Celtics for the most in NBA history." },
   ];
 
   const playerQuotes = [
@@ -49,7 +48,7 @@ function About() {
     // SplashScreen dure 3 secondes
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 9000
+    }, 7000
   );
 
     return () => clearTimeout(timer);
@@ -100,12 +99,12 @@ function About() {
         {/* Timeline Section */}
         <div className="relative w-full py-8">
   <div className="max-w-5xl mx-auto">
-    <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-4 border-[#AD8291]"></div>
+    <div className="absolute left-1/2  transform -translate-x-1/2 h-full border-l-4 border-[#AD8280]"></div>
 
     {events.map((event, index) => (
       <motion.div
         key={index}
-        className={`mb-6 flex justify-between items-center w-full ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}
+        className={`mb-1 flex justify-between items-center w-full ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}

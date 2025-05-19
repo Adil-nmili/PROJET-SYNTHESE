@@ -133,4 +133,8 @@ class OrderController extends Controller
             ->get();
         return response()->json($orders);
     }
+    public function get_id(){
+        $order_id = Order::latest('id')->get();
+        return response()->json($order_id);
+    }
 } 
