@@ -23,6 +23,7 @@ const NewsPage = () => {
       try {
         // Données simulées enrichies avec plus d'informations
         const mockData = {
+          
           news: [
             {
               id: 1,
