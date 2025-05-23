@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { STORE } from '../../router/Router';
+import { CART, STORE } from '../../router/Router';
 import { useClientContext } from '../../../api/context/ClientContext';
 import { useCartContext } from '../../../api/context/CartContext';
 import Order from '../../../service/Order';
 import ProductService from '../../../service/Product';
+import { axiosClient } from '../../../api/axios';
 // shadcn/ui components
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,7 +17,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CreditCard, Wallet, Banknote } from 'lucide-react';
+import { CreditCard, Wallet, Banknote, ArrowBigLeft } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import OrderSuccess from '@/components/OrderSuccess';
 import UpsellProducts from '@/components/UpsellProducts';
+import PaypalCheckout from '../../components/PaypalCheckout'
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -74,6 +76,7 @@ const Checkout = () => {
   });
 
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [lastOrderId, setLastOrderId] = useState(null);
   const [upsellProducts, setUpsellProducts] = useState([]);
 
   useEffect(() => {
@@ -116,6 +119,13 @@ const Checkout = () => {
       return;
     }
 
+    // Check if PayPal is selected but not verified
+    if (paymentMethod === 'paypal' && !isPaypalVerified) {
+      toast.error('Please verify your PayPal email before placing the order');
+      setShowPaypalDialog(true);
+      return;
+    }
+
     setProcessing(true);
     try {
       const orderData = {
@@ -133,21 +143,48 @@ const Checkout = () => {
           postal_code: billingInfo.zipPostcode,
           country: 'Morocco',
           phone_number: billingInfo.phoneNumber
-        }
+        },
+        paypal_email: paymentMethod === 'paypal' ? paypalEmail : null
       };
 
       const response = await Order.create(orderData);
       
       if (response.status === 201) {
-        clearCart();
-        setOrderSuccess(true);
-        
-        // Fetch upsell products
         try {
-          const productsResponse = await ProductService.getUpsellProducts();
-          setUpsellProducts(productsResponse.data);
+          // Get the last order ID
+          const lastOrderResponse = await Order.getLastOrderId();
+          console.log('Last order response:', lastOrderResponse);
+          
+          if (lastOrderResponse.data && lastOrderResponse.data.id) {
+            setLastOrderId(lastOrderResponse.data.id);
+          } else {
+            console.error('Invalid last order response:', lastOrderResponse);
+            setLastOrderId(response.data.order.id); // Fallback to the current order ID
+          }
+          
+          // Clear the cart
+          clearCart();
+          
+          // Set order success
+          setOrderSuccess(true);
+          
+          // Fetch upsell products
+          try {
+            const productsResponse = await ProductService.getUpsellProducts();
+            console.log('Upsell products response:', productsResponse);
+            if (productsResponse && productsResponse.data) {
+              setUpsellProducts(productsResponse.data);
+            } else {
+              console.error('Invalid upsell products response:', productsResponse);
+            }
+          } catch (error) {
+            console.error('Error fetching upsell products:', error);
+          }
         } catch (error) {
-          console.error('Error fetching upsell products:', error);
+          console.error('Error getting last order ID:', error);
+          // Fallback to using the current order ID
+          setLastOrderId(response.data.order.id);
+          setOrderSuccess(true);
         }
       } else {
         throw new Error('Failed to create order');
@@ -161,25 +198,34 @@ const Checkout = () => {
   };
 
   const handlePaypalVerification = async () => {
-    // Here you would typically make an API call to verify the PayPal email
-    // For demo purposes, we'll just simulate a verification
     setProcessing(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo, we'll consider any email with @paypal.com as valid
-      const isValid = paypalEmail.includes('@paypal.com');
-      
-      if (isValid) {
+      // Validate PayPal email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(paypalEmail)) {
+        toast.error('Please enter a valid email address');
+        return;
+      }
+
+      // Make API call to verify PayPal email
+      const response = await axiosClient.post('/api/paypal/verify-email', {
+        email: paypalEmail
+      });
+console.log(response)
+      if (response.data.verified) {
         setIsPaypalVerified(true);
         setShowPaypalDialog(false);
         toast.success('PayPal email verified successfully!');
       } else {
-        toast.error('Invalid PayPal email. Please try again.');
+        toast.error('This email is not associated with a PayPal account. Please use a valid PayPal email.');
       }
     } catch (error) {
-      toast.error('Failed to verify PayPal email. Please try again.');
+      console.error('PayPal verification error:', error);
+      if (error.response?.status === 404) {
+        toast.error('This email is not associated with a PayPal account. Please use a valid PayPal email.');
+      } else {
+        toast.error('Failed to verify PayPal email. Please try again.');
+      }
     } finally {
       setProcessing(false);
     }
@@ -284,10 +330,16 @@ const Checkout = () => {
     }
   };
 
+  const handlePaymentSuccess = (details) => {
+    // Handle successful payment
+    console.log('Payment successful:', details);
+    // Update your database, show success message, etc.
+  };
+
   if (orderSuccess) {
     return (
       <>
-        <OrderSuccess orderId={Number(Order.getLastOrderId) + 1} />
+        <OrderSuccess orderId={lastOrderId} />
         {upsellProducts.length > 0 && <UpsellProducts products={upsellProducts} />}
       </>
     );
@@ -303,8 +355,13 @@ const Checkout = () => {
 
   return (
     <form onSubmit={handleSubmit} className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl pt-10 mx-auto">
+        <div className='flex item-center justify-between'>
         <h1 className="text-2xl font-bold mb-8">Checkout</h1>
+        <Button onClick={()=> navigate(CART)}>
+          <ArrowBigLeft />
+          Return back</Button>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Billing Information */}
@@ -476,6 +533,11 @@ const Checkout = () => {
                   <div className="mt-4 p-4 bg-gray-50 rounded-lg">
                     {isPaypalVerified ? (
                       <div className="flex items-center gap-2 text-green-600">
+                        <PaypalCheckout
+                          amount={calculateTotal}
+                          verifiedPaypalEmail={paypalEmail}
+                          onSuccess={handlePaymentSuccess}
+                        />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-5 w-5"
@@ -652,6 +714,63 @@ const Checkout = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Order Success Modal */}
+      {orderSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-2xl w-full mx-4">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Order Placed Successfully!</h2>
+              <p className="text-gray-600">Your order has been placed successfully. Order number: #{lastOrderId}</p>
+            </div>
+
+            {/* Upsell Products Section */}
+            {upsellProducts && upsellProducts.length > 0 && (
+              <div className="mt-8">
+                <h3 className="text-xl font-semibold mb-4">Recommended Products</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {upsellProducts.map((product) => (
+                    <div key={product.id} className="border rounded-lg p-4 flex items-center space-x-4">
+                      <img 
+                        src={product.image_url} 
+                        alt={product.name}
+                        className="w-20 h-20 object-cover rounded"
+                      />
+                      <div className="flex-1">
+                        <h4 className="font-medium">{product.name}</h4>
+                        <p className="text-gray-600">${product.price}</p>
+                        <button
+                          onClick={() => handleAddUpsellProduct(product)}
+                          className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-8 flex justify-center space-x-4">
+              <button
+                onClick={() => {
+                  setOrderSuccess(false);
+                  navigate('/store');
+                }}
+                className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+              >
+                Continue Shopping
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 };

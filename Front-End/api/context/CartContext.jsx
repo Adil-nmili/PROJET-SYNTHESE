@@ -105,12 +105,28 @@ export default function CartProvider({ children }) {
         toast.error('Please login to remove items from cart');
         return;
       }
+
+      // Update local state first
+      setCart(prev => {
+        if (!prev?.items) return prev;
+        return {
+          ...prev,
+          items: prev.items.filter(item => item.id !== itemId)
+        };
+      });
+
+      // Update cart count
+      updateCartCount(cart);
+
+      // Then update the backend
       await CartService.removeItem(itemId);
-      await fetchCart();
+      
       toast.success('Item removed from cart');
     } catch (error) {
       console.error('Error removing from cart:', error);
       toast.error('Failed to remove item from cart');
+      // Revert to server state on error
+      await fetchCart();
       throw error;
     }
   };
@@ -121,12 +137,41 @@ export default function CartProvider({ children }) {
         toast.error('Please login to update cart');
         return;
       }
+
+      // Update local state first
+      setCart(prev => {
+        if (!prev?.items) return prev;
+        const updatedItems = prev.items.map(item =>
+          item.id === itemId ? { ...item, quantity } : item
+        );
+        return {
+          ...prev,
+          items: updatedItems
+        };
+      });
+
+      // Update cart count immediately
+      setCartCount(prev => {
+        const item = cart?.items?.find(i => i.id === itemId);
+        if (!item) return prev;
+        const quantityDiff = quantity - item.quantity;
+        return prev + quantityDiff;
+      });
+
+      // Then update the backend
       await CartService.updateQuantity(itemId, quantity);
-      await fetchCart();
+      
+      // Fetch fresh cart data to ensure sync
+      const response = await CartService.getCart(client.id);
+      setCart(response.data);
+      updateCartCount(response.data);
+      
       toast.success('Cart updated');
     } catch (error) {
       console.error('Error updating cart:', error);
       toast.error('Failed to update cart');
+      // Revert to server state on error
+      await fetchCart();
       throw error;
     }
   };
@@ -138,23 +183,32 @@ export default function CartProvider({ children }) {
         setCartCount(0);
         return;
       }
-      await CartService.clearCart(client.id);
+
+      // Update local state first
       setCart(null);
       setCartCount(0);
+
+      // Then update the backend
+      await CartService.clearCart(client.id);
+      
       window.dispatchEvent(new Event('cart-updated'));
       toast.success('Cart cleared');
     } catch (error) {
       console.error('Error clearing cart:', error);
       toast.error('Failed to clear cart');
+      // Revert to server state on error
+      await fetchCart();
       throw error;
     }
   };
 
   const calculateSubtotal = () => {
     if (!cart?.items) return 0;
-    return cart.items.reduce((sum, item) => 
-      sum + (item.product?.price || 0) * item.quantity, 0
-    );
+    return cart.items.reduce((sum, item) => {
+      const price = parseFloat(item.product?.price || 0);
+      const quantity = parseInt(item.quantity || 0);
+      return sum + (price * quantity);
+    }, 0);
   };
 
   const validateCoupon = (code, subtotal) => {

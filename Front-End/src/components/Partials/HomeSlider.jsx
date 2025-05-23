@@ -26,7 +26,7 @@ const HomeSlider = () => {
   ];
 
   return (
-    <div className="pt-20 w-full">
+    <div className="pt-10 w-full">
       <div className="relative w-full flex items-center overflow-hidden h-[calc(100vh-80px)]">
         {/* Static Background */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900 to-orange-400">

@@ -26,7 +26,10 @@ const Product =  {
   },
    getSimilarProducts: async (category) => {
       return axiosClient.get(`/api/products/similar/${category}`)
-    }
+    },
+  getUpsellProducts: async () => {
+    return axiosClient.get('/api/products/upsell')
+  }
 }
 
 export default Product

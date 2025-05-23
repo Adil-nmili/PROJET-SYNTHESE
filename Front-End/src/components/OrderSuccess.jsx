@@ -3,9 +3,13 @@ import { motion } from 'framer-motion';
 import { CheckCircle2, Package, Truck } from 'lucide-react';
 import Confetti from 'react-confetti';
 import { useWindowSize } from '@/hooks/useWindowSize';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { STORE } from '@/router/Router';
 
 const OrderSuccess = ({ orderId }) => {
   const { width, height } = useWindowSize();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -69,9 +73,22 @@ const OrderSuccess = ({ orderId }) => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="text-sm text-gray-500"
+          className="text-sm text-gray-500 mb-8"
         >
           We'll send you an email with your order details and tracking information.
+        </motion.div>
+
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+        >
+          <Button
+            onClick={() => navigate(STORE)}
+            className="bg-purple-600 hover:bg-purple-700 text-white"
+          >
+            Continue Shopping
+          </Button>
         </motion.div>
       </motion.div>
     </div>

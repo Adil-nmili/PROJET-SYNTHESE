@@ -54,7 +54,7 @@ const ProductAnalytics = () => {
         totalOrders: orders.length,
       });
     } catch (error) {
-      console.error("Failed to fetch analytics:", error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -78,7 +78,8 @@ const ProductAnalytics = () => {
         icon={AlertTriangle}
         description="Products below threshold"
       />
-      <StatCard
+      <StatCard 
+      className="truncate"
         title="Top Seller"
         value={stats.topSeller.name}
         icon={TrendingUp}

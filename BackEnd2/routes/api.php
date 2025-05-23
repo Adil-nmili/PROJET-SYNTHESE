@@ -12,6 +12,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\SousCategorieController;
 use App\Http\Controllers\ShippingAddressController;
 
@@ -56,6 +57,7 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/products/similar/{category}', [ProductController::class, 'getSimilarProducts']);
 Route::resource('orders', OrderController::class);
 Route::get('/orders/last_id',[OrderController::class,'get_id']);
+Route::get('/orders/last-id', [OrderController::class, 'getLastOrderId']);
 Route::resource('teams', TeamController::class);
 Route::get('/clients/{clientId}/orders', [OrderController::class, 'getClientOrders']);
 Route::get('/sub-categories', [SubCategoryController::class, 'index']);
@@ -81,3 +83,8 @@ Route::delete('/cart/item/{itemId}', [CartItemController::class, 'remove']);
 Route::post('/shipping-address', [ShippingAddressController::class, 'store']);
 Route::get('/shipping-address/{orderId}', [ShippingAddressController::class, 'show']);
 Route::put('/shipping-address/{orderId}', [ShippingAddressController::class, 'update']);
+
+
+Route::post('/paypal/create-order', [PayPalController::class, 'createOrder']);
+Route::post('/paypal/capture-order', [PayPalController::class, 'captureOrder']);
+Route::post('/paypal/verify-email', [PayPalController::class, 'verifyEmail']);

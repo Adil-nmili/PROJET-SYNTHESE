@@ -8,6 +8,7 @@ import {
     User,
     Users,
     FolderTree,
+    Newspaper,
   } from "lucide-react";
   
   import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -39,7 +40,7 @@ import {
   
   import Logo2 from "../../public/asset/logo2.jpeg";
 import { useAdminContext } from "../../api/context/AdminContext";
-import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, ORDERS, PLAYERS, PRODUCT, PRODUCT_CREATE, SUBCATEGORIES, TEAMS, USER_DETAIL } from "../router/Router";
+import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, NEWSFORM, ORDERS, PLAYERS, PRODUCT, PRODUCT_CREATE, SUBCATEGORIES, TEAMS, USER_DETAIL } from "../router/Router";
   export function AppSidebar() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -226,6 +227,44 @@ import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, ORDERS, PLAYERS, PRODUCT, P
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>News</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={PRODUCT}
+                        className={` ${
+                          location.pathname === PRODUCT
+                            ? "bg-slate-800 text-gray-100"
+                            : ""
+                        }`}
+                      >
+                        <Newspaper />
+                        <span>News Articales</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={NEWSFORM}
+                        className={` ${
+                          location.pathname === NEWSFORM
+                            ? "bg-slate-800 text-gray-100"
+                            : ""
+                        }`}
+                      >
+                        <SquarePlus />
+                        <span>New Article</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
