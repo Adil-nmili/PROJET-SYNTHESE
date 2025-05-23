@@ -23,52 +23,72 @@ function Home() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex flex-col items-center justify-center w-full min-h-screen">
       {/* Slider principal */}
-      <HomeSlider />
+      <div className="w-full">
+        <HomeSlider />
+      </div>
 
       {/* Carrousel des sponsors */}
-      <SponsorCarousel />
+      <div className="w-full px-4 md:px-8 lg:px-16">
+        <SponsorCarousel />
+      </div>
 
       {/* Section d'actualités Lakers */}
-      <LatestNews />
+      <div className="w-full px-4 md:px-8 lg:px-16">
+        <LatestNews />
+      </div>
 
-      <div className='h-[340px] w-full'>
-        <img src="/asset/banner.png" alt="section logo" className='h-full w-full object-cover' />
+      {/* Bannière */}
+      <div className='w-full h-[200px] md:h-[300px] lg:h-[340px]'>
+        <img 
+          src="/asset/banner.png" 
+          alt="section logo" 
+          className='h-full w-full object-cover'
+        />
       </div>
 
       {/* Section des catégories */}
-      <div className='flex w-full justify-center gap-10 items-center py-10 bg-white'>
-        {categories.map((category) => (
-          <div 
-            key={category.id}
-            onClick={() => handleCategoryClick(category)}
-            className="flex flex-col items-center p-6 rounded-xl shadow-md shadow-black hover:scale-105 transition-transform cursor-pointer group" 
-            style={{ backgroundColor: "#52307c", backgroundImage: "linear-gradient(to right, rgba(107, 70, 193, 0.8), rgba(66, 39, 90, 0.9))" }}
-          >
-            <div className="relative overflow-hidden rounded-lg">
-              <img
-                src={category.image}
-                alt={`${category.name}'s Jersey`}
-                className="w-64 h-64 object-cover rounded-lg group-hover:scale-110 transition-all duration-300"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white text-xl font-bold">Voir la collection</span>
+      <div className='w-full px-4 md:px-8 lg:px-16 py-8 md:py-10 bg-white'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-7xl mx-auto'>
+          {categories.map((category) => (
+            <div 
+              key={category.id}
+              onClick={() => handleCategoryClick(category)}
+              className="flex flex-col items-center p-4 md:p-6 rounded-xl shadow-md shadow-black hover:scale-105 transition-transform cursor-pointer group" 
+              style={{ backgroundColor: "#52307c", backgroundImage: "linear-gradient(to right, rgba(107, 70, 193, 0.8), rgba(66, 39, 90, 0.9))" }}
+            >
+              <div className="relative overflow-hidden rounded-lg w-full">
+                <img
+                  src={category.image}
+                  alt={`${category.name}'s Jersey`}
+                  className="w-full h-48 md:h-64 object-cover rounded-lg group-hover:scale-110 transition-all duration-300"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span className="text-white text-lg md:text-xl font-bold">Voir la collection</span>
+                </div>
               </div>
+              <p className="mt-4 text-gray-200 font-semibold text-center group-hover:text-white transition-colors">
+                {category.title}
+              </p>
+              <strong className="text-[#7e57c2] text-[14px] md:text-[16px] mt-2 uppercase group-hover:text-[#9c7cff] transition-colors text-center" 
+                style={{letterSpacing:"1px",textShadow:"1px 1px 4px #000"}}>
+                {category.name}
+              </strong>
             </div>
-            <p className="mt-4 text-gray-200 font-semibold group-hover:text-white transition-colors">{category.title}</p>
-            <strong className="text-[#7e57c2] text-[16px] mt-2 uppercase group-hover:text-[#9c7cff] transition-colors" style={{letterSpacing:"1px",textShadow:"1px 1px 4px #000"}}>
-              {category.name}
-            </strong>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Newsletter subscription */}
-      <Newsletter />
+      <div className="w-full px-4 md:px-8 lg:px-16">
+        <Newsletter />
+      </div>
 
       {/* Slider des réseaux sociaux */}
-      <SocialMediaSlider />
+      <div className="w-full px-4 md:px-8 lg:px-16">
+        <SocialMediaSlider />
+      </div>
     </div>
   );
 }

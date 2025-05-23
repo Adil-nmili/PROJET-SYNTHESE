@@ -103,8 +103,11 @@ const RegisterForm = () => {
       }
     } catch (err) {
       console.error("Registration error:", err);
-      setError(err.response?.data?.message || "An error occurred during registration");
-      toast.error(err.response?.data?.message || "Registration failed");
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          "An error occurred during registration";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
