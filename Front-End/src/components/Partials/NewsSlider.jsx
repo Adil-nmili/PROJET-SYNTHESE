@@ -6,7 +6,7 @@ const NewsSlider = () => {
       <div className="relative h-full">
         <iframe
           className="w-full h-full object-cover"
-          src="https://www.youtube.com/embed/zu7XWu5wrMg?autoplay=1&mute=1&loop=1&playlist=zu7XWu5wrMg&controls=0&showinfo=0&rel=0"
+          src="https://www.youtube.com/embed/zu7XWu5wrMg?autoplay=1&mute=1&loop=1&playlist=zu7XWu5wrMg&controls=0&showinfo=0&rel=0&modestbranding=1"
           title="NBA Highlights"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
