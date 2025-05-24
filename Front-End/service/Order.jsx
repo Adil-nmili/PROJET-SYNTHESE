@@ -28,8 +28,14 @@ const Order = {
     updateShippingAddress: async (orderId, addressData) => {
         return axiosClient.put(`/api/shipping-address/${orderId}`, addressData)
     },
-    getLastOrderId: () =>{
-        return axiosClient.get('/api/orders/last_id')
+    getLastOrderId: async () => {
+        try {
+            const response = await axiosClient.get('/api/orders/last-id');
+            return response;
+        } catch (error) {
+            console.error('Error getting last order ID:', error);
+            throw error;
+        }
     }
 }
 

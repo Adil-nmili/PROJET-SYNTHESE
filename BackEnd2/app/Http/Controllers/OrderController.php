@@ -133,8 +133,28 @@ class OrderController extends Controller
             ->get();
         return response()->json($orders);
     }
-    public function get_id(){
-        $order_id = Order::latest('id')->get();
-        return response()->json($order_id);
+
+    public function getLastOrderId()
+    {
+        try {
+            $lastOrder = Order::orderBy('id', 'desc')->first();
+            
+            if (!$lastOrder) {
+                return response()->json([
+                    'id' => 0,
+                    'message' => 'No orders found'
+                ]);
+            }
+
+            return response()->json([
+                'id' => $lastOrder->id,
+                'message' => 'Last order ID retrieved successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error getting last order ID',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 } 

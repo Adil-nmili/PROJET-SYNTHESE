@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import { CHECKOUT, ALLPRODUCTS } from '../../router/Router';
 import { Contact, Gift, PhoneCall, Trash, Truck, ArrowLeft } from 'lucide-react';
 import { useCartContext } from '../../../api/context/CartContext';
+import { toast } from 'react-hot-toast';
 
 
 export default function Cart() {
@@ -37,7 +38,8 @@ export default function Cart() {
     calculateSubtotal,
     calculateDiscount,
     calculateShipping,
-    calculateTotal
+    calculateTotal,
+    updateQuantity
   } = useCartContext();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,31 +112,61 @@ export default function Cart() {
     }
   };
 
-  // 2. Now define handlers that use fetchCart
   const handleQuantityChange = async (itemId, newQuantity) => {
     if (newQuantity < 1) return;
-    await CartService.updateQuantity(itemId, newQuantity);
-    setItems(prev =>
-      prev.map(item =>
+    try {
+      // Update local state first for immediate feedback
+      setItems(prev => prev.map(item => 
         item.id === itemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-    // Dispatch cart-updated event
-    window.dispatchEvent(new Event('cart-updated'));
+      ));
+
+      // Then update the backend through context
+      await updateQuantity(itemId, newQuantity);
+      
+      // Fetch fresh cart data
+      await fetchCart();
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+      toast.error('Failed to update quantity');
+      // Revert local state on error
+      await fetchCart();
+    }
   };
 
   const handleRemoveItem = async (itemId) => {
-    await CartService.removeItem(itemId);
-    setItems(prev => prev.filter(item => item.id !== itemId));
-    // Dispatch cart-updated event
-    window.dispatchEvent(new Event('cart-updated'));
+    try {
+      // Update local state first
+      setItems(prev => prev.filter(item => item.id !== itemId));
+      
+      // Then update the backend
+      await CartService.removeItem(itemId);
+      
+      // Fetch fresh cart data
+      await fetchCart();
+    } catch (error) {
+      console.error('Error removing item:', error);
+      toast.error('Failed to remove item');
+      // Revert local state on error
+      await fetchCart();
+    }
   };
 
   const handleClearCart = async () => {
-    await CartService.clearCart(client.id);
-    setItems([]);
-    // Dispatch cart-updated event
-    window.dispatchEvent(new Event('cart-updated'));
+    try {
+      // Update local state first
+      setItems([]);
+      
+      // Then update the backend
+      await CartService.clearCart(client.id);
+      
+      // Fetch fresh cart data
+      await fetchCart();
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+      toast.error('Failed to clear cart');
+      // Revert local state on error
+      await fetchCart();
+    }
   };
 
   return (
