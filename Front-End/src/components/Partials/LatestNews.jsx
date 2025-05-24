@@ -38,7 +38,7 @@ const LatestNews = ({ news = [], onArticleClick }) => {
           {duplicatedNews.map((article, index) => (
             <div
               key={`${article.id}-${index}`}
-              className="news-card relative bg-purple-50 rounded-lg shadow-md overflow-hidden hover:scale-[1.02] transform transition duration-300 cursor-pointer group"
+              className="news-card relative bg-purple-50/50 backdrop-blur-sm rounded-lg shadow-md overflow-hidden hover:scale-[1.02] transform transition duration-300 cursor-pointer group"
               onClick={() => onArticleClick(article)}
             >
               <img
@@ -46,7 +46,7 @@ const LatestNews = ({ news = [], onArticleClick }) => {
                 alt={article.title}
                 className="w-full h-32 md:h-48 object-cover"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300">
+              <div className="absolute inset-0 bg-black/30 backdrop-blur-0 group-hover:bg-black/50 group-hover:backdrop-blur-xl transition-all duration-300">
                 <div className="p-3 md:p-4 h-full flex flex-col justify-end transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <span className="inline-block bg-purple-600 text-white text-[10px] md:text-xs px-2 py-0.5 md:py-1 rounded mb-1 md:mb-2">
                     {article.category}

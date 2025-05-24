@@ -22,64 +22,52 @@ const NewsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Utiliser les données de mockMatchesData.json
-        const mockData = {
-          news: [
-            {
-              id: 1,
-              title: "LeBron James leads Lakers to spectacular victory against Celtics",
-              content: "In an exciting match, LeBron James delivered a masterful performance, dominating with **35 points, 10 rebounds, 8 assists and 2 steals**. The Lakers overcame a 15-point deficit to win against their historic rivals, the Boston Celtics. Team cohesion in the final minutes was decisive.",
-              author: "NBA News",
-              date: "2024-03-20",
-              category: "Match Highlights",
-              image: "/players/lebron.jpg",
-              videoUrl: "https://www.youtube.com/embed/example_lebron_highlight"
-            },
-            {
-              id: 2,
-              title: "Anthony Davis, defensive wall against Warriors",
-              content: "Anthony Davis was the Lakers' defensive pillar, recording **28 points, 15 rebounds, 4 blocks and 2 steals**. His impact in the paint limited the Golden State Warriors' options. On offense, he was efficient, especially on pick-and-roll with LeBron.",
-              author: "Sports Illustrated",
-              date: "2024-03-18",
-              category: "Player Performance",
-              image: "/players/davis.jpg",
-              videoUrl: "https://www.youtube.com/embed/example_davis_block"
-            },
-            {
-              id: 3,
-              title: "Lakers intense preparation for playoffs",
-              content: "The team is training with increased intensity as playoffs approach. Video sessions, offensive and defensive drills, as well as strength training are on the program. The goal is clear: to be in top form for the postseason.",
-              author: "ESPN",
-              date: "2024-03-15",
-              category: "Team News",
-              image: "/players/team.jpg",
-              videoUrl: null
-            }
-          ],
-          playerStats: mockMatchesData[0].playerStats,
-          calendar: mockMatchesData,
-          standings: mockMatchesData[0].standings,
-          matchResults: mockMatchesData.map(day => 
-            day.matches.map(match => ({
-              id: match.id,
-              homeTeam: match.homeTeam,
-              homeScore: match.homeScore,
-              awayTeam: match.awayTeam,
-              awayScore: match.awayScore,
-              date: day.date,
-              status: match.status,
-              homeImage: match.homeLogo,
-              awayImage: match.awayLogo,
-              matchSummaryUrl: `#/match-details/${match.id}`
-            }))
-          ).flat()
-        };
+        // Create news from match data
+        const newsFromMatches = mockMatchesData.flatMap(day => 
+          day.matches.map(match => ({
+            id: match.id,
+            title: `${match.homeTeam} vs ${match.awayTeam} - ${match.homeScore}-${match.awayScore}`,
+            content: `In an exciting match, ${match.homeTeam} faced ${match.awayTeam}. The game ended with a score of ${match.homeScore}-${match.awayScore}. ${match.homeTeamStats[0].name} led the scoring with ${match.homeTeamStats[0].points} points, while ${match.awayTeamStats[0].name} scored ${match.awayTeamStats[0].points} points for ${match.awayTeam}.`,
+            author: "NBA News",
+            date: day.date,
+            category: "Match Report",
+            image: match.homeLogo,
+            videoUrl: "https://www.youtube.com/embed/zu7XWu5wrMg"
+          }))
+        );
 
-        setNews(mockData.news);
-        setPlayerStats(mockData.playerStats);
-        setCalendar(mockData.calendar);
-        setStandings(mockData.standings);
-        setMatchResults(mockData.matchResults);
+        // Add player performance news
+        const playerNews = mockMatchesData[0].playerStats.slice(0, 3).map(player => ({
+          id: `player-${player.id}`,
+          title: `${player.name} - ${player.points} Points Performance`,
+          content: `${player.name} had an outstanding performance with ${player.points} points, ${player.rebounds} rebounds, and ${player.assists} assists. This remarkable display of skill and athleticism helped lead their team to victory.`,
+          author: "NBA Stats",
+          date: "2024-03-30",
+          category: "Player Performance",
+          image: player.image,
+          videoUrl: "https://www.youtube.com/embed/zu7XWu5wrMg"
+        }));
+
+        const allNews = [...newsFromMatches, ...playerNews];
+
+        setNews(allNews);
+        setPlayerStats(mockMatchesData[0].playerStats);
+        setCalendar(mockMatchesData);
+        setStandings(mockMatchesData[0].standings);
+        setMatchResults(mockMatchesData.map(day => 
+          day.matches.map(match => ({
+            id: match.id,
+            homeTeam: match.homeTeam,
+            homeScore: match.homeScore,
+            awayTeam: match.awayTeam,
+            awayScore: match.awayScore,
+            date: day.date,
+            status: match.status,
+            homeImage: match.homeLogo,
+            awayImage: match.awayLogo,
+            matchSummaryUrl: `#/match-details/${match.id}`
+          }))
+        ).flat());
         setLoading(false);
       } catch (err) {
         setError('Error loading data');
