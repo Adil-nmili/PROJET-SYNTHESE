@@ -5,11 +5,16 @@ export const NewsService = {
         return await axiosClient.get("/sanctum/csrf-cookie") 
     },
 
-    createArticle : async (payload) => {
-        return axiosClient.post('/api/news', payload)
+    createArticle : async (formData) => {
+        return axiosClient.post('/api/news-articles', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Accept': 'application/json'
+            }
+        });
     },
     getAllArticles :  async () => {
-        return axiosClient.get('/api/news')
+        return axiosClient.get('/api/news-articles')
     },
     updateArticle : async (id, payload) => {
         return axiosClient.put(`/api/news/${id}`,payload)
@@ -21,3 +26,4 @@ export const NewsService = {
         return axiosClient.delete(`/api/news/${id}`)
     }
 }
+

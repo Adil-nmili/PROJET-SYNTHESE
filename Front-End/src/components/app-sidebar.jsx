@@ -40,7 +40,7 @@ import {
   
   import Logo2 from "../../public/asset/logo2.jpeg";
 import { useAdminContext } from "../../api/context/AdminContext";
-import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, NEWSFORM, ORDERS, PLAYERS, PRODUCT, PRODUCT_CREATE, SUBCATEGORIES, TEAMS, USER_DETAIL } from "../router/Router";
+import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, CREATE_ARTICLES, ORDERS, PLAYERS, PRODUCT, PRODUCT_CREATE, SUBCATEGORIES, TEAMS, USER_DETAIL, ARTICLES_CONTENT } from "../router/Router";
   export function AppSidebar() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -237,9 +237,9 @@ import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, NEWSFORM, ORDERS, PLAYERS, 
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={PRODUCT}
+                        to={ARTICLES_CONTENT}
                         className={` ${
-                          location.pathname === PRODUCT
+                          location.pathname === ARTICLES_CONTENT
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}
@@ -252,9 +252,9 @@ import { ADMIN, ADMIN_CREATE, CATEGORIES, DASHBOARD, NEWSFORM, ORDERS, PLAYERS, 
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        to={NEWSFORM}
+                        to={CREATE_ARTICLES}
                         className={` ${
-                          location.pathname === NEWSFORM
+                          location.pathname === CREATE_ARTICLES
                             ? "bg-slate-800 text-gray-100"
                             : ""
                         }`}

@@ -18,9 +18,11 @@ const ClientApi = {
         return axiosClient.put(`/api/clients/${id}`, payload)
     },
     addClient: async (payload) => {
+        await ClientApi.getCSRFToken();
         return axiosClient.post('/api/clients', payload)
     },
     login: async (payload) => {
+        await ClientApi.getCSRFToken();
         return axiosClient.post('/api/clients/login', payload)
     },
 }

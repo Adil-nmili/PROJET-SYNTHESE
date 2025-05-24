@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\NewsArticleController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
@@ -88,3 +89,9 @@ Route::put('/shipping-address/{orderId}', [ShippingAddressController::class, 'up
 Route::post('/paypal/create-order', [PayPalController::class, 'createOrder']);
 Route::post('/paypal/capture-order', [PayPalController::class, 'captureOrder']);
 Route::post('/paypal/verify-email', [PayPalController::class, 'verifyEmail']);
+
+
+
+// News Routers
+
+Route::resource('/news-articles',NewsArticleController::class);

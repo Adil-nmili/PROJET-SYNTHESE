@@ -32,8 +32,10 @@ import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
 import SplashScreen from "../components/Partials/SplashScreen";
 import ProductDetails2 from "../pages/store/ProductDetails2";
-import NewsForm from "../components/Partials/NewsForm";
-
+import CreateArticles from "../pages/Dashboard/CreateArticles";
+import NewsPageDashboard from "../pages/Dashboard/NewsPage";
+import EditArticle from '../components/Partials/EditArticle';
+import Articles from '../pages/Dashboard/Articles';
 
 
 // Paths
@@ -49,7 +51,8 @@ export const PRODUCT = "/dashboard/products";
 export const CATEGORIES = "/dashboard/categories";
 export const SUBCATEGORIES = "/dashboard/sub-categories";
 export const ORDERS = "/dashboard/orders";
-export const NEWSFORM = "/dashboard/news/create";
+export const CREATE_ARTICLES = "/dashboard/news/create";
+export const ARTICLES_CONTENT = "/dashboard/news"
 export const CART = '/store/cart';
 export const CHECKOUT = '/store/checkout';
 export const ALLPRODUCTS = "/store/products";
@@ -107,7 +110,10 @@ export const router = createBrowserRouter([
             { path: PLAYERS_EDIT(":id"), element: <PlayerForm mode="edit" /> },
             { path: TEAMS, element: <Teams /> },
             { path: TEAMS_CREATE, element: <TeamForm /> },
-            {path: NEWSFORM, element: <NewsForm />},
+            {path: CREATE_ARTICLES, element: <CreateArticles />},
+            {path: ARTICLES_CONTENT, element: <NewsPageDashboard />},
+            { path: "/articles", element: <Articles /> },
+            { path: "/articles/edit/:id", element: <EditArticle /> },
         ],
     },
     {

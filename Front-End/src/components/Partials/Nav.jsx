@@ -23,7 +23,7 @@ function Nav() {
           {/* {path === "dashboard" ? "" : ` > ${path}`} */}
         </h2>
       </ul>
-      <div className="absolute right-4 flex items-center gap-2">
+      <div className="absolute right-4 flex items-center gap-2 z-50">
       <HoverCardUser admin={admin} />
       <ModeToggle />
       </div>
