@@ -3,47 +3,7 @@ import './LatestNews.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { NEWS } from '../../router/Router';
 
-<<<<<<< HEAD
 const LatestNews = ({ news = [], onArticleClick }) => {
-=======
-// examples d'articles de news
-const newsItems = [
-  {
-    id: 1,
-    title: "Lakers Sign New Rising Star Forward",
-    image: "/lakers-champions.png", 
-    date: "May 10, 2025",
-    trending: true,
-    summary: "The Lakers have secured a promising new talent to strengthen their roster next season."
-  },
-  {
-    id: 2,
-    title: "Championship Hopes Alive: Lakers Playoff Analysis",
-    image: "/images/lebronJames2.jpg", 
-    date: "May 8, 2025",
-    trending: true,
-    summary: "Experts break down the Lakers' chances in the upcoming playoff series."
-  },
-  {
-    id: 3,
-    title: "Injury Update: Star Player Expected to Return Next Week",
-    image: "/images/lakers.jpeg", 
-    date: "May 7, 2025",
-    trending: false,
-    summary: "Good news for Lakers fans as key player nears return from injury."
-  },
-  {
-    id: 4,
-    title: "Lakers Foundation Launches New Community Initiative",
-    image: "/walpaper.jpg", 
-    date: "May 5, 2025",
-    trending: false,
-    summary: "The Lakers organization continues its commitment to giving back to the community."
-  }
-];
-
-const LatestNews = ({ news=[], onArticleClick }) => {
->>>>>>> dc8fca1a7c2b82d29f3103e5b15529a9cdcfa015
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
 
