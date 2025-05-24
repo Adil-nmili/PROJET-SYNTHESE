@@ -2,7 +2,6 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  padding: 1rem 0;
 }
 
 .news-slider {
@@ -10,7 +9,6 @@
   transition: transform 0.5s ease;
   animation: slide 20s linear infinite;
   gap: 2rem;
-  padding: 0 1rem;
 }
 
 .news-slider:hover,
@@ -31,7 +29,7 @@
   transition: transform 0.3s ease;
   flex: 0 0 calc(100% - 2rem);
   padding: 0;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 

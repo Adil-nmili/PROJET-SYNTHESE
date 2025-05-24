@@ -32,6 +32,7 @@ import PlayerForm from "../components/Partials/PlayerForm";
 import TeamForm from "../components/Partials/TeamForm";
 import SplashScreen from "../components/Partials/SplashScreen";
 import ProductDetails2 from "../pages/store/ProductDetails2";
+import MatchDetailsPage from "../pages/MatchDetailsPage";
 
 
 
@@ -63,6 +64,7 @@ export const PLAYERS_CREATE = "/dashboard/players/new";
 export const PLAYERS_EDIT = (id) => `/dashboard/players/edit/${id}`;
 export const TEAMS_CREATE = "/dashboard/teams/new";
 export const LOGIN = "/login";
+export const MATCH_DETAIL = "/match-details/:id";
 
 // Router config
 export const router = createBrowserRouter([
@@ -72,6 +74,7 @@ export const router = createBrowserRouter([
             { path: HOME, element: <HomeSite /> },
             { path: ABOUT, element: <About /> },
             { path: NEWS, element: <NewsPage /> },
+            { path:MATCH_DETAIL , element: <MatchDetailsPage/> },
             { path: TEXT_FILL_LOADING, element: <TextFillLoadingExample /> },
         ],
     },

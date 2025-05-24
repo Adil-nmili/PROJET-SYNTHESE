@@ -2,10 +2,10 @@ import React from 'react';
 
 const NewsSlider = () => {
   return (
-    <section className="relative h-[500px] ">
-      <div className="relative h-full">
+    <section className="relative h-56 mt-17 md:h-screen">
+      <div className="relative h-full ">
         <video
-          className="w-full h-screen object-cover"
+          className="w-full h-full object-cover"
           autoPlay
           loop
           muted

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const MatchResults = ({ matchResults }) => {
   const navigate = useNavigate();
 
-  // Données supplémentaires pour les matchs
+  // Additional match data
   const additionalMatches = [
     {
       id: 5,
@@ -13,8 +13,8 @@ const MatchResults = ({ matchResults }) => {
       awayTeam: "Nuggets",
       awayScore: 108,
       date: "2024-04-20",
-      status: "Terminé",
-      series: "LAL mène 1 à 0",
+      status: "Final",
+      series: "LAL leads 1-0",
       homeImage: "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
       awayImage: "https://a.espncdn.com/i/teamlogos/nba/500/den.png"
     },
@@ -25,8 +25,8 @@ const MatchResults = ({ matchResults }) => {
       awayTeam: "Warriors",
       awayScore: 98,
       date: "2024-04-18",
-      status: "Terminé",
-      series: "LAL mène 2 à 0",
+      status: "Final",
+      series: "LAL leads 2-0",
       homeImage: "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
       awayImage: "https://a.espncdn.com/i/teamlogos/nba/500/gs.png"
     },
@@ -37,8 +37,8 @@ const MatchResults = ({ matchResults }) => {
       awayTeam: "Lakers",
       awayScore: 110,
       date: "2024-04-15",
-      status: "Terminé",
-      series: "PHX mène 1 à 0",
+      status: "Final",
+      series: "PHX leads 1-0",
       homeImage: "https://a.espncdn.com/i/teamlogos/nba/500/phx.png",
       awayImage: "https://a.espncdn.com/i/teamlogos/nba/500/lal.png"
     },
@@ -49,8 +49,8 @@ const MatchResults = ({ matchResults }) => {
       awayTeam: "Clippers",
       awayScore: 118,
       date: "2024-04-12",
-      status: "Terminé",
-      series: "LAL mène 1 à 0",
+      status: "Final",
+      series: "LAL leads 1-0",
       homeImage: "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
       awayImage: "https://a.espncdn.com/i/teamlogos/nba/500/lac.png"
     },
@@ -61,8 +61,8 @@ const MatchResults = ({ matchResults }) => {
       awayTeam: "Grizzlies",
       awayScore: 92,
       date: "2024-04-10",
-      status: "Terminé",
-      series: "LAL mène 2 à 0",
+      status: "Final",
+      series: "LAL leads 2-0",
       homeImage: "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
       awayImage: "https://a.espncdn.com/i/teamlogos/nba/500/mem.png"
     },
@@ -73,43 +73,49 @@ const MatchResults = ({ matchResults }) => {
       awayTeam: "Lakers",
       awayScore: 112,
       date: "2024-04-08",
-      status: "Terminé",
-      series: "LAL mène 1 à 0",
+      status: "Final",
+      series: "LAL leads 1-0",
       homeImage: "https://a.espncdn.com/i/teamlogos/nba/500/no.png",
       awayImage: "https://a.espncdn.com/i/teamlogos/nba/500/lal.png"
     }
   ];
 
-  // Combiner les matchs existants avec les nouveaux
+  // Combine existing matches with new ones
   const allMatches = [...matchResults, ...additionalMatches];
 
   return (
-    <section className="pt-40 px-4">
-      <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Résultats des Matchs</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <section className="py-6 md:py-10 px-2 md:px-4">
+      <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-gray-800">Match Results</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         {allMatches.map((match) => (
           <div 
             key={match.id} 
-            className="bg-purple-50 rounded-xl shadow-lg p-4 hover:scale-105 transform transition duration-300 cursor-pointer"
+            className="bg-purple-50 rounded-lg shadow-md p-3 md:p-4 hover:scale-[1.02] transform transition duration-300 cursor-pointer"
             onClick={() => navigate(`/match/${match.id}`, { state: { match } })}
           >
-            <div className="text-xs text-gray-600 mb-2">{match.status} - {new Date(match.date).toLocaleDateString()}</div>
+            <div className="text-[10px] md:text-xs text-gray-600 mb-2">
+              {match.status} - {new Date(match.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })}
+            </div>
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center">
-                <img src={match.awayImage} alt={match.awayTeam} className="w-6 h-6 mr-1" />
-                <span className="font-semibold text-gray-800 text-sm">{match.awayTeam}</span>
+                <img src={match.awayImage} alt={match.awayTeam} className="w-5 h-5 md:w-6 md:h-6 mr-1" />
+                <span className="font-semibold text-gray-800 text-xs md:text-sm truncate">{match.awayTeam}</span>
               </div>
-              <span className="font-bold text-gray-800 text-sm">{match.awayScore}</span>
+              <span className="font-bold text-gray-800 text-xs md:text-sm">{match.awayScore}</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <img src={match.homeImage} alt={match.homeTeam} className="w-6 h-6 mr-1" />
-                <span className="font-semibold text-gray-800 text-sm">{match.homeTeam}</span>
+                <img src={match.homeImage} alt={match.homeTeam} className="w-5 h-5 md:w-6 md:h-6 mr-1" />
+                <span className="font-semibold text-gray-800 text-xs md:text-sm truncate">{match.homeTeam}</span>
               </div>
-              <span className="font-bold text-gray-800 text-sm">{match.homeScore}</span>
+              <span className="font-bold text-gray-800 text-xs md:text-sm">{match.homeScore}</span>
             </div>
             {match.series && (
-              <div className="text-xs text-gray-500 mt-2">Série: {match.series}</div>
+              <div className="text-[10px] md:text-xs text-gray-500 mt-2">Series: {match.series}</div>
             )}
           </div>
         ))}
