@@ -40,9 +40,7 @@ const newsItems = [
   }
 ];
 
-const LatestNews = ({ news=newsItems, onArticleClick }) => {
-
-const LatestNews = ({ news = [], onArticleClick }) => {
+const LatestNews = ({ news = newsItems, onArticleClick }) => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -67,31 +65,6 @@ const LatestNews = ({ news = [], onArticleClick }) => {
   }
 
   return (
-    <section className="py-10 px-4">
-      <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Most Latest News</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {news.map((article) => (
-          <div
-            key={article.id}
-            className="bg-purple-50 rounded-xl shadow-lg overflow-hidden hover:scale-105 transform transition duration-300 cursor-pointer"
-            onClick={() => onArticleClick(article)}
-          >
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <span className="inline-block bg-purple-600 text-white text-xs px-2 py-1 rounded mb-2">
-                {article.category}
-              </span>
-              <h3 className="font-bold text-lg mb-2 text-gray-800">{article.title}</h3>
-              <p className="text-sm text-gray-600">
-                {article.author} • {new Date(article.date).toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-        ))}
     <section className="py-4 px-2 md:px-4">
       <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-gray-800">Latest News</h2>
       <div className="news-container">
