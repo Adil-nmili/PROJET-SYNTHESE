@@ -5,6 +5,7 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\NewsArticleController;
+use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
@@ -95,3 +96,4 @@ Route::post('/paypal/verify-email', [PayPalController::class, 'verifyEmail']);
 // News Routers
 
 Route::resource('/news-articles',NewsArticleController::class);
+Route::post('/newsletter', [NewsLetterController::class, 'subscribe']);

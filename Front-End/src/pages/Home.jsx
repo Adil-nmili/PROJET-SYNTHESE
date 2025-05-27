@@ -40,12 +40,12 @@ function Home() {
       </div>
 
       {/* Bannière */}
-      <div className='w-full h-[200px] md:h-[300px] lg:h-[340px]'>
-        <img 
+      <div className='w-full h-[200px] md:h-[300px] lg:h-[340px] bg-[url(/asset/banner.png)] ' style={{backgroundAttachment:"fixed"}}>
+        {/* <img 
           src="/asset/banner.png" 
           alt="section logo" 
           className='h-full w-full object-cover'
-        />
+        /> */}
       </div>
 
       {/* Section des catégories */}

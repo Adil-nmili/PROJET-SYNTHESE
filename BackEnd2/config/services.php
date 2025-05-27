@@ -40,5 +40,9 @@ return [
         'client_secret' => env('PAYPAL_CLIENT_SECRET'),
         'mode' => env('PAYPAL_MODE', 'sandbox'), // 'sandbox' or 'live'
     ],
+    'mailchimp' => [
+    'key' => env('MAILCHIMP_KEY'),
+    'list_id' => env('MAILCHIMP_LIST_ID'),
+],
 
 ];

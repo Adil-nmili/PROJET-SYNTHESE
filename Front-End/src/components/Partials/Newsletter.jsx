@@ -4,14 +4,29 @@ import '../../../public/asset/lignes.png';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
+import { axiosClient } from '../../../api/axios';
+import toast from 'react-hot-toast';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Subscribing email:', email);
-    setEmail('');
+    try {
+      const response = await axiosClient.post('/api/newsletter', { email }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      
+      if (response.status === 200) {
+        toast.success('Congratulations! You have successfully subscribed to the Lakers platform');
+        setEmail('');
+      }
+    } catch (error) {
+      toast.error('Failed to subscribe. Please check your email or try again later.');
+      console.error('Newsletter subscription error:', error);
+    }
   };
 
   return (
@@ -66,7 +81,7 @@ const Newsletter = () => {
             <img
               src="/players/7.png"
               alt="Lakers Player"
-              className="h-[180px] md:h-auto w-auto max-h-[120%] absolute right-0 md:-right-20 -top-5 md:-top-10 object-contain transform translate-x-0 md:translate-x-12 translate-y-0 z-10"
+              className="h-[180px] md:h-auto w-auto max-h-[120%] absolute right-0 md:-right-20 top-20  md:-top-10 object-contain transform translate-x-0 md:translate-x-12 translate-y-3.5 z-10"
               style={{ filter: "drop-shadow(2px 6px 8px rgba(0,0,0,0.3))" }}
             />
           </div>

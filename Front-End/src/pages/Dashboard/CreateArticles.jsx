@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import NewsForm from "../../components/Partials/NewsForm";
+import ResultMatchsForm from "../../components/Partials/ResultMatchsForm";
 const CreateArticles = () => {
   return (
     <div className="flex flex-col items-center w-full min-h-screen">
@@ -15,6 +16,9 @@ const CreateArticles = () => {
                 </TabsList>
                 <TabsContent value="news">
                     <NewsForm />
+                </TabsContent>
+                <TabsContent value="match">
+                    <ResultMatchsForm />
                 </TabsContent>
             </Tabs>
         </div>

@@ -56,9 +56,9 @@ const LoginForm = () => {
             Enter your details below
           </p>
         </div>
-        <div className="h-full w-full flex gap-3 relative border-gray-600 rounded-lg overflow-hidden shadow-md shadow-black">
+        <div className="h-[400px] w-full flex gap-3 relative border-gray-600 rounded-lg overflow-hidden shadow-md shadow-black">
           <img
-            src="/images/Logo.jpeg"
+            src="/asset/drapo-2.jpg"
             alt="Login"
             className="h-full w-1/2 object-cover"
           />
@@ -66,7 +66,7 @@ const LoginForm = () => {
           <form
             onSubmit={handleLogin}
             className="border absolute top-0 right-0 p-4 flex w-1/2 h-full flex-col justify-between gap-4"
-          >
+          > 
             <div className="flex-1 flex flex-col justify-center gap-4">
               <Input
                 type="email"

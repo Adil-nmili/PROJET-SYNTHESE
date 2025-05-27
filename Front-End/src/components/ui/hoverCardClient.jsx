@@ -9,13 +9,14 @@ import {
 import { useClientContext } from "../../../api/context/ClientContext";
 
 export function HoverCardClient() {
+  
 
   const { logout, client } = useClientContext();
 
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <Button variant="link">
+        <Button variant="link" >
           <User />
         </Button>
       </HoverCardTrigger>
