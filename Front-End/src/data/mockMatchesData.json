@@ -1,0 +1,327 @@
+[
+  {
+    "date": "2024-10-05",
+    "matches": [
+      {
+        "id": 1,
+        "league": "NBA",
+        "status": "TERMINÉ",
+        "homeTeam": "L.A Lakers",
+        "homeLogo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
+        "homeScore": 107,
+        "awayTeam": "Minnesota",
+        "awayLogo": "https://a.espncdn.com/i/teamlogos/nba/500/min.png",
+        "awayScore": 124,
+        "replayLink": "#",
+        "homeTeamStats": [
+          { "id": 1, "name": "LeBron James", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png", "points": 25, "rebounds": 7, "assists": 9, "steals": 1, "blocks": 0 },
+          { "id": 2, "name": "Anthony Davis", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png", "points": 20, "rebounds": 13, "assists": 2, "steals": 1, "blocks": 3 },
+          { "id": 3, "name": "Austin Reaves", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630559.png", "points": 18, "rebounds": 4, "assists": 5, "steals": 2, "blocks": 0 }
+        ],
+        "awayTeamStats": [
+          { "id": 4, "name": "Karl-Anthony Towns", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626157.png", "points": 28, "rebounds": 10, "assists": 4, "steals": 0, "blocks": 2 },
+          { "id": 5, "name": "Anthony Edwards", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630162.png", "points": 26, "rebounds": 6, "assists": 5, "steals": 2, "blocks": 1 },
+          { "id": 6, "name": "Rudy Gobert", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203497.png", "points": 15, "rebounds": 12, "assists": 1, "steals": 0, "blocks": 3 }
+        ]
+      }
+    ],
+    "playerStats": [
+      {
+        "id": 1,
+        "name": "LeBron James",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png",
+        "points": 28,
+        "rebounds": 12,
+        "assists": 8
+      },
+      {
+        "id": 2,
+        "name": "Stephen Curry",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/201939.png",
+        "points": 32,
+        "rebounds": 8,
+        "assists": 15
+      },
+      {
+        "id": 3,
+        "name": "Kevin Durant",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/201142.png",
+        "points": 35,
+        "rebounds": 10,
+        "assists": 6
+      },
+      {
+        "id": 4,
+        "name": "Giannis Antetokounmpo",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203507.png",
+        "points": 30,
+        "rebounds": 15,
+        "assists": 7
+      },
+      {
+        "id": 5,
+        "name": "Luka Doncic",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1629029.png",
+        "points": 33,
+        "rebounds": 9,
+        "assists": 12
+      },
+      {
+        "id": 6,
+        "name": "Joel Embiid",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203954.png",
+        "points": 34,
+        "rebounds": 11,
+        "assists": 5
+      },
+      {
+        "id": 7,
+        "name": "Jayson Tatum",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628369.png",
+        "points": 27,
+        "rebounds": 8,
+        "assists": 4
+      },
+      {
+        "id": 8,
+        "name": "Nikola Jokic",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203999.png",
+        "points": 26,
+        "rebounds": 13,
+        "assists": 10
+      },
+      {
+        "id": 9,
+        "name": "Devin Booker",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626164.png",
+        "points": 29,
+        "rebounds": 5,
+        "assists": 7
+      },
+      {
+        "id": 10,
+        "name": "Anthony Davis",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png",
+        "points": 25,
+        "rebounds": 12,
+        "assists": 3
+      },
+      {
+        "id": 11,
+        "name": "Jimmy Butler",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/202710.png",
+        "points": 24,
+        "rebounds": 6,
+        "assists": 5
+      },
+      {
+        "id": 12,
+        "name": "Damian Lillard",
+        "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203081.png",
+        "points": 31,
+        "rebounds": 4,
+        "assists": 8
+      }
+    ],
+    "standings": [
+      {
+        "id": 1,
+        "team": "Thunder",
+        "wins": 68,
+        "losses": 14,
+        "percentage": 0.829,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612760/global/L/logo.svg"
+      },
+      {
+        "id": 2,
+        "team": "Nuggets",
+        "wins": 65,
+        "losses": 17,
+        "percentage": 0.793,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612743/global/L/logo.svg"
+      },
+      {
+        "id": 3,
+        "team": "Timberwolves",
+        "wins": 62,
+        "losses": 20,
+        "percentage": 0.756,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612750/global/L/logo.svg"
+      },
+      {
+        "id": 4,
+        "team": "Clippers",
+        "wins": 58,
+        "losses": 24,
+        "percentage": 0.707,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612746/global/L/logo.svg"
+      },
+      {
+        "id": 5,
+        "team": "Suns",
+        "wins": 56,
+        "losses": 26,
+        "percentage": 0.683,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612756/global/L/logo.svg"
+      },
+      {
+        "id": 6,
+        "team": "Lakers",
+        "wins": 50,
+        "losses": 32,
+        "percentage": 0.610,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612747/global/L/logo.svg"
+      },
+      {
+        "id": 7,
+        "team": "Warriors",
+        "wins": 48,
+        "losses": 34,
+        "percentage": 0.585,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg"
+      },
+      {
+        "id": 8,
+        "team": "Kings",
+        "wins": 46,
+        "losses": 36,
+        "percentage": 0.561,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612758/global/L/logo.svg"
+      },
+      {
+        "id": 9,
+        "team": "Pelicans",
+        "wins": 45,
+        "losses": 37,
+        "percentage": 0.549,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612740/global/L/logo.svg"
+      },
+      {
+        "id": 10,
+        "team": "Mavericks",
+        "wins": 44,
+        "losses": 38,
+        "percentage": 0.537,
+        "conference": "Ouest",
+        "image": "https://cdn.nba.com/logos/nba/1610612742/global/L/logo.svg"
+      }
+    ]
+  },
+  {
+    "date": "2024-10-07",
+    "matches": [
+      {
+        "id": 2,
+        "league": "NBA",
+        "status": "TERMINÉ",
+        "homeTeam": "L.A Lakers",
+        "homeLogo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
+        "homeScore": 114,
+        "awayTeam": "Phoenix",
+        "awayLogo": "https://a.espncdn.com/i/teamlogos/nba/500/phx.png",
+        "awayScore": 118,
+        "replayLink": "#",
+        "homeTeamStats": [
+          { "id": 1, "name": "LeBron James", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png", "points": 30, "rebounds": 8, "assists": 10, "steals": 1, "blocks": 0 },
+          { "id": 2, "name": "Anthony Davis", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png", "points": 25, "rebounds": 10, "assists": 3, "steals": 2, "blocks": 2 },
+          { "id": 3, "name": "Austin Reaves", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630559.png", "points": 22, "rebounds": 5, "assists": 6, "steals": 1, "blocks": 0 }
+        ],
+        "awayTeamStats": [
+          { "id": 7, "name": "Kevin Durant", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/201142.png", "points": 28, "rebounds": 7, "assists": 5, "steals": 1, "blocks": 1 },
+          { "id": 8, "name": "Devin Booker", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626164.png", "points": 35, "rebounds": 4, "assists": 6, "steals": 2, "blocks": 0 },
+          { "id": 9, "name": "Bradley Beal", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203078.png", "points": 24, "rebounds": 3, "assists": 4, "steals": 1, "blocks": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2024-03-25",
+    "matches": [
+      {
+        "id": 3,
+        "league": "NBA",
+        "status": "TERMINÉ",
+        "homeTeam": "L.A Lakers",
+        "homeLogo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
+        "homeScore": 120,
+        "awayTeam": "Celtics",
+        "awayLogo": "https://a.espncdn.com/i/teamlogos/nba/500/bos.png",
+        "awayScore": 115,
+        "replayLink": "#",
+        "homeTeamStats": [
+          { "id": 1, "name": "LeBron James", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png", "points": 38, "rebounds": 12, "assists": 7, "steals": 2, "blocks": 1 },
+          { "id": 2, "name": "Anthony Davis", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png", "points": 22, "rebounds": 15, "assists": 4, "steals": 1, "blocks": 3 },
+          { "id": 3, "name": "Austin Reaves", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630559.png", "points": 20, "rebounds": 6, "assists": 5, "steals": 1, "blocks": 0 }
+        ],
+        "awayTeamStats": [
+          { "id": 10, "name": "Jayson Tatum", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628369.png", "points": 35, "rebounds": 8, "assists": 6, "steals": 1, "blocks": 0 },
+          { "id": 11, "name": "Jaylen Brown", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1627759.png", "points": 25, "rebounds": 5, "assists": 4, "steals": 2, "blocks": 0 },
+          { "id": 12, "name": "Kristaps Porzingis", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/204001.png", "points": 18, "rebounds": 9, "assists": 2, "steals": 0, "blocks": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2024-03-27",
+    "matches": [
+      {
+        "id": 4,
+        "league": "NBA",
+        "status": "TERMINÉ",
+        "homeTeam": "Warriors",
+        "homeLogo": "https://a.espncdn.com/i/teamlogos/nba/500/gs.png",
+        "homeScore": 105,
+        "awayTeam": "L.A Lakers",
+        "awayLogo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
+        "awayScore": 110,
+        "replayLink": "#",
+        "homeTeamStats": [
+          { "id": 13, "name": "Stephen Curry", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/201939.png", "points": 32, "rebounds": 6, "assists": 8, "steals": 2, "blocks": 0 },
+          { "id": 14, "name": "Klay Thompson", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/202691.png", "points": 20, "rebounds": 3, "assists": 4, "steals": 1, "blocks": 0 },
+          { "id": 15, "name": "Draymond Green", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203110.png", "points": 12, "rebounds": 8, "assists": 7, "steals": 2, "blocks": 1 }
+        ],
+        "awayTeamStats": [
+          { "id": 1, "name": "LeBron James", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png", "points": 28, "rebounds": 10, "assists": 9, "steals": 1, "blocks": 1 },
+          { "id": 2, "name": "Anthony Davis", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png", "points": 25, "rebounds": 12, "assists": 2, "steals": 1, "blocks": 4 },
+          { "id": 3, "name": "Austin Reaves", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630559.png", "points": 19, "rebounds": 4, "assists": 5, "steals": 1, "blocks": 0 }
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2024-03-29",
+    "matches": [
+      {
+        "id": 5,
+        "league": "NBA",
+        "status": "TERMINÉ",
+        "homeTeam": "L.A Lakers",
+        "homeLogo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
+        "homeScore": 110,
+        "awayTeam": "Heat",
+        "awayLogo": "https://images.seeklogo.com/logo-png/50/1/miami-heat-logo-png_seeklogo-500368.png?v=1962766167058576384",
+        "awayScore": 100,
+        "replayLink": "#",
+        "homeTeamStats": [
+          { "id": 1, "name": "LeBron James", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png", "points": 27, "rebounds": 9, "assists": 8, "steals": 1, "blocks": 0 },
+          { "id": 2, "name": "Anthony Davis", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png", "points": 24, "rebounds": 11, "assists": 3, "steals": 2, "blocks": 2 },
+          { "id": 3, "name": "Austin Reaves", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630559.png", "points": 21, "rebounds": 5, "assists": 6, "steals": 1, "blocks": 0 }
+        ],
+        "awayTeamStats": [
+          { "id": 16, "name": "Jimmy Butler", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/202710.png", "points": 30, "rebounds": 7, "assists": 6, "steals": 2, "blocks": 1 },
+          { "id": 17, "name": "Bam Adebayo", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628389.png", "points": 20, "rebounds": 10, "assists": 5, "steals": 1, "blocks": 2 },
+          { "id": 18, "name": "Tyler Herro", "image": "https://cdn.nba.com/headshots/nba/latest/1040x760/1629639.png", "points": 18, "rebounds": 4, "assists": 4, "steals": 1, "blocks": 0 }
+        ]
+      }
+    ]
+  }
+] 

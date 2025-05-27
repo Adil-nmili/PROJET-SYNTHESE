@@ -36,6 +36,8 @@ import CreateArticles from "../pages/Dashboard/CreateArticles";
 import NewsPageDashboard from "../pages/Dashboard/NewsPage";
 import EditArticle from '../components/Partials/EditArticle';
 import Articles from '../pages/Dashboard/Articles';
+import MatchDetailsPage from "../pages/MatchDetailsPage";
+
 
 
 // Paths
@@ -68,6 +70,7 @@ export const PLAYERS_CREATE = "/dashboard/players/new";
 export const PLAYERS_EDIT = (id) => `/dashboard/players/edit/${id}`;
 export const TEAMS_CREATE = "/dashboard/teams/new";
 export const LOGIN = "/login";
+export const MATCH_DETAIL = "/match-details/:id";
 
 // Router config
 export const router = createBrowserRouter([
@@ -77,6 +80,7 @@ export const router = createBrowserRouter([
             { path: HOME, element: <HomeSite /> },
             { path: ABOUT, element: <About /> },
             { path: NEWS, element: <NewsPage /> },
+            { path:MATCH_DETAIL , element: <MatchDetailsPage/> },
             { path: TEXT_FILL_LOADING, element: <TextFillLoadingExample /> },
         ],
     },
