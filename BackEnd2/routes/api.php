@@ -16,7 +16,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\SousCategorieController;
+use App\Http\Controllers\PlayerStatsController;
 use App\Http\Controllers\ShippingAddressController;
+use App\Http\Controllers\MatchCalendarController;
 
 // routes/api.php
 Route::get('/csrf-token', function () {
@@ -96,4 +98,17 @@ Route::post('/paypal/verify-email', [PayPalController::class, 'verifyEmail']);
 // News Routers
 
 Route::resource('/news-articles',NewsArticleController::class);
+Route::post('/match-create',[NewsArticleController::class,'createMatch']);
 Route::post('/newsletter', [NewsLetterController::class, 'subscribe']);
+
+// Player Stats Routes
+Route::post('/player-stats', [PlayerStatsController::class, 'store']);
+Route::get('/player-stats', [PlayerStatsController::class, 'index']);
+Route::get('/player-stats/{id}', [PlayerStatsController::class, 'show']);
+
+// Match Calendar Routes
+Route::post('/match-calendar', [MatchCalendarController::class, 'store']);
+Route::get('/match-calendar', [MatchCalendarController::class, 'index']);
+Route::get('/match-calendar/{id}', [MatchCalendarController::class, 'show']);
+Route::put('/match-calendar/{id}', [MatchCalendarController::class, 'update']);
+Route::delete('/match-calendar/{id}', [MatchCalendarController::class, 'destroy']);

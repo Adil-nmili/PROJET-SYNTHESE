@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MatchResults;
 use App\Models\NewsArticle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class NewsArticleController extends Controller
 {
@@ -113,5 +116,96 @@ class NewsArticleController extends Controller
     public function destroy(NewsArticle $newsArticle)
     {
         //
+    }
+    public function createMatch(Request $request)
+    {
+        try {
+            Log::info('Received match data:', $request->all());
+
+            $validated = $request->validate([
+                'league' => 'required|string',
+                'status' => 'required|string',
+                'homeTeam' => 'required|string',
+                'homeLogo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'homeScore' => 'required|integer',
+                'awayTeam' => 'required|string',
+                'awayLogo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'awayScore' => 'required|integer',
+                'replayLink' => 'nullable|string',
+                'homeTeamStats' => 'required|string',
+                'awayTeamStats' => 'required|string'
+            ]);
+
+            Log::info('Validated data:', $validated);
+
+            // Handle team logo uploads
+            $homeLogoPath = $request->file('homeLogo')->store('team-logos', 'public');
+            $awayLogoPath = $request->file('awayLogo')->store('team-logos', 'public');
+
+            // Process player stats
+            $homeTeamStats = json_decode($validated['homeTeamStats'], true);
+            $awayTeamStats = json_decode($validated['awayTeamStats'], true);
+
+            // Process player images if they are base64 encoded
+            foreach ($homeTeamStats as &$player) {
+                if (isset($player['image']) && strpos($player['image'], 'data:image') === 0) {
+                    $imageData = explode(',', $player['image'])[1];
+                    $imageData = base64_decode($imageData);
+                    $filename = 'player-' . uniqid() . '.jpg';
+                    Storage::disk('public')->put('player-images/' . $filename, $imageData);
+                    $player['image'] = 'player-images/' . $filename;
+                }
+            }
+
+            foreach ($awayTeamStats as &$player) {
+                if (isset($player['image']) && strpos($player['image'], 'data:image') === 0) {
+                    $imageData = explode(',', $player['image'])[1];
+                    $imageData = base64_decode($imageData);
+                    $filename = 'player-' . uniqid() . '.jpg';
+                    Storage::disk('public')->put('player-images/' . $filename, $imageData);
+                    $player['image'] = 'player-images/' . $filename;
+                }
+            }
+
+            $matchData = [
+                'league' => $validated['league'],
+                'status' => $validated['status'],
+                'homeTeam' => $validated['homeTeam'],
+                'homeImage' => $homeLogoPath,
+                'homeScore' => $validated['homeScore'],
+                'awayTeam' => $validated['awayTeam'],
+                'awayImage' => $awayLogoPath,
+                'awayScore' => $validated['awayScore'],
+                'replayLink' => $validated['replayLink'] ?? null,
+                'homeTeamStats' => json_encode($homeTeamStats),
+                'awayTeamStats' => json_encode($awayTeamStats),
+                'user_id' => Auth::id() ?? 1
+            ];
+
+            Log::info('Prepared match data:', $matchData);
+
+            $matchResult = MatchResults::create($matchData);
+
+            Log::info('Match created successfully:', ['id' => $matchResult->id]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Match result created successfully',
+                'data' => $matchResult
+            ], 201);
+
+        } catch (\Exception $e) {
+            Log::error('Error creating match:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->all()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create match result',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
