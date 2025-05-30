@@ -19,14 +19,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from 'react-router-dom'
-import { CHECKOUT, ALLPRODUCTS } from '../../router/Router';
+import { CHECKOUT, ALLPRODUCTS, LOGINSTORE } from '../../router/Router';
 import { Contact, Gift, PhoneCall, Trash, Truck, ArrowLeft } from 'lucide-react';
 import { useCartContext } from '../../../api/context/CartContext';
 import { toast } from 'react-hot-toast';
 
 
 export default function Cart() {
-  const { client } = useClientContext();
+  const { client,authenticated } = useClientContext();
   const { 
     cart, 
     applyCoupon, 
@@ -58,6 +58,12 @@ export default function Cart() {
       setLoading(false);
     }
   };
+
+useEffect(()=>{
+  if(!authenticated){
+    navigate(LOGINSTORE)
+  }
+},[])
 
   useEffect(() => {
     if (client.id) {

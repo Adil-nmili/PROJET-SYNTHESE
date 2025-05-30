@@ -7,15 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 class MatchResults extends Model
 {
     protected $fillable = [
+        'league',
+        'status',
         'homeTeam',
+        'homeImage',
         'homeScore',
         'awayTeam',
-        'awayScore',
-        'date',
-        'status',
-        'series',
-        'homeImage',
         'awayImage',
-        'matchSummaryUrl'
+        'awayScore',
+        'replayLink',
+        'homeTeamStats',
+        'awayTeamStats',
+        'user_id'
     ];
+
+    protected $casts = [
+        'homeTeamStats' => 'array',
+        'awayTeamStats' => 'array',
+        'homeScore' => 'integer',
+        'awayScore' => 'integer'
+    ];
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

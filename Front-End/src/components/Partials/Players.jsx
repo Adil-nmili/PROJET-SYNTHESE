@@ -50,26 +50,26 @@ function PlayersCoposant() {
                       </h2>
                       <div className="grid grid-cols-2 gap-3 text-sm">
                         <div>
-                          <strong>Nom complet</strong><br />{player.full_name}
+                          <strong>Full Name</strong><br />{player.full_name}
                         </div>
                         <div>
-                          <strong>Date de naissance</strong><br />{player.birth_date}
+                          <strong>Birthday</strong><br />{player.birth_date}
                         </div>
                         <div>
-                          <strong>Lieu de naissance</strong><br />{player.birth_place}
+                          <strong>Birth Place</strong><br />{player.birth_place}
                         </div>
                         <div>
-                          <strong>Surnoms</strong><br />{player.nickname}
+                          <strong>Nickname</strong><br />{player.nickname}
                         </div>
                         <div>
-                          <strong>Taille</strong><br />{player.height}
+                          <strong>Size</strong><br />{player.height}
                         </div>
                         <div>
-                          <strong>Poids</strong><br />{player.weight}
+                          <strong>Weight</strong><br />{player.weight}
                         </div>
                       </div>
                       <div className="text-sm">
-                        <strong>Titres NBA</strong><br />{player.championships}
+                        <strong>NBA titles</strong><br />{player.championships}
                       </div>
                       <div className="flex justify-center gap-4 mt-2 text-gray-700">
                         <Facebook className="hover:text-yellow-500 cursor-pointer" />

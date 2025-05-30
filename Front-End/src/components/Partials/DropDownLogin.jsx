@@ -1,42 +1,69 @@
-import { useState } from "react"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { useState, useEffect, useRef } from "react"
 import { User } from "lucide-react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { LOGINSTORE, REGISTERSTORE } from "@/router/Router"
+import { Button } from "../ui/button";
+
 export function DropDownLogin() {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate()
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="ms-2">
-            <User className="w-4 h-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel className="text-center font-semibold text-gray-700">Login To Your Accout</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-            <Link
-            className="w-full bg-green-500 py-2 text-center font-semibold text-gray-100 rounded-md shadow-md hover:bg-green-700 hover:shadow-lg transition-all duration-300"
-             to={LOGINSTORE}>Login</Link>
-           
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-            <Link
-            className="w-full bg-yellow-500 py-2 text-center font-semibold text-gray-100 rounded-md shadow-md hover:bg-yellow-700 hover:shadow-lg transition-all duration-300"
-             to={REGISTERSTORE}>Register</Link>
-        </DropdownMenuItem>
-        
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="relative" ref={dropdownRef}>
+      <Button 
+        onClick={toggleDropdown}
+        variant={'outline'}
+        className=""
+      >
+        <User className="w-4 h-4" />
+      </Button>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50">
+          <div className="px-4 py-2 text-center font-semibold text-gray-700 border-b">
+            Login To Your Account
+          </div>
+          
+          <div className="px-2 py-2 flex flex-col gap-2">
+            <Button
+              className=""
+              onClick={() =>{
+                navigate(LOGINSTORE)
+                setIsOpen(false)
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              className=""
+              onClick={() =>{
+                navigate(REGISTERSTORE)
+                setIsOpen(false)
+              }}
+            >
+              Register
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

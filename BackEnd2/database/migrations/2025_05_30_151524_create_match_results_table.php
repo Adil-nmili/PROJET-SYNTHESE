@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('match_results', function (Blueprint $table) {
             $table->id();
+            $table->string('league');
+            $table->string('status');
             $table->string('homeTeam');
+            $table->string('homeImage');
             $table->integer('homeScore');
             $table->string('awayTeam');
-            $table->integer('awayScore');
-            $table->date('date');
-            $table->string('status');
-            $table->string('series');
-            $table->string('homeImage');
             $table->string('awayImage');
-            $table->string('matchSummaryUrl');
+            $table->integer('awayScore');
+            $table->string('replayLink')->nullable();
+            $table->json('homeTeamStats');
+            $table->json('awayTeamStats');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

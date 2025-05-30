@@ -14,20 +14,32 @@ function CategorySection() {
       try {
         const response = await Categorie.getAll();
         const allCategories = response.data;
-        
+        console.log(response)
         // Sélectionner aléatoirement 2 catégories
         const shuffled = [...allCategories].sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 2);
-        
         setCategories(allCategories);
         setDisplayedCategories(selected);
       } catch (error) {
         console.error('Erreur lors de la récupération des catégories:', error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error('Response data:', error.response.data);
+          console.error('Response status:', error.response.status);
+          console.error('Response headers:', error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error('No response received:', error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error message:', error.message);
+        }
       }
     };
 
     fetchCategories();
-  }, []); // Se déclenche une seule fois au chargement du composant
+  }, []); 
 
   const handleCategoryClick = (category) => {
     // Sauvegarder la catégorie sélectionnée dans le localStorage

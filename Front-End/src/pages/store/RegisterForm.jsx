@@ -257,7 +257,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="h-full py-20 w-full flex items-center justify-center">
+    <div className="h-full py-12 w-full flex items-center justify-center ">
       <div className="w-2/3 h-4/5 flex flex-col gap-5">
         <div className="w-full h-full">
           <h2 className="text-2xl text-center">Create an account</h2>
@@ -266,12 +266,15 @@ const RegisterForm = () => {
           </p>
           <Progress value={progress} className="w-full mt-4" />
         </div>
-        <div className="h-full w-full flex gap-3 relative border-gray-600 rounded-lg overflow-hidden shadow-md shadow-black">
+        <div className="h-full w-full flex gap-3 relative border-gray-600 min-h-[400px] rounded-lg overflow-hidden shadow-md shadow-black">
+          <div className="w-1/2 ">
+
           <img
-            src="/images/Création.jpeg"
+            src="/asset/drapo-2.jpg"
             alt="Register"
-            className="h-full w-1/2 object-cover"
+            className="h-full w-full object-cover"
           />
+          </div>
 
           <form
             onSubmit={handleSubmit}

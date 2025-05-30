@@ -1,4 +1,9 @@
 import ArticlesTable from '../../components/Partials/ArticlesTable'
+import MatchCalendarTable from '../../components/Partials/MatchCalendarTable'
+import MatchResultsTable from '../../components/Partials/MatchResultsTable'
+import PlayersTableNew from '../../components/Partials/PlayersTableNew'
+import ResultMatchsForm from '../../components/Partials/ResultMatchsForm'
+import TeamsTable from '../../components/Partials/TeamsTable'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
 
 const NewsPageDashboard = () => {
@@ -15,6 +20,18 @@ const NewsPageDashboard = () => {
             </TabsList>
             <TabsContent value="news">
                 <ArticlesTable />
+            </TabsContent>
+            <TabsContent value='match'>
+                <MatchResultsTable />
+            </TabsContent>
+            <TabsContent value='calendar'>
+                <MatchCalendarTable />
+            </TabsContent>
+            <TabsContent value='team'>
+                <TeamsTable />
+            </TabsContent>
+            <TabsContent value='player'>
+                <PlayersTableNew />
             </TabsContent>
         </Tabs>
     </div>

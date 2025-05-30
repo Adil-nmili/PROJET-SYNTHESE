@@ -139,8 +139,43 @@ class NewsArticleController extends Controller
             Log::info('Validated data:', $validated);
 
             // Handle team logo uploads
-            $homeLogoPath = $request->file('homeLogo')->store('team-logos', 'public');
-            $awayLogoPath = $request->file('awayLogo')->store('team-logos', 'public');
+            try {
+                if (!$request->hasFile('homeLogo')) {
+                    throw new \Exception('Home logo file is missing');
+                }
+
+                $homeLogo = $request->file('homeLogo');
+                $homeLogoName = time() . '_' . $homeLogo->getClientOriginalName();
+                $homeLogoPath = Storage::disk('public')->putFileAs('team-logos', $homeLogo, $homeLogoName);
+                
+                if (!$homeLogoPath) {
+                    throw new \Exception('Failed to store home logo');
+                }
+                
+                Log::info('Home logo uploaded successfully:', ['path' => $homeLogoPath]);
+            } catch (\Exception $e) {
+                Log::error('Home logo upload error:', ['error' => $e->getMessage()]);
+                throw new \Exception('The home logo failed to upload: ' . $e->getMessage());
+            }
+
+            try {
+                if (!$request->hasFile('awayLogo')) {
+                    throw new \Exception('Away logo file is missing');
+                }
+
+                $awayLogo = $request->file('awayLogo');
+                $awayLogoName = time() . '_' . $awayLogo->getClientOriginalName();
+                $awayLogoPath = Storage::disk('public')->putFileAs('team-logos', $awayLogo, $awayLogoName);
+                
+                if (!$awayLogoPath) {
+                    throw new \Exception('Failed to store away logo');
+                }
+                
+                Log::info('Away logo uploaded successfully:', ['path' => $awayLogoPath]);
+            } catch (\Exception $e) {
+                Log::error('Away logo upload error:', ['error' => $e->getMessage()]);
+                throw new \Exception('The away logo failed to upload: ' . $e->getMessage());
+            }
 
             // Process player stats
             $homeTeamStats = json_decode($validated['homeTeamStats'], true);
@@ -208,4 +243,10 @@ class NewsArticleController extends Controller
             ], 500);
         }
     }
+    public function allMatchs()
+    {
+        $matchs =MatchResults::all();
+        return response()->json($matchs,200);
+    }
 }
+// create_match_results_table

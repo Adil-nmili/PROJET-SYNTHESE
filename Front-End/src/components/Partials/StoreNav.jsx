@@ -42,7 +42,7 @@ const StoreNav = ({searchTerm, setSearchTerm, isSearching}) => {
             )} */}
           </div>
           <Button 
-            className="ms-2 relative" 
+            className="mx-2 relative" 
             variant="outline"
             onClick={() => navigate(CART)}
           >

@@ -4,6 +4,8 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { NewsService } from "../../../service/newsService";
+import toast from "react-hot-toast";
+
 
 export default function ResultMatchsForm() {
   const [step, setStep] = useState(1);
@@ -89,20 +91,25 @@ export default function ResultMatchsForm() {
       const formData = new FormData();
       
       // Append all text fields
-      formData.append('league', data.league);
-      formData.append('status', data.status);
+      formData.append('league', data.league || 'NBA');
+      formData.append('status', data.status || 'en cours');
       formData.append('homeTeam', data.homeTeam);
       formData.append('awayTeam', data.awayTeam);
       formData.append('homeScore', data.homeScore);
       formData.append('awayScore', data.awayScore);
-      formData.append('replayLink', data.replayLink);
+      formData.append('replayLink', data.replayLink || '');
       
       // Append image files
-      if (data.homeLogo) {
+      if (data.homeLogo instanceof File) {
         formData.append('homeLogo', data.homeLogo);
+      } else {
+        throw new Error('Home team logo is required');
       }
-      if (data.awayLogo) {
+      
+      if (data.awayLogo instanceof File) {
         formData.append('awayLogo', data.awayLogo);
+      } else {
+        throw new Error('Away team logo is required');
       }
       
       // Process player stats and images
@@ -137,11 +144,14 @@ export default function ResultMatchsForm() {
           awayTeamStats: []
         });
         setStep(1);
-        alert('Match result added successfully!');
+        
+        toast.success("Match result added successfully!");
       }
     } catch (error) {
       console.error('Error submitting match result:', error);
-      alert('Failed to add match result. Please try again.');
+      toast.error(
+        error.response?.data?.message || error.message || "Failed to add match result. Please try again."
+      );
     }
   };
 
@@ -485,31 +495,34 @@ export default function ResultMatchsForm() {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Insert a new match</CardTitle>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {renderStep()}
-            <div className="flex justify-between mt-4">
-              {step > 1 && (
-                <Button type="button" onClick={prevStep}>
-                  Previous
-                </Button>
-              )}
-              {step < 4 ? (
-                <Button type="button" onClick={nextStep}>
-                  Next
-                </Button>
-              ) : (
-                <Button type="submit">
-                  Submit
-                </Button>
-              )}
-            </div>
-          </form>
-        </CardContent>
-      </CardHeader>
-    </Card>
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Insert a new match</CardTitle>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              {renderStep()}
+              <div className="flex justify-between mt-4">
+                {step > 1 && (
+                  <Button type="button" onClick={prevStep}>
+                    Previous
+                  </Button>
+                )}
+                {step < 4 ? (
+                  <Button type="button" onClick={nextStep}>
+                    Next
+                  </Button>
+                ) : (
+                  <Button type="submit">
+                    Submit
+                  </Button>
+                )}
+              </div>
+            </form>
+          </CardContent>
+        </CardHeader>
+      </Card>
+      
+    </>
   );
 }

@@ -54,9 +54,9 @@ Route::post('/players', [PlayersController::class, 'store']);
 Route::put('/players/{id}', [PlayersController::class, 'update']);
 Route::delete('/players/{id}', [PlayersController::class, 'destroy']);
 Route::get('/players/{id}', [PlayersController::class, 'show']);
-Route::resource('categories', CategorieController::class);
-Route::resource('sub-categorie', SousCategorieController::class);
-Route::resource('products', ProductController::class);
+Route::resource('/categories', CategorieController::class);
+Route::resource('/sub-categorie', SousCategorieController::class);
+Route::resource('/products', ProductController::class);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/products/similar/{category}', [ProductController::class, 'getSimilarProducts']);
 Route::resource('orders', OrderController::class);
@@ -99,6 +99,7 @@ Route::post('/paypal/verify-email', [PayPalController::class, 'verifyEmail']);
 
 Route::resource('/news-articles',NewsArticleController::class);
 Route::post('/match-create',[NewsArticleController::class,'createMatch']);
+Route::get('/match',[NewsArticleController::class,'allMatchs']);
 Route::post('/newsletter', [NewsLetterController::class, 'subscribe']);
 
 // Player Stats Routes
@@ -112,3 +113,4 @@ Route::get('/match-calendar', [MatchCalendarController::class, 'index']);
 Route::get('/match-calendar/{id}', [MatchCalendarController::class, 'show']);
 Route::put('/match-calendar/{id}', [MatchCalendarController::class, 'update']);
 Route::delete('/match-calendar/{id}', [MatchCalendarController::class, 'destroy']);
+

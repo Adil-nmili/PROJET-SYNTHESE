@@ -8,12 +8,8 @@ import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
 import { NewsService } from '../../../service/newsService';
 import { useAdminContext } from '../../../api/context/AdminContext';
-import { Calendar } from "../ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react"
+import { DatePickerWithPresets } from "../ui/dataPicker";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import "react-day-picker/dist/style.css";
 import { ARTICLES_CONTENT } from "../../router/Router";
 // import NewsService from '../../../service/NewsService'
 
@@ -80,6 +76,10 @@ const NewsForm = () => {
             });
         };
     }, [imagePreview]);
+
+    const handleDateChange = (newDate) => {
+        setDate(newDate);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -169,32 +169,7 @@ const NewsForm = () => {
                     <Label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
                         Date<span className="text-red-500">*</span>
                     </Label>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                className={cn(
-                                    "w-full justify-start text-left font-normal",
-                                    !date && "text-muted-foreground"
-                                )}
-                            >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? format(date, "PPP") : <span>Pick a date</span>}
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start" side="bottom">
-                            <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={(newDate) => {
-                                    setDate(newDate);
-                                }}
-                                initialFocus
-                                className="rounded-md border"
-                            />
-                        </PopoverContent>
-                    </Popover>
+                    <DatePickerWithPresets className="w-full" onDateChange={handleDateChange} />
                 </div>
                 <div>
                     <Label htmlFor="videoUrl" className="block text-sm font-medium text-gray-700 mb-1">
