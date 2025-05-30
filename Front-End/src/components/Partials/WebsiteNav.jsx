@@ -79,7 +79,7 @@ const WebsiteNav = () => {
             <Input
               type="text"
               placeholder="Search products..."
-              className="px-3 py-2 text-white focus:outline-none bg-purple-900/50 border-purple-700"
+              className="px-3 py-2 text-white focus:outline-none bg-purple-900/50 border border-[#FDBB30] placeholder:text-white"
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -117,7 +117,7 @@ const WebsiteNav = () => {
         )}
         <Button 
           onClick={() => setShowSearch(!showSearch)}
-          className="hover:bg-[#FDBB30] rounded-[6px] transition-all duration-300 p-2 flex items-center"
+          className="bg-[#FDBB30] text-black hover:bg-black hover:text-white rounded-[6px] transition-all duration-300 p-2 flex items-center hover:"
         >
           <Search size={18} /> Search
         </Button>

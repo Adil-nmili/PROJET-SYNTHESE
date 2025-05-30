@@ -42,7 +42,7 @@ const FooterNav = () => {
 
     return (
         <nav className={`flex justify-center items-center gap-4 sm:gap-8 md:gap-16 py-2 fixed bottom-0  z-50 w-full  rounded-t-2xl  transition-colors duration-300 ${
-            isScrolled ? 'bg-slate-900' : 'bg-transparent'
+            isScrolled ? 'bg-black' : 'bg-transparent'
         }`}>
             {links.map((link) => (
                 <Link 

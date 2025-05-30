@@ -65,7 +65,7 @@ const HomeSlider = () => {
           <SwiperSlide key={index} className="relative">
             <img src={slide.image} className="h-full  w-full object-cover" />
             <div className="absolute top-0 left-0 w-full h-full bg-black/30 z-10 flex justify-center items-center flex-col gap-10">
-              <h1 className="text-[70px] font-bold  bg-gradient-to-r from-orange-900 to-blue-900 bg-clip-text text-transparent italic">{slide.Title}</h1>
+              <h1 className="text-[70px] font-bold  text-[#FDBB30] italic">{slide.Title}</h1>
               <p className="text-2xl text-center w-2/3 font-bold text-gray-200 ">{slide.Subtitle}</p>
               <Button className="text-xl py-2 h-fit font-semibold">{slide.Button}</Button>
             </div>
