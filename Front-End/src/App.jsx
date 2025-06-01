@@ -13,9 +13,9 @@ function App() {
     <AdminContext>
       <ClientContext>
         <CartProvider>
-          <Toaster position="bottom-right" />
+        <Toaster position="bottom-right" />
           <ThemeProvider forceTheme="light">
-            <RouterProvider router={router} />
+        <RouterProvider router={router} />
           </ThemeProvider>
         </CartProvider>
       </ClientContext>

@@ -1,5 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const MatchResults = ({ matchResults }) => {
   const navigate = useNavigate();
@@ -86,40 +91,76 @@ const MatchResults = ({ matchResults }) => {
   return (
     <section className="py-6 md:py-10 px-2 md:px-4">
       <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-gray-800">Match Results</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={20}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
+        className="match-results-swiper"
+      >
         {allMatches.map((match) => (
-          <div 
-            key={match.id} 
-            className="bg-purple-50 rounded-lg shadow-md p-3 md:p-4 hover:scale-[1.02] transform transition duration-300 cursor-pointer"
-            onClick={() => navigate(`/match/${match.id}`, { state: { match } })}
-          >
-            <div className="text-[10px] md:text-xs text-gray-600 mb-2">
-              {match.status} - {new Date(match.date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-              })}
-            </div>
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center">
-                <img src={match.awayImage} alt={match.awayTeam} className="w-5 h-5 md:w-6 md:h-6 mr-1" />
-                <span className="font-semibold text-gray-800 text-xs md:text-sm truncate">{match.awayTeam}</span>
+          <SwiperSlide key={match.id}>
+            <div 
+              className="bg-purple-50 rounded-lg shadow-md p-3 md:p-4 hover:scale-[1.02] transform transition duration-300 cursor-pointer h-full"
+              // onClick={() => navigate(`/match/${match.id}`, { state: { match } })}
+            >
+              <div className="text-[10px] md:text-xs text-gray-600 mb-2">
+                {match.status} - {new Date(match.date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                })}
               </div>
-              <span className="font-bold text-gray-800 text-xs md:text-sm">{match.awayScore}</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <img src={match.homeImage} alt={match.homeTeam} className="w-5 h-5 md:w-6 md:h-6 mr-1" />
-                <span className="font-semibold text-gray-800 text-xs md:text-sm truncate">{match.homeTeam}</span>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center">
+                  <img src={match.awayImage} alt={match.awayTeam} className="w-5 h-5 md:w-6 md:h-6 mr-1" />
+                  <span className="font-semibold text-gray-800 text-xs md:text-sm truncate">{match.awayTeam}</span>
+                </div>
+                <span className="font-bold text-gray-800 text-xs md:text-sm">{match.awayScore}</span>
               </div>
-              <span className="font-bold text-gray-800 text-xs md:text-sm">{match.homeScore}</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <img src={match.homeImage} alt={match.homeTeam} className="w-5 h-5 md:w-6 md:h-6 mr-1" />
+                  <span className="font-semibold text-gray-800 text-xs md:text-sm truncate">{match.homeTeam}</span>
+                </div>
+                <span className="font-bold text-gray-800 text-xs md:text-sm">{match.homeScore}</span>
+              </div>
+              {/* {match.series && (
+                <div className="text-[10px] md:text-xs text-gray-500 mt-2">Series: {match.series}</div>
+              )} */}
             </div>
-            {match.series && (
-              <div className="text-[10px] md:text-xs text-gray-500 mt-2">Series: {match.series}</div>
-            )}
-          </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
+
+      <style jsx global>{`
+        .match-results-swiper {
+          padding: 20px 10px;
+        }
+        .match-results-swiper .swiper-button-next,
+        .match-results-swiper .swiper-button-prev {
+          color: #6B46C1;
+        }
+        .match-results-swiper .swiper-pagination-bullet-active {
+          background: #6B46C1;
+        }
+      `}</style>
     </section>
   );
 };

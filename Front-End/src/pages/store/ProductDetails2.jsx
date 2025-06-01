@@ -49,8 +49,21 @@ const ProductDetails2 = () => {
   const [colors, setColors] = useState([]);
   const [errors, setErrors] = useState(false);
 
-  const { authenticated, client } = useClientContext();
+  const { authenticated } = useClientContext();
   const { addToCart } = useCartContext();
+
+  // Function to handle image URLs
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '';
+    
+    // If it's a full URL (starts with http or https)
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    
+    // If it's a local storage path
+    return import.meta.env.VITE_BACKEND_URL + '/' + imagePath;
+  };
 
   useEffect(() => {
     authenticated ? fetchProductData() : navigate(LOGINSTORE);
@@ -63,6 +76,7 @@ const ProductDetails2 = () => {
         const response = await Product.getById(id);
         const productData = response.data;
         setProduct(productData);
+        console.log(productData)
         // Parse colors if they're stored as a JSON string
         if (
           productData.colors &&
@@ -179,7 +193,7 @@ const ProductDetails2 = () => {
         {/* Image Gallery */}
         <div className="flex flex-col items-center md:w-1/2">
           <img
-            src={images[selectedImage]}
+            src={getImageUrl(images[selectedImage])}
             alt={product.name}
             className="w-64 h-64 object-contain rounded-xl mb-4 border"
           />
@@ -187,7 +201,7 @@ const ProductDetails2 = () => {
             {images.map((img, idx) => (
               <img
                 key={idx}
-                src={img}
+                src={getImageUrl(img)}
                 alt="thumb"
                 className={`w-14 h-14 object-contain rounded-lg border cursor-pointer ${
                   selectedImage === idx
@@ -334,7 +348,7 @@ const ProductDetails2 = () => {
                   onClick={() => handleSimilarProductClick(prod.id)}
                 >
                   <img
-                    src={JSON.parse(prod.images)[0]}
+                    src={getImageUrl(JSON.parse(prod.images)[0])}
                     alt="Product image"
                     className="w-32 h-32 object-contain mb-2"
                   />

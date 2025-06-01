@@ -41,7 +41,7 @@ const newsItems = [
 ];
 
 const LatestNews = ({ news = newsItems, onArticleClick }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Ensure news is an array before duplicating

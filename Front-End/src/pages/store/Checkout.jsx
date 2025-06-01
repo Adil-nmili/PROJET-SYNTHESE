@@ -114,26 +114,19 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validatePhoneNumber(billingInfo.phoneNumber)) {
-      setPhoneError('Please enter a valid Moroccan phone number starting with 05, 06, or 07');
-      return;
-    }
-
-    // Check if PayPal is selected but not verified
-    if (paymentMethod === 'paypal' && !isPaypalVerified) {
-      toast.error('Please verify your PayPal email before placing the order');
-      setShowPaypalDialog(true);
-      return;
-    }
-
     setProcessing(true);
+
     try {
+      // Validate phone number
+      if (!validatePhoneNumber(billingInfo.phoneNumber)) {
+        setPhoneError('Please enter a valid phone number');
+        return;
+      }
+
+      // Create order data
       const orderData = {
         client_id: client.id,
         total_amount: calculateTotal(),
-        payment_method: paymentMethod,
-        coupon_code: coupon,
-        discount_amount: calculateDiscount(calculateSubtotal()),
         shipping_address: {
           full_name: `${billingInfo.firstName} ${billingInfo.lastName}`,
           address_line1: billingInfo.streetAddress,
@@ -143,10 +136,10 @@ const Checkout = () => {
           postal_code: billingInfo.zipPostcode,
           country: 'Morocco',
           phone_number: billingInfo.phoneNumber
-        },
-        paypal_email: paymentMethod === 'paypal' ? paypalEmail : null
+        }
       };
 
+      // Create order
       const response = await Order.create(orderData);
       
       if (response.status === 201) {
@@ -162,8 +155,8 @@ const Checkout = () => {
             setLastOrderId(response.data.order.id); // Fallback to the current order ID
           }
           
-          // Clear the cart
-          clearCart();
+          // Clear the cart and wait for it to complete
+          await clearCart();
           
           // Set order success
           setOrderSuccess(true);

@@ -11,6 +11,9 @@ import {
 import { Button } from '../../components/ui/button';
 import { BaggageClaim } from 'lucide-react';
 import { useCartContext } from '../../../api/context/CartContext';
+import Categorie from '../../../service/Categorie';
+import SubCategoriesApi from '../../../service/SubCategorie';
+import Product from '../../../service/Product';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -20,7 +23,49 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const navigate = useNavigate();
-  const { addToCart } = useCartContext()
+  const { addToCart } = useCartContext();
+
+  // Function to handle image URLs
+  const getImageUrl = (images) => {
+    if (!images) return '';
+    
+    try {
+      // If images is a string, parse it
+      let imageArray = images;
+      if (typeof images === 'string') {
+        imageArray = JSON.parse(images);
+      }
+      
+      // Get the first image
+      const firstImage = imageArray[0];
+      
+      // If it's a full URL, return it
+      if (firstImage.startsWith('http://') || firstImage.startsWith('https://')) {
+        return firstImage;
+      }
+      
+      // Otherwise, it's a local path
+      return import.meta.env.VITE_BACKEND_URL + '/' + firstImage;
+    } catch (error) {
+      console.error('Error processing image:', error);
+      return '';
+    }
+  };
+
+  // Function to handle category image URLs
+  const getCategoryImageUrl = (imagePath) => {
+    console.log(imagePath)
+    if (!imagePath) return '/images/default.jpg';
+    
+    // If it's a full URL (starts with http or https)
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    
+    // If it's a local storage path
+    return import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath;
+  };
+
   useEffect(() => {
     // Récupérer la catégorie sélectionnée du localStorage
     const storedCategory = localStorage.getItem('selectedCategory');
@@ -39,17 +84,17 @@ const Products = () => {
     }
 
     // Charger les catégories
-    axios.get('http://127.0.0.1:8000/api/categories')
+     Categorie.getAll()
       .then(response => setCategories(response.data))
       .catch(error => console.error("Erreur lors de la récupération des catégories :", error));
 
     // Charger les sous-catégories
-    axios.get('http://127.0.0.1:8000/api/sub-categorie')
+    SubCategoriesApi.getAll()
       .then(response => setSubcategories(response.data))
       .catch(error => console.error("Erreur lors de la récupération des sous-catégories :", error));
 
     // Charger les produits
-    axios.get('http://localhost:8000/api/products')
+    Product.getAll()
       .then(response => setProducts(response.data))
       .catch(error => console.error("Erreur lors de la récupération des produits :", error));
   }, []);
@@ -85,15 +130,16 @@ const Products = () => {
       
       {/* Bannière de la catégorie sélectionnée */}
       {selectedCategory && (
-        <div className="w-full h-[300px] relative mt-5  overflow-hidden rounded-lg">
+        <div className="w-full h-[300px] relative mt-5 overflow-hidden rounded-lg">
           <img
-            src={selectedCategory.image || "/images/default.jpg"}
+            src={getCategoryImageUrl(selectedCategory.image)}
             alt={selectedCategory.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
+           
           />
-          <div className="absolute inset-0 bg-black/40 flex items-center  justify-center">
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
             <h1 className="text-5xl font-bold text-white text-center">
-              {selectedCategory.name}
+              {selectedCategory.name} 
             </h1>
           </div>
         </div>
@@ -162,7 +208,7 @@ const Products = () => {
                   -35%
                 </span>
                 <img
-                  src={JSON.parse(product.images)[0]}
+                  src={getImageUrl(product.images)}
                   alt={product.name}
                   className="w-32 h-32 object-contain mb-4"
                 />

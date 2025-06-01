@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import StoreNav from './StoreNav';
 import { useEffect, useState } from 'react';
@@ -16,13 +15,44 @@ const ListeProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { category_id } = useParams();  // Récupérer le nom de la catégorie dans l'URL
   const navigate = useNavigate();
+
+  // Function to handle image URLs
+  const getImageUrl = (images) => {
+    if (!images) return '/images/default.jpg';
+    
+    try {
+      // If images is a string, parse it
+      let imageArray = images;
+      if (typeof images === 'string') {
+        imageArray = JSON.parse(images);
+      }
+      
+      // Get the first image
+      const firstImage = imageArray[0];
+      if (!firstImage) return '/images/default.jpg';
+      
+      // If it's a full URL, return it
+      if (firstImage.startsWith('http://') || firstImage.startsWith('https://')) {
+        return firstImage;
+      }
+      
+      // Otherwise, it's a local path
+      return `${import.meta.env.VITE_BACKEND_URL}/storage/${firstImage}`;
+    } catch (error) {
+      console.error('Error processing image:', error);
+      return '/images/default.jpg';
+    }
+  };
+
   const goToDetail = (id) => {
     navigate(PRODUCT_DETAIL(id));
   };
+
   useEffect(() => {
     axios.get('http://localhost:8000/api/products')
       .then(response => setProducts(response.data))
       .catch(error => console.error("Erreur lors de la récupération des produits :", error));
+     
   }, []);
 
   useEffect(() => {
@@ -111,12 +141,20 @@ console.log(category_id)
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map(product => (
-            <div key={product.id} onClick={() => goToDetail(product.id)} className="relative bg-white rounded-lg shadow-md p-4 flex flex-col items-center transition hover:-translate-y-1 hover:shadow-lg">
+            <div 
+              key={product.id} 
+              onClick={() => goToDetail(product.id)} 
+              className="relative bg-white rounded-lg shadow-md p-4 flex flex-col items-center transition hover:-translate-y-1 hover:shadow-lg"
+            >
               <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-35%</span>
               <img
-                src={JSON.parse(product.images)[0]}
+                src={getImageUrl(product.images)}
                 alt={product.name}
                 className="w-32 h-32 object-contain mb-4"
+                onError={(e) => {
+                  e.target.onerror = null; // Prevent infinite loop
+                  e.target.src = '/images/default.jpg';
+                }}
               />
               <button className="bg-black text-white w-full py-2 rounded mb-3 flex items-center justify-center gap-2 hover:bg-gray-800 transition">
                 🛒 Add To Cart

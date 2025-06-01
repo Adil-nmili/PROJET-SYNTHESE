@@ -138,7 +138,7 @@ console.log(currentProducts)
         <Loading />
       ) : (
         <Table className="mt-4 w-full lg:w-[800px] mx-auto">
-          <TableCaption>A list of Products.</TableCaption>
+          <TableCaption>A list of Products. <span className="text-xs underline text-gray-500">{currentProducts.length} products</span></TableCaption>
           <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Product code</TableHead>
@@ -205,11 +205,10 @@ console.log(currentProducts)
         </TableBody>
       </Table>
       )}
-      {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex mx-auto justify-center mt-4 gap-2">
           <Button 
-            variant="outline" 
+            variant="outline"   
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           >

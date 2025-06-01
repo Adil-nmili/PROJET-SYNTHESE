@@ -34,17 +34,17 @@ export function HoverCardUser({ admin }) {
           <div className="flex justify-between space-x-4 w-full">
             <div className="space-y-1 w-full">
               <div className="flex items-center justify-between gap-2 w-full">
-                <h4 className="text-sm font-semibold">
+                <h4 className="text-sm font-semibold dark:text-slate-900">
                   {admin.first_name} {admin.last_name}
                 </h4>
-                <h3 className="text-sm font-semibold uppercase underline text-blue-500">
+                <h3 className="text-sm font-semibold uppercase underline text-blue-500 dark:text-slate-900">
                   {admin.role}
                 </h3>
               </div>
-              <p className="text-sm">{admin.email}</p>
+              <p className="text-sm dark:text-slate-900">{admin.email}</p>
               <div className="flex items-center pt-2">
                 <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 dark:text-slate-900">
                   Joined {admin.created_at.split("T")[0]}
                 </span>
               </div>

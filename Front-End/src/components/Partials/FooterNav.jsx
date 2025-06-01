@@ -40,6 +40,14 @@ const FooterNav = () => {
         }
     ]
 
+    // Function to check if a link is active
+    const isActiveLink = (path) => {
+        if (path === HOME) {
+            return location.pathname === path;
+        }
+        return location.pathname.startsWith(path);
+    };
+
     return (
         <nav className={`flex justify-center items-center gap-4 sm:gap-8 md:gap-16 py-2 fixed bottom-0  z-50 w-full  rounded-t-2xl  transition-colors duration-300 ${
             isScrolled ? 'bg-black' : 'bg-transparent'
@@ -49,7 +57,7 @@ const FooterNav = () => {
                     to={link.path} 
                     key={link.name} 
                     className={`flex flex-col items-center justify-center gap-1 ${
-                        location.pathname === link.path 
+                        isActiveLink(link.path)
                             ? 'text-yellow-600 font-semibold scale-105' 
                             : 'text-gray-300'
                     }`}

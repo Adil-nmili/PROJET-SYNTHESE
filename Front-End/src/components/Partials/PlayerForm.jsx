@@ -67,7 +67,6 @@ export default function PlayerForm({ mode = "add" }) {
     if (image) {
       formData.append("image", image);
     }
-    console.log(formData);
 
     try {
       if (isEdit) {
@@ -86,14 +85,14 @@ export default function PlayerForm({ mode = "add" }) {
       } else {
         toast.promise(Players.createPlayer(formData), {
           loading: "Creating player...",
-          success: async (data) => {
+          success:  (data) => {
             setForm(initialState);
             setImage(null); 
             setTimeout(() => {
                 navigate(PLAYERS);
               }, 1500);
             return `Player ${data.data.full_name} created successfully!`;
-
+            
           },
           error: (err) => `Could not create player: ${err.response.data.message}`,
         });

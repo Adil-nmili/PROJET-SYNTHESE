@@ -28,10 +28,10 @@ const DialogProductOrder = ({ products = [] }) => {
         {products.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[500px] scrollbar-hide">
             {products.map((product) => (
-              <div key={product.id} className="bg-white p-4 rounded-md">
-                <h2 className="text-lg font-bold">{product.name}</h2>
-                <p className="text-sm text-gray-500">Quantity: {product.pivot?.quantity || 1}</p>
-                <p className="text-sm text-gray-500">Price: {product.pivot?.price || product.price} €</p>
+              <div key={product.id} className="bg-white dark:bg-slate-600 p-4 rounded-md">
+                <h2 className="text-lg font-bold dark:text-slate-50">{product.name}</h2>
+                <p className="text-sm text-gray-500 dark:text-slate-800">Quantity: {product.pivot?.quantity || 1}</p>
+                <p className="text-sm text-gray-500 dark:text-slate-800">Price: {product.pivot?.price || product.price} €</p>
                 {product.image && (
                   <img src={product.image} alt={product.name} className="w-full h-40 object-cover rounded-md mt-2" />
                 )}

@@ -191,7 +191,12 @@ export default function CartProvider({ children }) {
       // Then update the backend
       await CartService.clearCart(client.id);
       
+      // Dispatch event to notify other components
       window.dispatchEvent(new Event('cart-updated'));
+      
+      // Force a cart refresh
+      await fetchCart();
+      
       toast.success('Cart cleared');
     } catch (error) {
       console.error('Error clearing cart:', error);

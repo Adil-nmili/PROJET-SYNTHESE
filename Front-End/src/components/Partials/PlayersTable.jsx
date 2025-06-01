@@ -14,7 +14,13 @@ import { toast } from "react-hot-toast";
 import { AlertDialog, AlertDialogTitle, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "../ui/alert-dialog";
 import { Link } from "react-router-dom";
 import { PLAYERS_EDIT } from "../../router/Router";
-import Loading from "./Loading";
+  import Loading from "./loading";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function PlayersTable({ filter = "" }) {
     const [players, setPlayers] = useState([]);
@@ -88,9 +94,35 @@ export default function PlayersTable({ filter = "" }) {
                 </TableCell>
                 <TableCell>{player.full_name}</TableCell>
                 <TableCell>{player.birth_date}</TableCell>
-                <TableCell>{player.birth_place}</TableCell>
+                <TableCell>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="max-w-[150px] truncate">
+                          {player.birth_place}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="max-w-[300px]">{player.birth_place}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableCell>
                 <TableCell>{player.nickname}</TableCell>
-                <TableCell>{player.championships}</TableCell>
+                <TableCell>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="max-w-[200px] truncate">
+                          {player.championships}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="max-w-[300px]">{player.championships}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableCell>
                 <TableCell>
                   <Link to={PLAYERS_EDIT(player.id)}>
                     <Button size="sm" className="mr-2" variant="outline">Edit</Button>

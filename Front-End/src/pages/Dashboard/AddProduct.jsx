@@ -18,24 +18,34 @@ import { X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import Product from "../../../service/Product";
 import { toast } from "react-hot-toast";
+import SubCategoriesApi from "../../../service/SubCategorie";
 
 function AddProduct() {
   const [product, setProduct] = useState({
     name: "",
     description: "",
-    price: null,
-    quantity: null,
-    product_code: null,
+    price: 0,
+    quantity: 0,
+    product_code: generateProductCode(),
     sizes: [],
     colors: [],
     images: [],
-    category_id: "", // Added to store the selected category
+    category_id: "",
+    sousCategorie: "",
   });
 
+  function generateProductCode() {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  }
+
   const [categories, setCategories] = useState([]);
+  const [sousCategorie, setSousCategories] = useState([]);
   useEffect(() => {
     Categorie.getAll().then((res) => {
       setCategories(res.data);
+    });
+    SubCategoriesApi.getAll().then((res) => {
+      setSousCategories(res.data);
     });
   }, []);
 
@@ -78,10 +88,9 @@ function AddProduct() {
     const files = Array.from(e.target.files);
     setProduct((prevState) => ({
       ...prevState,
-      images: [...prevState.images, ...files], // Append selected images to state
+      images: [...prevState.images, ...files],
     }));
 
-    // Generate previews
     const previewURLs = files.map((file) => URL.createObjectURL(file));
     setImagePreviews((prevPreviews) => [...prevPreviews, ...previewURLs]);
   };
@@ -89,19 +98,43 @@ function AddProduct() {
   const handleRemoveImage = (index) => {
     setProduct((prevState) => ({
       ...prevState,
-      images: prevState.images.filter((_, i) => i !== index), // Remove from state
+      images: prevState.images.filter((_, i) => i !== index),
     }));
 
     setImagePreviews((prevPreviews) =>
       prevPreviews.filter((_, i) => i !== index)
-    ); // Remove preview
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     toast.promise(Product.create(product), {
       loading: "Creating product... ",
-      success: (data) => `Product ${data.data.name} created successfully!`,
+      success: (data) => {
+        setProduct({
+          name: "",
+          description: "",
+          price: 0,
+          quantity: 0,
+          product_code: generateProductCode(),
+          sizes: [],
+          colors: [],
+          images: [],
+          category_id: "",
+          sousCategorie: "",
+        });
+        setImagePreviews([]);
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+          fileInput.value = '';
+        }
+        const categorySelect = document.querySelector('select[name="category_id"]');
+        const subcategorySelect = document.querySelector('select[name="sousCategorie"]');
+        if (categorySelect) categorySelect.value = '';
+        if (subcategorySelect) subcategorySelect.value = '';
+        
+        return `Product ${data.data.name} created successfully!`;
+      },
       error: (err) => `Could not create product: ${err.message}`,
     });
   };
@@ -128,14 +161,12 @@ function AddProduct() {
         <div className="grid grid-cols-4 items-center ">
           <Label htmlFor="productCode">Product code:</Label>
           <Input
-            type="number"
+            type="text"
             name="product_code"
-            placeholder="Product code..."
-            className=" col-span-3"
+            value={product.product_code}
+            disabled
+            className="col-span-3 bg-gray-100 dark:bg-slate-900 cursor-not-allowed"
             id="productCode"
-            onChange={(e) =>
-              setProduct({ ...product, product_code: e.target.value })
-            }
           />
         </div>
         <div className="grid grid-cols-4 items-center ">
@@ -190,6 +221,32 @@ function AddProduct() {
               </Label>
             ))}
           </div>
+        </div>
+        <div className="grid grid-cols-4 gap-1 items-center">
+          <Label htmlFor="email">Product Sub-categorie:</Label>
+          <Select
+            onValueChange={(value) =>
+              setProduct({ ...product, sousCategorie: Number(value) })
+            }
+          >
+            <SelectTrigger className="w-[300px]">
+              <SelectValue placeholder="Select a sub-categorie" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Categories</SelectLabel>
+                {sousCategorie &&
+                  sousCategorie.map((categorie) => (
+                    <SelectItem
+                      key={categorie.id}
+                      value={categorie.id.toString()}
+                    >
+                      {categorie.name}
+                    </SelectItem>
+                  ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div className="grid grid-cols-4 gap-1 items-center  ">
           <Label htmlFor="colors" className="col-span-1">
@@ -246,7 +303,6 @@ function AddProduct() {
             id="description"
           ></Textarea>
         </div>
-        {/* Image Preview Section with Delete Buttons */}
         <div className="grid grid-cols-4  gap-2">
           {imagePreviews.map((src, index) => (
             <div key={index} className="relative group">
@@ -256,7 +312,6 @@ function AddProduct() {
                 className="w-20 h-20 object-cover rounded-lg shadow"
               />
 
-              {/* ❌ X Button to Remove Image */}
               <Button
                 type="button"
                 onClick={() => handleRemoveImage(index)}
@@ -276,7 +331,6 @@ function AddProduct() {
           </Button>
         </div>
       </form>
-      {/* Image Preview Section */}
     </div>
   );
 }

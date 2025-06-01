@@ -40,10 +40,12 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
+            'sousCategorie' => 'required',
             'sizes' => 'nullable|array',
             'colors' => 'nullable|array',
             'images' => 'nullable|array', // Validate that images is an array
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image',
+            // 'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,JPG,JPEG,PNG|max:2048',
         ]);
 
         $imagesPath = [];
@@ -65,6 +67,7 @@ class ProductController extends Controller
             'price' => $validatedData['price'],
             'quantity' => $validatedData['quantity'],
             'category_id' => $validatedData['category_id'],
+            'sousCategorie_id' => $validatedData['sousCategorie'],
             'sizes' => json_encode($validatedData['sizes']),
             'colors' => json_encode($validatedData['colors']),
             'images' => json_encode($imagesPath),

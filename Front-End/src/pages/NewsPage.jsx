@@ -8,6 +8,7 @@ import Standings from '@/components/Partials/Standings';
 import Videos from '@/components/Partials/Videos';
 import NewsModal from '@/components/Partials/NewsModal';
 import mockMatchesData from '@/data/mockMatchesData.json';
+import { NewsService } from '../../service/newsService';
 
 const NewsPage = () => {
   const [news, setNews] = useState([]);
@@ -47,6 +48,9 @@ const NewsPage = () => {
           image: player.image,
           videoUrl: "https://www.youtube.com/embed/zu7XWu5wrMg"
         }));
+
+        const response = await NewsService.getAllArticles()
+        setNews(response)
 
         const allNews = [...newsFromMatches, ...playerNews];
 

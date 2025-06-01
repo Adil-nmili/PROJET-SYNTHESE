@@ -1,6 +1,9 @@
 # project-synthese-2
-
-
+<!-- coupon codes -->
+WELCOME15
+SAVE20
+FREESHIP
+FLAT10
 
 ## Getting started
 

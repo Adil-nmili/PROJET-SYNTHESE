@@ -10,9 +10,20 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "../ui/button";
 
-
-
 const ProductDetails = ({product}) => {
+  // Function to handle image URLs
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '';
+    
+    // If it's a full URL (starts with http or https)
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    
+    // If it's a local storage path
+    return `${import.meta.env.VITE_BACKEND_URL}/${imagePath}`;
+  };
+
   // Safely parse JSON strings if they exist
   const parseJsonSafely = (jsonString) => {
     if (!jsonString) return [];
@@ -29,7 +40,7 @@ const ProductDetails = ({product}) => {
   const images = parseJsonSafely(product.images);
   
   // Add base URL to image paths
-  const imagesWithBaseUrl = images.map(img => `${img}`);
+  const imagesWithBaseUrl = images.map(img => getImageUrl(img));
 
   return (
     <Drawer>
@@ -55,6 +66,7 @@ const ProductDetails = ({product}) => {
                     src={image} 
                     alt={`Product image ${index + 1}`} 
                     className="w-24 h-24 object-cover rounded-md"
+                    
                   />
                 ))}
               </div>
@@ -70,7 +82,7 @@ const ProductDetails = ({product}) => {
               <li>Description: <span className="font-semibold italic">{product.description || 'N/A'}</span></li>
               <li>Price: <span className="font-semibold italic">${product.price || '0'}</span></li>
               <li>Quantity: <span className="font-semibold italic">{product.quantity || '0'}</span></li>
-              <li>Category: <span className="font-semibold italic">{product.categorie?.name || 'N/A'}</span></li>
+              <li>Category: <span className="font-semibold italic">{product.categories?.name || 'N/A'}</span> | Sous Category: <span className="font-semibold italic">{product.sous_categories?.name || 'N/A'}</span></li>
             </ul>
           </div>
           

@@ -22,15 +22,24 @@ class CategorieController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public'); 
-            $data['image'] = $path; 
+            if ($request->hasFile('image')) {
+                // Store in storage/app/public/categories
+                $path = $request->file('image')->store('categories', 'public');
+                $data['image'] = $path;
+            }
+
+            $categorie = Categorie::create($data);
+            return response()->json($categorie, 200);
+        } catch (\Exception $e) {
+            Log::error('Error creating category: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Error creating category',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        $categorie = Categorie::create($data);
-        return response()->json($categorie, 200);
     }
 
     public function show($id)
@@ -44,23 +53,12 @@ class CategorieController extends Controller
         //
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-    return $request->all();
         try {
-            // Log the incoming request data
-            Log::info('Update request data:', $request->all());
-
             $categorie = Categorie::findOrFail($id);
-            
-            // Log the current category data
-            Log::info('Current category data:', $categorie->toArray());
-
-            // Get all data except image
-            $data = $request->except('image');
-            
-            // Log the data to be updated
-            Log::info('Data to be updated:', $data);
+            $data = $request->all();
+            return response()->json($data);
 
             if ($request->hasFile('image')) {
                 // Delete old image if exists
@@ -68,36 +66,15 @@ class CategorieController extends Controller
                     Storage::disk('public')->delete($categorie->image);
                 }
 
-                // Store new image
-                $path = $request->file('image')->store('images', 'public');
+                // Store new image in storage/app/public/categories
+                $path = $request->file('image')->store('categories', 'public');
                 $data['image'] = $path;
-            } else {
-                // Keep existing image if no new image is provided
-                $data['image'] = $categorie->image;
             }
 
-            // Log the final data before update
-            Log::info('Final data to be updated:', $data);
-
-            // Update the category
-            $updated = $categorie->update($data);
-
-            // Log the update result
-            Log::info('Update result:', ['success' => $updated]);
-
-            if (!$updated) {
-                throw new \Exception('Failed to update category');
-            }
-
-            // Refresh the model to get the latest data
-            $categorie->refresh();
-
-            // Log the updated category data
-            Log::info('Updated category data:', $categorie->toArray());
-
+            $categorie->update($data);
             return response()->json([
                 'message' => 'Category updated successfully',
-                'category' => $categorie
+                'category' => $data
             ], 200);
 
         } catch (\Exception $e) {
