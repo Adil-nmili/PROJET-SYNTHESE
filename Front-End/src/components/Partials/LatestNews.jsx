@@ -123,7 +123,7 @@ gsap.to(cardsRef.current, {
   return (
     <section 
       ref={componentRef}
-      className="relative py-20 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-white to-white overflow-hidden"
+      className="relative py-10 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-white to-white overflow-hidden"
     >
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFCC28] via-[#A92551] to-[#56065D]"></div>
@@ -139,7 +139,7 @@ gsap.to(cardsRef.current, {
             <div
               key={item.id}
               ref={el => newsRefs.current[index] = el}
-              className="news-card relative group overflow-hidden rounded-xl h-[400px] transition-all duration-300"
+              className="news-card relative group overflow-hidden rounded-xl h-[300px] transition-all duration-300"
               style={{
                 boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
                 border: `1px solid ${getAccentColor(index)}`

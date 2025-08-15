@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import '../../../public/players/7.png';
-import '../../../public/asset/lignes.png';
+import { useState, useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -9,6 +8,35 @@ import toast from 'react-hot-toast';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const componentRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!componentRef.current) return;
+      
+      const elementTop = componentRef.current.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      
+      if (elementTop < windowHeight * 0.8 && !isVisible) {
+        setIsVisible(true);
+        gsap.fromTo(componentRef.current, 
+          { opacity: 0, y: 50 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1, 
+            ease: "power3.out" 
+          }
+        );
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial state
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isVisible]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,60 +58,61 @@ const Newsletter = () => {
   };
 
   return (
-    <div className="w-full min-h-[250px] md:h-[350px] bg-purple-900 bg-opacity-90 py-4 md:py-6 px-2 md:px-4 flex items-center justify-center my-0" 
-      style={{ backgroundColor: "#52307c", backgroundImage: "linear-gradient(to right, rgba(107, 70, 193, 0.8), rgba(66, 39, 90, 0.9))" }}>
-      <div className="w-11/12 md:w-10/12 mx-auto h-full">
-        <div className="bg-gray-100 rounded-lg p-2 flex flex-col h-full md:flex-row shadow-md">
-          {/* Left Section - Newsletter Form */}
-          <div className="p-2 md:p-3 flex flex-col justify-center md:items-start md:w-1/2 lg:w-1/3">
-            <div className="text-left pl-4 md:pl-12 pr-2">
-              <h2 className="text-lg md:text-xl font-bold text-amber-400 tracking-wide ml-2 md:ml-6">
-                NEWSLETTER
+    <div 
+      ref={componentRef}
+      className=" w-full px-4 md:px-8 lg:px-16 py-20 bg-gradient-to-br from-purple-900 to-gray-900 relative overflow-hidden"
+    >
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFCC28] via-[#A92551] to-[#56065D]"></div>
+      {/* Background texture */}
+      <div className="absolute inset-0 opacity-20 bg-[url('/asset/diamond-upholstery.png')]"></div>
+      
+      <div className="max-w-6xl w-full mx-auto relative z-10">
+        <div className=' backdrop-blur-xs border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl'>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+            {/* Content */}
+            <div className="text-center md:text-left max-w-2xl">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFCC28] to-[#FFAE00]">
+                  Exclusive Updates
+                </span>
               </h2>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-400 mb-2 md:mb-3 ml-2 md:ml-6">
-                SUBSCRIPTION
-              </h3>
-              <p className="text-sm md:text-md text-gray-600 mb-3 md:mb-4 ml-2 md:ml-6">
-                Stay updated with the latest Lakers news, events and exclusive offers
+              <p className="text-lg md:text-xl text-white/80 mb-8 max-w-xl">
+                Subscribe to receive premium Lakers content, exclusive offers, and behind-the-scenes access.
               </p>
               
-              <form onSubmit={handleSubmit} className="flex w-full ml-2 md:ml-6">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-lg">
                 <Input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
-                  className="flex-grow p-1 md:p-2 text-sm md:text-md border border-gray-300 rounded-l-md focus:outline-none bg-white rounded-r-none"
+                  className="flex-grow p-4 text-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 rounded-xl focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#FFCC28]"
                   required
                 />
                 <Button
                   type="submit"
-                  className="bg-amber-400 hover:bg-amber-500 p-1 md:p-2 rounded-r-md shadow-md transition-colors duration-200 rounded-l-none hover:shadow-lg shadow-black/20"
+                  className="p-4 md:p-5 bg-gradient-to-r from-[#FFCC28] to-[#FFAE00] text-black font-bold text-lg rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[#FFAE00]/30 hover:shadow-[#FFAE00]/50"
                 >
-                  <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-purple-900" />
+                  <span className="mr-2">Subscribe</span>
+                  <ArrowRight className="w-5 h-5" />
                 </Button>
               </form>
             </div>
-          </div>
-          
-          {/* Right Section - Image */}
-          <div className="w-full md:w-1/2 lg:w-2/3 h-[200px] md:h-full relative flex justify-end items-center pr-2 md:pr-6">
-            {/* Background lines image */}
-            <div className="absolute inset-0 z-0 h-full">
-              <img 
-                src="/asset/lignes.png" 
-                alt="Background Lines" 
-                className="w-full h-full object-cover opacity-30"
-              />
-            </div>
             
-            {/* Player image */}
-            <img
-              src="/players/7.png"
-              alt="Lakers Player"
-              className="h-[180px] md:h-auto w-auto max-h-[120%] absolute right-0 md:-right-20 top-20  md:-top-10 object-contain transform translate-x-0 md:translate-x-12 translate-y-3.5 z-10"
-              style={{ filter: "drop-shadow(2px 6px 8px rgba(0,0,0,0.3))" }}
-            />
+            {/* Decorative element */}
+            <div className="relative w-64 h-64 flex-shrink-0 hidden lg:block">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#FFCC28]/20 to-[#FFAE00]/10 rounded-full blur-xl animate-pulse"></div>
+              <div className="absolute inset-8 border-4 border-[#FFCC28]/30 rounded-full"></div>
+              <div className="absolute inset-16 border-2 border-[#FFAE00]/20 rounded-full"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-32 h-32 bg-gradient-to-br from-[#FFCC28] to-[#FFAE00] rounded-full flex items-center justify-center shadow-lg shadow-[#FFAE00]/50">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

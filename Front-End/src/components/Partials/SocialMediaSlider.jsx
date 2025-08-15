@@ -45,11 +45,11 @@ const SocialMediaSlider = () => {
   const repeatedLinks = [...socialMediaLinks, ...socialMediaLinks];
 
   return (
-    <div className="w-full overflow-hidden bg-white">
-      <div className="slider">
-        <div className="slide-track">
+    <div className="w-full overflow-hidden bg-[#FAFAFA]">
+      <div className="slider bg-transparent">
+        <div className="slide-track bg-transparent">
           {repeatedLinks.map((item, index) => (
-            <div className="slide" key={index}>
+            <div className="slide bg-transparent" key={index}>
               <a
                 href={item.url}
                 target="_blank"

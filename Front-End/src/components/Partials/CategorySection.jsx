@@ -14,6 +14,7 @@ function CategorySection() {
   const [categories, setCategories] = useState([]);
   const [displayedCategories, setDisplayedCategories] = useState([]);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [tilt, setTilt] = useState(Array(displayedCategories.length).fill({ x: 0, y: 0 }));
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
 
@@ -52,7 +53,8 @@ function CategorySection() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%"
+          start: "top 80%",
+          toggleActions: "play none play none" // Play on enter and enterBack
         }
       });
 
@@ -66,8 +68,8 @@ function CategorySection() {
           ease: "back.out(1.2)",
           scrollTrigger: {
             trigger: card,
-            start: "top 75%",
-            toggleActions: "play none none none"
+            start: "top 85%",
+            toggleActions: "play none play none" // Play on enter and enterBack
           }
         });
 
@@ -106,69 +108,100 @@ function CategorySection() {
     }).play();
   };
 
+  const handleCardMouseMove = (e, index) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    
+    gsap.to(card, {
+      duration: 0.5,
+      rotateX: rotateX,
+      rotateY: rotateY,
+      ease: "power2.out"
+    });
+  };
+
+  const handleCardMouseLeave = (index) => {
+    const card = cardsRef.current[index];
+    gsap.to(card, {
+      duration: 0.8,
+      rotateX: 0,
+      rotateY: 0,
+      ease: "elastic.out(1, 0.3)"
+    });
+    handleMouseLeave(index);
+  };
+
   return (
     <section 
       ref={sectionRef}
-      className="w-full px-4 md:px-8 lg:px-16 py-20 bg-gradient-to-b from-gray-50 to-gray-100 relative overflow-hidden"
+      className="w-full px-4 md:px-8 lg:px-16 py-20 bg-gradient-to-br from-gray-900 to-purple-900 relative overflow-hidden"
     >
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFCC28] via-[#A92551] to-[#56065D]"></div>
+      <div className="absolute inset-0 opacity-20 bg-[url('/asset/diamond-upholstery.png')]"></div>
       <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-[#FFAE00] opacity-10 filter blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         
-        <h2 className="news-heading text-5xl md:text-4xl font-bold mb-16 text-center">
-          <span className="text-[#FFAE00]">Most Popular</span>{" "}
-          <span className="text-[#56065D]">Categories</span>
+        <h2 className="text-3xl md:text-5xl font-bold mb-16 text-center text-white">
+          <span className="text-[#FFCC28]">Premium</span>
+          <span className="text-white"> Collections</span>
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
           {displayedCategories.map((category, index) => (
             <div
               key={category._id}
               ref={el => cardsRef.current[index] = el}
               onClick={() => handleCategoryClick(category)}
+              onMouseMove={(e) => handleCardMouseMove(e, index)}
               onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={() => handleMouseLeave(index)}
-              className="relative overflow-hidden rounded-2xl shadow-lg cursor-pointer h-[400px] transition-all duration-300 group"
+              onMouseLeave={() => handleCardMouseLeave(index)}
+              className="relative overflow-hidden rounded-3xl shadow-2xl cursor-pointer h-[450px] transition-all duration-500 group glass-card"
               style={{
-                border: `2px solid ${getRandomColor()}`,
-                opacity: hoveredCard !== null && hoveredCard !== index ? 0.8 : 1
+                opacity: hoveredCard !== null && hoveredCard !== index ? 0.7 : 1,
+                transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)'
               }}
             >
+              <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-purple-900/50 z-10"></div>
               <img
                 src={category.image}
                 alt={category.name}
-                className="w-full h-full object-cover absolute inset-0 transform group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover absolute inset-0 transform group-hover:scale-110 transition-transform duration-700"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">
-                <span 
-                  className="inline-block px-4 py-2 mb-4 rounded-full text-sm font-bold uppercase tracking-wider"
-                  style={{ 
-                    backgroundColor: getRandomColor(),
-                    color: '#fff',
-                    alignSelf: 'flex-start'
-                  }}
-                >
-                  {category.name}
-                </span>
-                <div className="transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                  <p className="text-white/90 mb-6 line-clamp-2">
-                    Explore our premium collection of {category.name.toLowerCase()} jerseys
+              <div className="absolute inset-0 z-20 flex flex-col justify-end p-8 ">
+                <div className="mb-4">
+                  <div className="inline-block px-5 py-2 mb-2 rounded-full bg-gradient-to-r from-[#FFCC28] to-[#FFAE00] text-black font-bold uppercase tracking-wider text-sm">
+                    {category.name}
+                  </div>
+                </div>
+                
+                <div className="transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                  <h3 className="text-2xl font-bold text-white mb-3">Exclusive Collection</h3>
+                  <p className="text-white/80 mb-6 max-w-md">
+                    Discover our premium {category.name.toLowerCase()} jerseys crafted for true fans
                   </p>
-                  <button className="flex items-center text-white hover:text-[#FFAE00] transition-colors">
-                    <span className="mr-2">View Collection</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  <button className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-[#FFCC28] to-[#FFAE00] rounded-full text-black font-bold hover:opacity-90 transition-opacity">
+                    <span>Explore Now</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   </button>
                 </div>
               </div>
 
               {/* Glow effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute -inset-2 bg-[#FFAE00] rounded-xl blur-md opacity-30"></div>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute -inset-8 bg-gradient-to-r from-[#FFCC28] to-[#FFAE00] rounded-xl blur-2xl opacity-20 animate-pulse"></div>
               </div>
             </div>
           ))}
