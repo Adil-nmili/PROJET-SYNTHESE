@@ -32,19 +32,19 @@ function Home() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-screen">
+    <div className="flex flex-col  w-full min-h-screen">
       {/* Slider principal */}
       <div className="w-full">
         <HomeSlider />
       </div>
 
       {/* Carrousel des sponsors */}
-      <div className="w-full px-4 md:px-8 lg:px-16">
+      <div className="w-full ">
         <SponsorCarousel />
       </div>
 
       {/* Section d'actualités Lakers */}
-      <div className="w-full px-4 md:px-8 lg:px-16">
+      <div className="w-full h-[100vh]">
         <LatestNews   />
       </div>
 

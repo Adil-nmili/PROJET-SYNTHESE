@@ -15,7 +15,7 @@ export default function SponsorCarousel() {
   const repeatedSponsors = [...sponsors, ...sponsors];
 
   return (
-    <div className="w-full overflow-hidden bg-white py-2 sm:py-4">
+    <div className="w-full overflow-hidden  py-2 sm:py-4">
       <div className="slider">
         <div className="slide-track">
           {repeatedSponsors.map((src, index) => (

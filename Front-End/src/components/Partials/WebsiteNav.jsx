@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import FooterNav from '@/components/Partials/FooterNav';
 import Product from '../../../service/Product';
 import { PRODUCT_DETAIL } from '../../router/Router';
 
@@ -69,10 +70,10 @@ const WebsiteNav = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 h-[70px] flex justify-between items-center px-6 transition-colors duration-300 ${
-      isScrolled ? 'bg-purple-950' : 'bg-transparent'
-    } text-white`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 h-[70px] flex justify-between items-center px-6 transition-colors duration-300 
+       bg-transparent text-white`}>
       <img src="logo2.png" alt="Logo" className="h-10" />
+      <FooterNav isScrolled={isScrolled} />
       <div className="flex items-center gap-2 relative">
         {showSearch && (
           <div className="relative">
