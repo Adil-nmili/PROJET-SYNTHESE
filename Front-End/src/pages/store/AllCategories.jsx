@@ -13,6 +13,7 @@ const AllCategories = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Remonter en haut de la page
     axios.get('http://127.0.0.1:8000/api/categories')
       .then(response => setCategories(response.data))
       .catch(error => console.error("Erreur lors de la récupération des catégories :", error));

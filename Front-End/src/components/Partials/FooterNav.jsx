@@ -41,7 +41,7 @@ const FooterNav = ({isScrolled}) => {
                     className={`px-4 py-2  hover:text-[#FF335F] rounded-lg transition-colors duration-300 hover:bg-[#FFCC28] ${
                         isActiveLink(link.path)
                             ? 'text-[#56065D] bg-[#FFCC28] font-semibold shadow-sm' 
-                            : 'text-slate-900 underline'
+                            : 'text-slate-200 underline'
                     }`}
                 >
                     <span className="text-xs sm:text-sm font-medium">{link.name}</span>

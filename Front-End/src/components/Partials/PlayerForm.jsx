@@ -16,6 +16,8 @@ const initialState = {
   height: "",
   weight: "",
   championships: "",
+  position:"",
+  jersey_number:"",
   image: null,
 };
 
@@ -119,6 +121,8 @@ export default function PlayerForm({ mode = "add" }) {
           { label: "Height", name: "height" },
           { label: "Weight", name: "weight" },
           { label: "Championships", name: "championships" },
+          {label: "Position",name:"position"},
+          {label:"Jersey Number", name:"jersey_number"}
         ].map(({ label, name, type = "text" }) => (
           <div className="grid gap-2" key={name}>
             <Label>{label}</Label>

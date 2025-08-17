@@ -1,135 +1,237 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
-import { useNavigate, Link } from "react-router-dom";
-import axios from 'axios';
-import { Button } from '../ui/button';
-import { ALLPRODUCTS, ALL_CATEGORIES } from '../../router/Router';
+import { ArrowRight, Star, ShoppingBag, TrendingUp, Sparkles } from 'lucide-react';
 
 function StoreProduct() {
-  const navigate = useNavigate();
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/categories')
-      .then(response => {
-        setCategories(response.data);
-      })
-      .catch(error => {
-        console.error("Erreur lors de la récupération des catégories :", error);
-      });
-  }, []);
+  // Mock navigation and data functions
+  const navigate = (path) => console.log('Navigate to:', path);
+  const [categories, setCategories] = useState([
+    {
+      id: 1,
+      name: "Basketball Jerseys",
+      image: "https://fanatics.frgimages.com/los-angeles-lakers/mens-fanatics-purple-los-angeles-lakers-2025-pacific-division-champions-locker-room-t-shirt_ss5_p-202900446+u-flgeofefcekzjigunfru+v-ajz9zpt7xzw9wjkavkey.jpg?_hv=2&w=400"
+    },
+    {
+      id: 2,
+      name: "Football Gear",
+      image: "https://fanatics.frgimages.com/los-angeles-lakers/unisex-nike-dalton-knecht-gold-los-angeles-lakers-swingman-jersey_ss5_p-202683651+u-lj8esmxunpdwwpip2aw5+v-jx6kpehsk9oacgnw03cj.jpg?_hv=2&w=400"
+    },
+    {
+      id: 3,
+      name: "Sports Accessories",
+      image: "https://fanatics.frgimages.com/los-angeles-lakers/mens-fanatics-purple-los-angeles-lakers-2025-pacific-division-champions-locker-room-t-shirt_ss5_p-202900446+u-flgeofefcekzjigunfru+v-ajz9zpt7xzw9wjkavkey.jpg?_hv=2&w=400"
+    }
+  ]);
+  const [isHovered, setIsHovered] = useState(null);
 
   const handleCategoryClick = (category) => {
-    // Stocker la catégorie sélectionnée dans le localStorage
-    localStorage.setItem('selectedCategory', JSON.stringify(category));
-    // Rediriger vers la page des produits
-    navigate(ALLPRODUCTS);
+    console.log('Category selected:', category);
+    navigate('/products');
   };
 
   return (
-    <div>
-      {/* Section Best Selling */}
-      <section className="bg-white p-15 mt-10 rounded-2xl shadow-xl w-11/12 mx-auto overflow-hidden relative flex flex-col md:flex-row items-center justify-between gap-10">
-        {/* Bloc d'information */}
-        <div className="flex flex-col items-start gap-4 max-w-sm">
-          <h2 className="text-3xl font-extrabold text-gray-800">Best Selling Jersey</h2>
-          <p className="text-lg text-gray-600">Los Angeles Lakers LeBron James #23 Icon Jersey</p>
-          <div className="flex gap-4">
-            <Link to={ALLPRODUCTS}>
-              <Button className="group bg-[#7e57c2] flex gap-2 text-white px-6 py-3 rounded-full hover:bg-amber-50 hover:text-black transition">
-                See more
-                <ArrowRight size={24} className="text-white transition group-hover:text-black" />
-              </Button>
-            </Link>
-            <Link to={ALL_CATEGORIES}>
-              <Button className="group bg-[#7e57c2] flex gap-2 text-white px-6 py-3 rounded-full hover:bg-amber-50 hover:text-black transition">
-                Browse Categories
-                <ArrowRight size={24} className="text-white transition group-hover:text-black" />
-              </Button>
-            </Link>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50">
+      {/* Hero Section with Best Selling */}
+      <section className="relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 animate-pulse"></div>
+          <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-gradient-to-tr from-blue-200 to-cyan-200 rounded-full opacity-20 animate-bounce"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Hero Content */}
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-100 to-orange-100 rounded-full text-amber-800 font-medium">
+                <TrendingUp size={16} />
+                <span>Trending Now</span>
+                <Sparkles size={16} className="animate-pulse" />
+              </div>
+              
+              <h1 className="text-6xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent leading-tight">
+                Best Selling
+                <br />
+                <span className="text-gray-800">Jersey Collection</span>
+              </h1>
+              
+              <p className="text-xl text-gray-600 leading-relaxed">
+                Los Angeles Lakers LeBron James #23 Icon Jersey
+                <br />
+                <span className="text-sm font-medium text-purple-600">✨ Limited Edition • Premium Quality</span>
+              </p>
+              
+              <div className="flex flex-wrap gap-4">
+                <button 
+                  className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                  onClick={() => navigate('/products')}
+                >
+                  <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center gap-2">
+                    <ShoppingBag size={20} />
+                    Shop Collection
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </button>
+                
+                <button 
+                  className="group px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-800 font-bold rounded-full border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  onClick={() => navigate('/categories')}
+                >
+                  <div className="flex items-center gap-2">
+                    Browse Categories
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </button>
+              </div>
+            </div>
+            
+            {/* Featured Products */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                {
+                  image: "https://fanatics.frgimages.com/los-angeles-lakers/mens-fanatics-purple-los-angeles-lakers-2025-pacific-division-champions-locker-room-t-shirt_ss5_p-202900446+u-flgeofefcekzjigunfru+v-ajz9zpt7xzw9wjkavkey.jpg?_hv=2&w=400",
+                  title: "JERSEY #23 ICONIC",
+                  price: "$1,400.00",
+                  rating: 5,
+                  badge: "Bestseller"
+                },
+                {
+                  image: "https://fanatics.frgimages.com/los-angeles-lakers/unisex-nike-dalton-knecht-gold-los-angeles-lakers-swingman-jersey_ss5_p-202683651+u-lj8esmxunpdwwpip2aw5+v-jx6kpehsk9oacgnw03cj.jpg?_hv=2&w=400",
+                  title: "SWINGMAN EDITION",
+                  price: "$1,200.00",
+                  rating: 4,
+                  badge: "New"
+                }
+              ].map((product, index) => (
+                <div
+                  key={index}
+                  className="group relative bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
+                  onMouseEnter={() => setIsHovered(index)}
+                  onMouseLeave={() => setIsHovered(null)}
+                >
+                  {/* Badge */}
+                  <div className="absolute -top-2 -right-2 z-10">
+                    <div className={`px-3 py-1 rounded-full text-xs font-bold text-white ${
+                      product.badge === 'Bestseller' ? 'bg-gradient-to-r from-amber-400 to-orange-500' : 'bg-gradient-to-r from-green-400 to-emerald-500'
+                    }`}>
+                      {product.badge}
+                    </div>
+                  </div>
+                  
+                  {/* Product Image */}
+                  <div className="relative overflow-hidden rounded-2xl mb-4">
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className={`w-full h-[200px] object-cover transition-transform duration-500 ${
+                        isHovered === index ? 'scale-110' : 'scale-100'
+                      }`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  
+                  {/* Product Info */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          size={14} 
+                          className={`${i < product.rating ? 'text-amber-400 fill-current' : 'text-gray-300'}`} 
+                        />
+                      ))}
+                      <span className="text-sm text-gray-600 ml-2">(4.8)</span>
+                    </div>
+                    
+                    <h3 className="font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
+                      {product.title}
+                    </h3>
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        {product.price}
+                      </span>
+                      <button className="p-2 bg-purple-100 hover:bg-purple-200 rounded-full transition-colors">
+                        <ShoppingBag size={18} className="text-purple-600" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-
-        {/* Premier produit */}
-        <div className="flex flex-col items-center p-6 rounded-xl shadow-md hover:scale-105 transition-transform">
-          <img
-            src="https://fanatics.frgimages.com/los-angeles-lakers/mens-fanatics-purple-los-angeles-lakers-2025-pacific-division-champions-locker-room-t-shirt_ss5_p-202900446+u-flgeofefcekzjigunfru+v-ajz9zpt7xzw9wjkavkey.jpg?_hv=2&w=400"
-            alt="Jersey"
-            className="w-64 h-64 object-cover rounded-lg"
-          />
-          <p className="mt-4 text-gray-700 font-semibold">JERSEY NUMBER 23 ICONIC</p>
-          <strong className="text-[#7e57c2] text-[16px] mt-2">$ 1,400.00</strong>
-        </div>
-
-        {/* Deuxième produit */}
-        <div className="flex flex-col items-center p-6 rounded-xl shadow-md hover:scale-105 transition-transform">
-          <img
-            src="https://fanatics.frgimages.com/los-angeles-lakers/unisex-nike-dalton-knecht-gold-los-angeles-lakers-swingman-jersey_ss5_p-202683651+u-lj8esmxunpdwwpip2aw5+v-jx6kpehsk9oacgnw03cj.jpg?_hv=2&w=400"
-            alt="Jersey"
-            className="w-64 h-64 object-cover rounded-lg"
-          />
-          <p className="mt-4 text-gray-700 font-semibold">JERSEY NUMBER 23 ICONIC</p>
-          <strong className="text-[#7e57c2] text-[16px] mt-2">$ 1,400.00</strong>
         </div>
       </section>
 
-      {/* Section Categories */}
-      <div className="p-15 mt-10 bg-white">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-extrabold">Categories</h2>
-          <p className="text-gray-600 text-lg">Find what you are looking for</p>
-        </div>
-        <div className="flex flex-wrap justify-center w-full h-[500px] relative gap-8 bg-[#7e57c2] px-5">
+      {/* Categories Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 rounded-full text-purple-800 font-medium mb-6">
+              <Sparkles size={16} />
+              Explore Collections
+            </div>
+            <h2 className="text-5xl font-black bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-4">
+              Shop by Category
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover our carefully curated collections designed for every sports enthusiast
+            </p>
+          </div>
+          
+          {/* Categories Grid */}
           {categories.length >= 3 && (
-            <div className="flex justify-center gap-8 rounded-lg">
-              {/* 1er bloc */}
-              <div
-                className="text-center cursor-pointer w-96 h-96 flex flex-col items-center"
-                onClick={() => handleCategoryClick(categories[0])}
-              >
-                <div className="bg-white rounded-b-lg p-4 shadow-md hover:scale-105 transition-transform">
-                  <img
-                    src={categories[0].image}
-                    alt={categories[0].name}
-                    className="mx-auto mb-4 h-72 w-52 object-contain"
-                  />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+              {categories.slice(0, 3).map((category, index) => (
+                <div
+                  key={category.id}
+                  className={`group cursor-pointer transition-all duration-500 hover:scale-105 ${
+                    index === 1 ? 'md:-translate-y-8' : ''
+                  }`}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white to-gray-50 shadow-xl hover:shadow-2xl transition-all duration-500">
+                    {/* Animated gradient background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    {/* Category Image */}
+                    <div className="relative p-8 pt-12">
+                      <div className="relative overflow-hidden rounded-2xl">
+                        <img
+                          src={category.image}
+                          alt={category.name}
+                          className="w-full h-[250px] object-cover transition-transform duration-500 group-hover:scale-100"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Category Info */}
+                    <div className="relative px-8 pb-8">
+                      <div className="text-center">
+                        <h3 className="text-2xl font-bold text-gray-800 group-hover:text-purple-600 transition-colors duration-300 mb-2">
+                          {category.name}
+                        </h3>
+                        <p className="text-gray-600 mb-4">Premium quality gear</p>
+                        
+                        <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                          <span>Explore</span>
+                          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Decorative elements */}
+                    <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                    <div className="absolute bottom-4 left-4 w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                  </div>
                 </div>
-                <h3 className="mt-4 font-semibold text-white">{categories[0].name}</h3>
-              </div>
-
-              {/* 2ème bloc (décalé en bas) */}
-              <div
-                className="text-center cursor-pointer w-100 flex flex-col items-center mt-10"
-                onClick={() => handleCategoryClick(categories[1])}
-              >
-                <div className="bg-white rounded-lg p-4 shadow-md hover:scale-105 transition-transform h-84">
-                  <img
-                    src={categories[1].image}
-                    alt={categories[1].name}
-                    className="mx-auto mb-4 h-80 w-52"
-                  />
-                </div>
-                <h3 className="mt-4 font-semibold text-white">{categories[1].name}</h3>
-              </div>
-
-              {/* 3ème bloc */}
-              <div
-                className="text-center cursor-pointer w-100 flex flex-col items-center"
-                onClick={() => handleCategoryClick(categories[2])}
-              >
-                <div className="bg-white rounded-b-lg p-4 shadow-md hover:scale-105 transition-transform">
-                  <img
-                    src={categories[2].image}
-                    alt={categories[2].name}
-                    className="mx-auto mb-4 h-72 w-52 object-contain"
-                  />
-                </div>
-                <h3 className="mt-4 font-semibold text-white">{categories[2].name}</h3>
-              </div>
+              ))}
             </div>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

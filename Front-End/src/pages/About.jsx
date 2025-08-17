@@ -1,15 +1,12 @@
-// import '@fontsource/bebas-neue';
-// import '@fontsource/roboto/400.css';
-// import '@fontsource/roboto/700.css';
-import { motion, AnimatePresence } from 'framer-motion';
 
-// import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import PlayersCoposant from '../components/Partials/Players';
 import { useEffect, useState } from 'react';
 import SplashScreen from '../components/Partials/SplashScreen';
 import InterviewCoposant from '../components/Partials/InterviewCoposant';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import LegendaryQuotes from '../components/Partials/LegendaryQuotes';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,7 +62,7 @@ const About = () => {
     }
   ];
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [openFaq, setOpenFaq] = useState(null);
   const [currentQuote, setCurrentQuote] = useState(0);
 
@@ -194,7 +191,7 @@ const About = () => {
   
   
   return (
-    <div className='min-h-screen relative overflow-hidden bg-gradient-to-br from-[#0f0527] via-[#2a0b5a] to-[#0f0527]'>
+    <div className='min-h-screen relative overflow-hidden w-full bg-gradient-to-br from-[#0f0527] via-[#2a0b5a] to-[#0f0527]'>
       {/* Luxury gradient lines */}
       <div className="pointer-events-none absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFCC28] via-[#A92551] to-[#56065D]"></div>
       <div className="pointer-events-none absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#56065D] via-[#A92551] to-[#FFCC28]"></div>
@@ -230,7 +227,7 @@ const About = () => {
         </motion.p>
 
         {/* Timeline Section */}
-        <div className="about-parallax relative w-full py-10">
+        <div className="about-parallax relative w-full pb-20">
   <div className="max-w-5xl mx-auto">
     <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-4 border-[#FFCC28]/60 shadow-[0_0_30px_rgba(255,204,40,0.2)]"></div>
 
@@ -246,7 +243,7 @@ const About = () => {
         {/* Zone de la carte réduite */}
         <div className="w-2/3 flex flex-col items-center">
           <motion.div
-            className="tilt-card w-full bg-white/10 backdrop-blur-xl rounded-xl p-4 shadow-2xl transition-all duration-300 border border-white/10 hover:border-[#FFCC28]/50 hover:shadow-[0_0_30px_rgba(255,204,40,0.25)]"
+            className="title-card w-full bg-white/10 backdrop-blur-xl rounded-xl p-4 shadow-2xl transition-all duration-300 border border-white/10 hover:border-[#FFCC28]/50 hover:shadow-[0_0_30px_rgba(255,204,40,0.25)]"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -280,23 +277,8 @@ const About = () => {
 
 
       {/* Players Section */}
-      <div className="about-parallax relative w-full py-20">
-        <img
-          src="basketball2.png"
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 w-28 h-28 object-contain opacity-70"
-          alt="Basketball Left"
-        />
-
-        <img
-          src="basketball2.png"
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 w-28 h-28 object-contain opacity-70"
-          alt="Basketball Right"
-        />
-
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-bebas text-5xl bg-gradient-to-r from-[#FFCC28] via-[#E7B96E] to-[#A57468] bg-clip-text text-transparent uppercase font-bold ">
-            Players
-          </h1>
+      <div className="about-parallax relative w-full ">
+        <div className=" mx-auto text-center w-full">
           <PlayersCoposant />
         </div>
       </div>
@@ -430,81 +412,9 @@ const About = () => {
         </div>
       </div>
        {/* Section Quotes Slider */}
-      <div className="about-parallax py-10 px-5 ">
-        <motion.h1 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="font-bebas text-3xl text-center bg-gradient-to-r from-[#FFCC28] via-[#E7B96E] to-[#A57468] bg-clip-text text-transparent uppercase font-bold mb-8"
-        >
-          Legendary Quotes
-        </motion.h1>
-        <div className="max-w-3xl mx-auto relative h-[300px] overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentQuote}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-              className="absolute w-full"
-            >
-              <div className="tilt-card bg-white/5 backdrop-blur-xl rounded-xl p-6 shadow-2xl transition-all duration-300 border border-white/10 hover:border-[#FFCC28]/50 hover:shadow-[0_0_30px_rgba(255,204,40,0.25)]">
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="flex items-center justify-center mb-6"
-                >
-                  <div className="relative">
-                    <motion.img
-                      src={playerQuotes[currentQuote].image}
-                      alt={playerQuotes[currentQuote].author}
-                      className="w-20 h-20 rounded-full object-cover border-4 border-[#FFCC28]/70 shadow-[0_0_20px_rgba(255,204,40,0.5)]"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                    <motion.div
-                      className="absolute inset-0 rounded-full border-4 border-[#AD8291]"
-                      animate={{
-                        scale: [1, 1.1, 1],
-                        opacity: [0.5, 0, 0.5],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  </div>
-                </motion.div>
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="text-center"
-                >
-                  <p className="text-white/90 text-lg italic mb-4 font-bebas leading-relaxed">
-                    "{playerQuotes[currentQuote].quote}"
-                  </p>
-                  <motion.p
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="text-[#E7B96E] font-bold text-base font-bebas"
-                  >
-                    - {playerQuotes[currentQuote].author}
-                  </motion.p>
-                </motion.div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      <div className="about-parallax ">
+       <LegendaryQuotes />
       </div>
-
-      
-
-     
     </div>
   );
 }

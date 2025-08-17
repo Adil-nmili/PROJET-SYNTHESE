@@ -3,7 +3,6 @@ import SiteLayout from "../layout/SiteLayout";
 import StoreLayout from "../layout/StoreLayout";
 import HomeSite from "../pages/Home";
 import About from "../pages/About";
-import NewsPage from "../pages/NewsPage";
 import Store from "../pages/store/Store";
 import DashboardLayout from "../layout/DashboardLayout";
 import ListAdmins from "../pages/Dashboard/ListAdmins";
@@ -37,6 +36,7 @@ import NewsPageDashboard from "../pages/Dashboard/NewsPage";
 import EditArticle from '../components/Partials/EditArticle';
 import Articles from '../pages/Dashboard/Articles';
 import MatchDetailsPage from "../pages/MatchDetailsPage";
+import NBANewsHub from "../pages/NewsPage";
 
 
 
@@ -79,7 +79,7 @@ export const router = createBrowserRouter([
         children: [
             { path: HOME, element: <HomeSite /> },
             { path: ABOUT, element: <About /> },
-            { path: NEWS, element: <NewsPage /> },
+            { path: NEWS, element: <NBANewsHub /> },
             { path:MATCH_DETAIL , element: <MatchDetailsPage/> },
             { path: TEXT_FILL_LOADING, element: <TextFillLoadingExample /> },
         ],

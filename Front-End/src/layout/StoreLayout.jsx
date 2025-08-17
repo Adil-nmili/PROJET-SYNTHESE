@@ -9,10 +9,9 @@ function StoreLayout() {
   return (
     <div className="flex flex-col items-center">
       <StoreNav/>
-      <main className="bg-gray-50 min-h-[calc(100vh+200px)] w-full relative pt-16">
+      <main className="bg-gray-50 min-h-[100vh] w-full relative pt-16">
         <Outlet />
       </main>
-      <FooterNav />
       <Footer/>
     </div>
   )

@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { NewsService } from "../../../service/newsService";
+import toast from "react-hot-toast";
 // import { toast } from "../ui/use-toast";
 
 export default function PlayerStatsForm() {
